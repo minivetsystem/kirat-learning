@@ -22,6 +22,10 @@ export default function Navbar() {
       name: "Placements & Consulting",
       link: "/college-placements-and-consulting-services",
     },
+    {
+      name: "Blogs",
+      link: "/blogs",
+    },
   ];
 
   const handleRequestDemo = () => {

@@ -39,10 +39,11 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/college-placements-and-consulting-services">
-                    Placements & Consulting
+                  <Link href="/blogs">
+                    Blogs
                   </Link>
                 </li>
+
                 <li>
                   <Link href="/contact-us">Contact Us</Link>
                 </li>
