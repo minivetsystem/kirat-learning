@@ -29,8 +29,8 @@ const CustomCarousel = () => {
 
   return (
     <div className="w-full max-w-3xl mx-auto px-8 my-12 relative">
-        <div className="absolute top-0 left-[-75px] w-28 h-full bg-gradient-to-r from-white from-50% to-white/0 z-50"></div>
-        <div className="absolute top-0 right-[-75px] w-28  h-full bg-gradient-to-l from-white from-50% to-white/0 z-50"></div>
+        <div className="absolute top-0 left-[-100px] w-28 h-full bg-gradient-to-r from-white from-50% to-white/0 z-30"></div>
+        <div className="absolute top-0 right-[-100px] w-28  h-full bg-gradient-to-l from-white from-50% to-white/0 z-30"></div>
       {/* Carousel Viewport */}
       <div className="" ref={emblaRef}>
         <div className="flex">
@@ -58,13 +58,13 @@ const CustomCarousel = () => {
 
     
       <button
-        className="absolute left-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
+        className="absolute left-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
         onClick={scrollPrev}
       >
         <ChevronLeft className="text-black"/>
       </button>
       <button
-        className="absolute right-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
+        className="absolute right-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
         onClick={scrollNext}
       >
          <ChevronRight  className="text-black"/>

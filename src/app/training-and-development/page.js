@@ -102,13 +102,13 @@ export default function Integration() {
               </div>
 
               <div className="flex justify-center w-1/2 mx-auto">
-                <img src="./change1.png" alt="change-management" />
+                <img src="./training/Swot Analysis.png" alt="change-management" />
               </div>
             </div>
 
             <div className="list-none mb-8 flex flex-row gap-8 items-center">
               <div className="flex justify-center w-1/2 mx-auto">
-                <img src="./change1.png" alt="change-management" />
+                <img src="./training/Niche Identification.png" alt="change-management" />
               </div>
 
               <div className="flex flex-col gap-4 items-start w-1/2 text-left">
@@ -143,7 +143,7 @@ export default function Integration() {
               </div>
 
               <div className="flex justify-center w-1/2 mx-auto">
-                <img src="./change1.png" alt="change-management" />
+                <img src="./training/Sanity Check.png" alt="change-management" />
               </div>
 
              
