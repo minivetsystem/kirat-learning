@@ -6,7 +6,7 @@ import GenericBigButton from "@/components/genericButton/GenericBigButton";
 export const trainingModules = [
   {
     id: 1,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/aptitude.png",
     title: "Aptitude Training",
     descriptions: [
       "Customized modules on quantitative aptitude, logical reasoning, and verbal ability.",
@@ -15,7 +15,7 @@ export const trainingModules = [
   },
   {
     id: 2,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/bank.png",
     title: "Resume Building & Optimization",
     descriptions: [
       "Crafting professional and impactful resumes tailored to industries and job roles.",
@@ -24,7 +24,7 @@ export const trainingModules = [
   },
   {
     id: 3,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/job-interview.png",
     title: "Personal Interview Preparation",
     descriptions: [
       "Mock interviews with detailed feedback.",
@@ -33,7 +33,7 @@ export const trainingModules = [
   },
   {
     id: 4,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/workshop.png",
     title: "Group Discussion (GD) Mastery",
     descriptions: [
       "Techniques to articulate ideas clearly and confidently.",
@@ -42,7 +42,7 @@ export const trainingModules = [
   },
   {
     id: 5,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/potential.png",
     title: "Soft Skills Development",
     descriptions: [
       "Sessions on effective communication, presentation skills, and workplace etiquette.",
@@ -51,7 +51,7 @@ export const trainingModules = [
   },
   {
     id: 6,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/production.png",
     title: "Industry Insights & Career Guidance",
     descriptions: [
       "Seminars and workshops with industry professionals.",
@@ -60,7 +60,7 @@ export const trainingModules = [
   },
   {
     id: 7,
-    imgUrl: "/Vector5.png",
+    imgUrl: "/placement/technical-skills.png",
     title: "Technical Skill Enhancement",
     descriptions: [
       "Training in specific technical skills and tools relevant to target industries.",

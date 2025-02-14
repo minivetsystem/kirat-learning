@@ -28,15 +28,17 @@ const CustomCarousel = () => {
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 my-12 relative">
+    <div className="w-full max-w-3xl mx-auto px-8 my-12 relative">
+        <div className="absolute top-0 left-[-70px] w-28 h-full bg-gradient-to-r from-white from-50% to-white/0 z-50"></div>
+        <div className="absolute top-0 right-[-70px] w-28  h-full bg-gradient-to-l from-white from-50% to-white/0 z-50"></div>
       {/* Carousel Viewport */}
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="" ref={emblaRef}>
         <div className="flex">
           {items.map((item, index) => (
             <div key={item.id} className="flex-[0_0_50%] sm:flex-[0_0_33.33%] lg:flex-[0_0_25%] px-2">
               <div
                 className={`relative transition-transform duration-300 border rounded-lg overflow-hidden ${
-                  current === index ? "scale-100 z-50" : "scale-75 opacity-70 hover:opacity-90 hover:scale-100"
+                  current === index ? "scale-100 z-50" : "scale-75 opacity-70  "
                 }`}
               >
                 <div className="w-full aspect-square">
@@ -54,14 +56,15 @@ const CustomCarousel = () => {
         </div>
       </div>
 
+    
       <button
-        className="absolute left-1 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
+        className="absolute left-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
         onClick={scrollPrev}
       >
         <ChevronLeft className="text-black"/>
       </button>
       <button
-        className="absolute right-1 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
+        className="absolute right-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white"
         onClick={scrollNext}
       >
          <ChevronRight  className="text-black"/>

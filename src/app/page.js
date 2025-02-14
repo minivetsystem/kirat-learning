@@ -10,6 +10,7 @@ import { Typewriter } from "react-simple-typewriter";
 import GenericBigButton from "@/components/genericButton/GenericBigButton";
 import Map2 from "@/components/map2/Map2";
 import CustomCarousel from "@/components/customCarousel/CustomCarousel";
+import HoverImgCard from "@/components/hoverImgCard/HoverImgCard";
 export default function Home() {
   const router = useRouter();
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
@@ -91,19 +92,17 @@ export default function Home() {
             </p>
             <GenericBigButton url="/three-pillar-ecosystem" name="Discover More" />
           </div>
-          <div className="md:w-1/2">
-            <img src="/rb_5768.png" alt="no img" />
+          <div className="md:w-1/2 flex justify-center">
+            <img src="/homebg.png" alt="no img" className="w-full h-full"/>
           </div>
         </div>
-        <div className="flex mb-20 flex-col md:flex-row">
-          <div className="md:w-1/2">
-            <h3 className="font-semibold md:text-4xl text-2xl">
+        <div className="flex mb-15 flex-col md:flex-row">
+          <div className="w-full">
+            <h3 className="font-semibold md:text-4xl text-2xl text-center mb-10">
               <span className="text-primary-orange">Our </span>
               Mission
             </h3>
-          </div>
-          <div className="md:w-1/2">
-            <p className="text-justify tracking-normal text-base">
+            <p className="text-center tracking-normal text-base w-4/5 mx-auto">
             To empower students and professionals with industry-relevant skills, ensuring they transition seamlessly from academia to the corporate world with confidence and expertise.
             </p>
           </div>
@@ -112,7 +111,68 @@ export default function Home() {
 
       <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-          <h3 className="text-2xl text-primary-midnightBlue text-center font-bold mb-2">Why Choose Us?</h3>
+        <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+              <span className="text-primary-orange">What </span>
+               We Offer
+            </h3>
+          
+          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
+          Groundbreaking Originals and exclusives from A-list celebs and emerging talent.
+            </p>
+            <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <HoverImgCard
+  image="https://pixabay.com/get/gfd57f202866578d8d12d50726cb82512002689fd386106ce415d30a4a9d726bfdd7c22dc30aecf32f28c9b344a6746ad7b59602f1ea8d18831c7c5573bba4a77bd0ab62b1f6331ff81289f10692c319f_640.jpg"
+  title="Corporate Training Programs"
+  content={{
+    description: "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
+    points: [
+      "Leadership and Management Development",
+      "Effective Communication & Public Speaking",
+      "Team Collaboration & Problem-Solving",
+      "Group Discussion & Personal Branding",
+      "Industry-Specific Technical Skills Workshops",
+    ],
+  }}
+/>
+<HoverImgCard
+  image="https://pixabay.com/get/gc839af7190252eb2399e63c5aa41aa67d24f663faa97d8db361fe6b491b5e46a339da4a2437728811a9495985a8b6debd22cfff8a436f61394a141f9ef3fad6bb375e26c74c4d88e0c27dac6f994a070_640.jpg"
+  title="College Training Programs"
+  content={{
+    description: "We prepare students for successful corporate careers through:",
+    points: [
+      "Campus to Corporate Readiness Programs",
+      "Effective Communication & Public Speaking",
+      "Team Collaboration & Problem-Solving",
+      "Group Discussion & Personal Branding",
+      "Industry-Specific Technical Skills Workshops",
+    ],
+  }}
+/>
+<HoverImgCard
+  image="https://pixabay.com/get/g18392bebe1fd9d8223b889072ed348c9ed9b07c50c8fc5c92645a1e140516e53e9bdf22dc4d9cf0f9e0a0148b23706e76cc4e61b7917a670d9afebbaef5511dd77512bed0eae0b72f19fc23f0cc3ec29_640.jpg"
+  title="Corporate Training Programs"
+  content={{
+    description: "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
+    points: [
+      "Leadership and Management Development",
+      "Effective Communication & Public Speaking",
+      "Team Collaboration & Problem-Solving",
+      "Group Discussion & Personal Branding",
+      "Industry-Specific Technical Skills Workshops",
+    ],
+  }}
+/>
+            </div>
+        </div>
+      </div>
+    
+
+      <div className=" py-20 text-white">
+        <div className="container mx-auto 2xl:px-32 px-8">
+        <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+              <span className="text-primary-orange">Why </span>
+              Choose Us?
+            </h3>
           <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
           Groundbreaking Originals and exclusives from A-list celebs and emerging talent.
             </p>
