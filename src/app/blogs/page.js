@@ -12,7 +12,7 @@ export default function Blogs() {
             <h2 className="font-bold text-3xl lg:text-4xl text-background-tertiary mb-4 lg:mb-8">Blog</h2>
             <h3 className="text-xl font-bold mb-2">Lorem Ipsum is simply dummy text</h3>
             <p className=" mb-6"> of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-            <button class="bg-background-secondary hover:bg-background-primary text-black hover:text-[#fff] px-10 py-3 rounded-[50px] text-lg font-bold">Know More</button>
+            <button className="bg-background-secondary hover:bg-background-primary text-black hover:text-[#fff] px-10 py-3 rounded-[50px] text-lg font-bold">Know More</button>
           </div>
         </div>
       </section>
@@ -27,7 +27,7 @@ export default function Blogs() {
                   <div className="flex flex-col gap-8 text-start">
                       <div className="flex flex-col gap-4">
                           <p>11 Nov, 2024</p>
-                          <h3 class="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
+                          <h3 className="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                       </div>
                   </div>
@@ -41,7 +41,7 @@ export default function Blogs() {
                   <div className="flex flex-col gap-8 text-start">
                       <div className="flex flex-col gap-4">
                           <p>11 Nov, 2024</p>
-                          <h3 class="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
+                          <h3 className="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                       </div>
                   </div>
@@ -55,7 +55,7 @@ export default function Blogs() {
                   <div className="flex flex-col gap-8 text-start">
                       <div className="flex flex-col gap-4">
                           <p>11 Nov, 2024</p>
-                          <h3 class="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
+                          <h3 className="text-xl font-bold text-background-tertiary"><a href="#">Lorem Ipsum </a></h3>
                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                       </div>
                   </div>

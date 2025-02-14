@@ -9,6 +9,7 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import { Typewriter } from "react-simple-typewriter";
 import GenericBigButton from "@/components/genericButton/GenericBigButton";
 import Map2 from "@/components/map2/Map2";
+import CustomCarousel from "@/components/customCarousel/CustomCarousel";
 export default function Home() {
   const router = useRouter();
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
@@ -74,35 +75,19 @@ export default function Home() {
 
   return (
     <div>
-      <div className="container mx-auto 2xl:px-28 px-8 xl:py-14 py-8">
+      <div className="container mx-auto 2xl:px-28 px-8 xl:py-5 py-8">
         <div className="flex mb-32 flex-col items-center md:flex-row">
           <div className="md:w-1/2 md:mb-0 mb-8">
-            <h2 className="leading-10">
+            <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
-                Customer <span className="text-primary-orange">Focussed</span>
+              KIRAT LEARNING  
               </span>
-              <span className="block text-primary-midnightBlue font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
-                Solution <span className="text-primary-orange">Driven</span>
-              </span>
+             <span className="text-2xl">Nurture Develop Empower</span>
 
-              <span className="block text-primary-orange font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl">
-                <span className="text-primary-midnightBlue">Dedicated </span>
-                <Typewriter
-                  words={[" Teams"]}
-                  loop={0}
-                  cursor={isCursor}
-                  cursorStyle="|"
-                  cursorBlinking={false}
-                  typeSpeed={100}
-                  deleteSpeed={80}
-                  delaySpeed={300}
-                  onLoopDone={handleLoopDone}
-                />
-              </span>
+             
             </h2>
-            <p className="mt-6 mb-10 text-base">
-              Competency in large scale deliverance <br /> Innovation and
-              Excellence with growth.
+            <p className="mt-6 mb-10 text-base text-center ">
+            At KIRAT, we are committed to bridging the gap between academic learning and corporate expectations. As a premier learning and development company in India, we specialize in equipping students and professionals with the skills needed to thrive in today's competitive corporate world.
             </p>
             <GenericBigButton url="/three-pillar-ecosystem" name="Discover More" />
           </div>
@@ -113,155 +98,27 @@ export default function Home() {
         <div className="flex mb-20 flex-col md:flex-row">
           <div className="md:w-1/2">
             <h3 className="font-semibold md:text-4xl text-2xl">
-              <span className="text-primary-orange">Solutions we </span>
-              provide
+              <span className="text-primary-orange">Our </span>
+              Mission
             </h3>
           </div>
           <div className="md:w-1/2">
             <p className="text-justify tracking-normal text-base">
-              We are a rapidly emerging company harnessing the best in Product
-              Development and IT Services from the leading platforms - SAP,
-              Data, Integration and Opensource to serve end-to-end business
-              process, consulting, implementation with managed service
-              solutions.
+            To empower students and professionals with industry-relevant skills, ensuring they transition seamlessly from academia to the corporate world with confidence and expertise.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-primary-midnightBlue py-20 text-white">
+      <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-          <h3 className="text-2xl text-center mb-10">Industry we serve</h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="p-8 pt-20 border border-white relative"
-              >
-                <img className="mb-6 text-white" src={card.icon} alt="no img" />
-                <p>{card.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="container mx-auto 2xl:px-32 px-8 pt-20">
-        <div className="flex mb-20 flex-col md:flex-row">
-          <div className="flex flex-col gap-4 md:w-1/2">
-            <div>
-              <h3 className="font-semibold  md:text-4xl text-2xl mb-4">
-                <span className="text-primary-orange">Who </span> we are
-              </h3>
-              <p className="text-justify text-secondary-gray text-base">
-                We are the storytellers behind innovative, forward-thinking
-                brands that make a global impact. In today’s competitive
-                landscape, we excel at helping your brand stand out and create a
-                lasting impression in your customers' minds. As your trusted
-                partner, we deliver tailored digital marketing solutions to
-                achieve your desired ROI and drive sustainable growth.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold  md:text-4xl text-2xl mb-4">
-                <span className="text-primary-orange">Our </span> vision
-              </h3>
-              <p className="text-justify text-secondary-gray text-base">
-                At KIRAT, our vision is rooted in a deep commitment to
-                understanding and prioritizing our clients' needs. We are
-                obsessed with delivering value by decoding your audience's
-                unique expectations and crafting solutions that inspire and
-                engage. By blending innovation, integrity, and excellence with a
-                touch of adaptability, we ensure your brand not only stands out
-                but consistently achieves exceptional results. In today’s
-                ever-evolving digital landscape, we strive to stay ahead of the
-                curve, partnering with you to turn challenges into opportunities
-                and drive sustainable growth.
-              </p>
-            </div>
-          </div>
-          <div className="md:w-1/2">
-            <div className="text-center">
-              <img className="inline-block" src="/img2.png" alt="no img" />
-            </div>
-          </div>
-        </div>
-
-        <div></div>
-
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex items-center gap-10">
-            <div className="px-4 min-w-0  flex-[0_0_auto] items-center w-36">
-              <img className="inline-block " src="/image4.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image5.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image6.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image8.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image9.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image4.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image5.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image6.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image8.png" alt="no img" />
-            </div>
-            <div className="px-4 min-w-0 flex-[0_0_auto] items-center w-36">
-              <img className="inline-block" src="/image9.png" alt="no img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex my-16 relative">
-          <img
-            className="inline-block"
-            src="/creative-people.png"
-            alt="no img"
-          />
-          <div className="absolute md:left-28 md:top-28 left-4 top-1">
-            <h3 className="font-semibold md:text-4xl text-xl md:mb-4 text-secondary-white">
-              Connect on the go...
-            </h3>
-            <p className="text-secondary-white md:mb-8 md:text-2xl text-justify">
-              If you are looking for a serviced solution or an expert
-              consulting, we are there to hear.
+          <h3 className="text-2xl text-primary-midnightBlue text-center font-bold mb-2">Why Choose Us?</h3>
+          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
+          Groundbreaking Originals and exclusives from A-list celebs and emerging talent.
             </p>
-            <button
-              type="button"
-              onClick={() => router.push("/contact-us")}
-              className="inline-flex items-center p-2 px-8 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:text-2xl border border-white"
-            >
-              <span>Contact Us</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="flex mb-20 flex-col md:flex-row gap-8">
-          <div className="md:w-full">
-            <h3 className="font-semibold  md:text-4xl text-2xl mb-8">
-              <span className="text-primary-orange">Global </span> presence
-            </h3>
-            <p className="text-justify text-secondary-gray">
-              We serve our customers from different locations to fulfill their
-              needs efficiently within a justified time frame...
-            </p>
-            <div className="mt-16 md:mb-0 mb-8">
-              {/* <img className="inline-block" src="/map.png" alt="no img" /> */}
-              <Map2 />
+            <div className="py-5">
+            <CustomCarousel />
             </div>
-          </div>
         </div>
       </div>
     </div>

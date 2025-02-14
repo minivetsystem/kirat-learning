@@ -17,7 +17,7 @@ export default function ContactUs() {
         <div className="container mx-auto 2xl:px-32 px-8">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/2 md:mb-0 mb-8">
-              <h2 className="block text-primary-midnightBlue font-bold xl:text-7xl lg:text-5xl md:text-4xl text-2xl uppercase md:mt-80 mt-12">
+              <h2 className="block text-primary-midnightBlue font-bold xl:text-7xl lg:text-5xl md:text-4xl text-2xl uppercase md:mt-20 mt-12">
                 Contact{" "}
                 <span className="text-primary-orange font-bold xl:text-7xl lg:text-5xl md:text-4xl text-2xl uppercase">
                   Us
@@ -59,31 +59,11 @@ export default function ContactUs() {
               <p className="text-sm">
                 Kirat IT, UK - 127 Fencepiece Road, Ilford, England, IG6 2LD
               </p>
-              {/*  <p className="text-sm">
-                604B, Astra North Office, Astra Towers, Major Arterial Road
-                (North Extension), New Town, West Bengal-700161, India
-              </p> */}
+              
             </div>
           </div>
         </div>
-        <div>
-          <div className="w-full text-center mb-16">
-            <h3 className="font-semibold  md:text-4xl text-2xl mb-4">
-              <span className="text-primary-orange">Global </span> Presence
-            </h3>
-            <p>
-              Do you need a fast solution, a significant change or professional
-              advice to guide you through it all? We're interested in hearing
-              from you...
-            </p>
-          </div>
-          <div className="w-full p-5 mx-auto">
-            {/* <img src="/map2.png" alt="no img" /> */}
-            {/* <Map />  */}
-
-            <Map2 />
-          </div>
-        </div>
+        
       </div>
     </div>
   );

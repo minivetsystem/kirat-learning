@@ -22,7 +22,7 @@ export default function Contactform() {
     });
   };
   return (
-    <div className="md:w-1/2 xl:py-10 py-8 bg-primary-midnightBlue px-16 md:mb-0 mb-16">
+    <div className="md:w-1/2 xl:py-10 py-8 bg-white px-16 md:mb-0 mb-16">
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="">
@@ -36,7 +36,7 @@ export default function Contactform() {
                 }
                 id="first-name"
                 type="text"
-                className="block w-full bg-transparent border border-transparent border-b-white text-secondary-white p-2"
+                className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
               />
             </div>
           </div>
@@ -51,7 +51,7 @@ export default function Contactform() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 type="email"
-                className="block w-full bg-transparent border border-transparent border-b-white text-secondary-white p-2"
+                className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
               />
             </div>
           </div>
@@ -66,7 +66,7 @@ export default function Contactform() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
                 type="tel"
-                className="block w-full bg-transparent border border-transparent border-b-white text-secondary-white p-2"
+                className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
               />
             </div>
           </div>
@@ -83,7 +83,7 @@ export default function Contactform() {
                   }
                   type="text"
                   rows="3"
-                  className="block w-full bg-transparent border border-transparent border-b-white text-secondary-white p-2"
+                  className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
                 ></textarea>
               </div>
             </div>
