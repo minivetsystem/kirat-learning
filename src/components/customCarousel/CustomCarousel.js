@@ -29,8 +29,8 @@ const CustomCarousel = () => {
 
   return (
     <div className="w-full max-w-3xl mx-auto px-8 my-12 relative">
-        <div className="absolute top-0 left-[-70px] w-28 h-full bg-gradient-to-r from-white from-50% to-white/0 z-50"></div>
-        <div className="absolute top-0 right-[-70px] w-28  h-full bg-gradient-to-l from-white from-50% to-white/0 z-50"></div>
+        <div className="absolute top-0 left-[-75px] w-28 h-full bg-gradient-to-r from-white from-50% to-white/0 z-50"></div>
+        <div className="absolute top-0 right-[-75px] w-28  h-full bg-gradient-to-l from-white from-50% to-white/0 z-50"></div>
       {/* Carousel Viewport */}
       <div className="" ref={emblaRef}>
         <div className="flex">
