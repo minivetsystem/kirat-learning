@@ -7,7 +7,7 @@ export default function HoverImgCard({ image, title, content }) {
   return (
     <div className="flex justify-center items-center">
       <div
-        className="relative w-80 h-96 overflow-hidden rounded-lg shadow-lg cursor-pointer bg-white"
+        className="relative w-80 h-[400px] overflow-hidden rounded-lg shadow-lg cursor-pointer bg-white"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >

@@ -121,7 +121,7 @@ export default function Home() {
             </p>
             <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <HoverImgCard
-  image="https://pixabay.com/get/gfd57f202866578d8d12d50726cb82512002689fd386106ce415d30a4a9d726bfdd7c22dc30aecf32f28c9b344a6746ad7b59602f1ea8d18831c7c5573bba4a77bd0ab62b1f6331ff81289f10692c319f_640.jpg"
+  image="./home/employees-936804_640.jpg"
   title="Corporate Training Programs"
   content={{
     description: "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
@@ -135,7 +135,7 @@ export default function Home() {
   }}
 />
 <HoverImgCard
-  image="https://pixabay.com/get/gc839af7190252eb2399e63c5aa41aa67d24f663faa97d8db361fe6b491b5e46a339da4a2437728811a9495985a8b6debd22cfff8a436f61394a141f9ef3fad6bb375e26c74c4d88e0c27dac6f994a070_640.jpg"
+  image="./home/pleasure-3147070_640.jpg"
   title="College Training Programs"
   content={{
     description: "We prepare students for successful corporate careers through:",
@@ -149,16 +149,16 @@ export default function Home() {
   }}
 />
 <HoverImgCard
-  image="https://pixabay.com/get/g18392bebe1fd9d8223b889072ed348c9ed9b07c50c8fc5c92645a1e140516e53e9bdf22dc4d9cf0f9e0a0148b23706e76cc4e61b7917a670d9afebbaef5511dd77512bed0eae0b72f19fc23f0cc3ec29_640.jpg"
-  title="Corporate Training Programs"
+  image="./home/girl-7029035_640.jpg"
+  title="Consulting Services"
   content={{
-    description: "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
+    description: "Our expert consulting services help businesses and institutions optimize learning and development strategies. We provide:",
     points: [
-      "Leadership and Management Development",
-      "Effective Communication & Public Speaking",
-      "Team Collaboration & Problem-Solving",
-      "Group Discussion & Personal Branding",
-      "Industry-Specific Technical Skills Workshops",
+      "Customized Corporate Training Frameworks",
+      "Talent Development and Succession Planning",
+      "Employee Engagement & Retention Strategies",
+      "Curriculum Development for Colleges & Universities",
+      "Organizational Learning Needs Assessment",
     ],
   }}
 />
