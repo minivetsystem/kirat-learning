@@ -93,7 +93,7 @@ export default function Home() {
             <GenericBigButton url="/three-pillar-ecosystem" name="Discover More" />
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img src="/homebg.png" alt="no img" className="w-full h-full"/>
+            <img src="/homebg.jpeg" alt="no img" className="w-full h-full"/>
           </div>
         </div>
         <div className="flex mb-15 flex-col md:flex-row">
