@@ -72,38 +72,19 @@ export const trainingModules = [
 export default function CollegePlacementsAndConsultingServices() {
   return (
     <div>
-      {/* <div className="container mx-auto 2xl:px-32 px-8 xl:pt-28 pt-8">
-        <div className="flex flex-col md:flex-row gap-10 ">
-        <div className="md:w-1/2">
-          <img src="/data/image1.jpg" alt="no img" />
-          </div>
-          <div className="md:w-1/2 md:mb-0 mb-8 flex flex-col gap-4 pt-20 pl-10 ">
-            <span className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl uppercase">
-            Change Management Services
-            </span>
-            <p className="text-justify">
-            Welcome to KIRAT's Change Management Solutions: In the fast-paced
-              world of IT, effective change management is the cornerstone of
-              sustainable growth and innovation. At KIRAT, we specialize in
-              empowering organizations to seamlessly adapt to technological
-              advancements, streamline processes, and drive business success.
-            </p>
-          </div>
-          
-        </div>
-      </div> */}
+      
 
       <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
         <div className="flex flex-col md:flex-row gap-10">
           <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
             <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
-              College Placement Consulting Services
+              College Placement <br />Consulting Services
             </div>
-            <p className="text-justify">
+            <p className="text-justify w-1/2">
               Kirat IT Solutions navigates the competitive landscape of college
               placements that can be overwhelming for students.
             </p>
-            <p className="text-justify">
+            <p className="text-justify w-1/2">
               Our consulting services are designed to empower students with the
               skills, confidence, and strategic mindset needed to excel in
               placement processes and secure their dream roles.
@@ -170,25 +151,17 @@ export default function CollegePlacementsAndConsultingServices() {
             </div> 
 
             <div className="list-disc pl-8 ">
-                    
-                      
                         <div className="mb-8 flex flex-row gap-8  items-center">
-                          
                          <ul className="list-disc w-1/2">
                           <li>A team of experienced mentors with a proven track record in student success.</li>
                           <li>Tailored programs to match the unique needs of every student.</li>
                           <li>Comprehensive placement preparation designed to boost confidence and competence.</li>
                           <li>Access to a vast network of recruiters and alumni.</li>
                          </ul>
-                         
                          <div className="w-1/2 flex justify-center">
                             <img src="./change1.png" />
-                          </div>
-                          
-                        </div>
-                      
-                          
-                    
+                          </div>    
+                        </div>  
             </div>
               
           </div>

@@ -28,17 +28,17 @@ const CustomCarousel = () => {
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-8 my-12 relative">
-        <div className="absolute top-0 left-[-120px] w-44 h-full bg-gradient-to-r from-white from-50% to-white/0 z-30"></div>
-        <div className="absolute top-0 right-[-120px] w-44  h-full bg-gradient-to-l from-white from-50% to-white/0 z-30"></div>
+    <div className="w-full md:w-3/4 mx-auto px-8 my-12 relative">
+        <div className="absolute hidden md:block top-0 left-[-170px] w-48 h-full bg-gradient-to-r from-white from-50% to-white/0 z-30"></div>
+        <div className="absolute hidden md:block top-0 right-[-170px] w-48  h-full bg-gradient-to-l from-white from-50% to-white/0 z-30"></div>
       {/* Carousel Viewport */}
       <div className="" ref={emblaRef}>
-        <div className="flex">
+        <div className="flex items-center ">
           {items.map((item, index) => (
-            <div key={item.id} className="flex-[0_0_50%] sm:flex-[0_0_33.33%] lg:flex-[0_0_25%] px-2">
+            <div key={item.id} className="flex-[0_0_50%] sm:flex-[0_0_33.33%] lg:flex-[0_0_25%]">
               <div
                 className={`relative transition-transform duration-300 border rounded-lg overflow-hidden ${
-                  current === index ? "scale-100 z-50" : "scale-75 opacity-70  "
+                  current === index ? "scale-150 mx-10 opacity-100 z-50" : "scale-75 opacity-70  "
                 }`}
               >
                 <div className="w-full aspect-square">
@@ -58,13 +58,13 @@ const CustomCarousel = () => {
 
     
       <button
-        className="absolute left-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
+        className="absolute hidden md:block left-[-9.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
         onClick={scrollPrev}
       >
         <ChevronLeft className="text-black"/>
       </button>
       <button
-        className="absolute right-[-7.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
+        className="absolute hidden md:block right-[-9.75rem] top-1/2 transform -translate-y-1/2 p-2 bg-white/80 rounded-full shadow-lg hover:bg-white z-50"
         onClick={scrollNext}
       >
          <ChevronRight  className="text-black"/>

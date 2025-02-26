@@ -30,7 +30,8 @@ const pathname = usePathname()
     </div>
   
     {/* Bottom Header / Navbar */}
-    <div className="py-3">
+    <div className="py-3 hidden md:block
+    ">
       <div className="container max-w-screen-xl mx-auto px-4 flex flex-wrap items-center justify-between">
         {/* Navigation Links */}
         <ul className="flex space-x-6 text-gray-700 text-sm">
@@ -58,7 +59,7 @@ const pathname = usePathname()
         <div className="relative border flex items-center px-3 py-2">
           <input
             type="text"
-            placeholder="Search for a great book"
+            placeholder="Search"
             className="outline-none text-sm bg-transparent w-48"
           />
           <button type="submit" >

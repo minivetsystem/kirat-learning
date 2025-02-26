@@ -18,33 +18,7 @@ export const metadata = {
 export default function Integration() {
   return (
     <div>
-      {/* <div className="container mx-auto 2xl:px-32 px-8 xl:pt-28 pt-8">
-        <div className="flex flex-col md:flex-row gap-10">
-        <div className="md:w-1/2">
-          <img src="/integration/integration1.png" alt="no img" />
-          </div>
-          <div className="md:w-1/2 md:mb-0 mb-8 flex flex-col gap-4 pt-20 pl-10 ">
-            <span className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl uppercase">
-            Integration
-            </span>
-            <p className="text-justify">
-              Kirat IT has carved out a specialized niche in providing
-              advisory and consulting services designed to help clients achieve
-              their strategic objectives.
-            </p>
-
-            <p className="text-justify">
-              Integration is a fundamental concept across numerous domains,
-              including technology, business processes, and systems. At its
-              core, integration involves unifying disparate parts or systems
-              into a cohesive whole, enabling them to work seamlessly together.
-              This capability is critical for ensuring effectiveness,
-              consistency, and the successful achievement of business goals
-            </p>
-          </div>
-          
-        </div>
-      </div> */}
+      
 
       <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
         <div className="flex flex-col md:flex-row gap-10">
@@ -52,20 +26,20 @@ export default function Integration() {
             <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
               Training & Development
             </div>
-            <p className="text-justify">
+            <p className="text-justify w-2/3">
               Through a well-equipped training, Kirat IT Solutions typically
               focus on improving specific job-related skills, such as technical
               abilities or procedures, to ensure employees perform their current
               roles efficiently and effectively.
             </p>
-            <p className="text-justify">
+            <p className="text-justify w-2/3">
               This involves workshops, related knowledge transfer or hands-on
               learning, addressing immediate needs or gaps in performance. On
               the other hand, we provide development strategies in a more
               comprehensive and long-term sense aiming at preparing employees
               for future responsibilities and leadership roles.
             </p>
-            <p className="text-justify">
+            <p className="text-justify w-2/3">
               It involves fostering personal growth, enhancing soft skills, and
               providing opportunities for career advancement.
             </p>

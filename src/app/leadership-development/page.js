@@ -30,43 +30,28 @@ export default function LeadershipDevelopment() {
   return (
     <>
       <div>
-        {/* <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
-          <div className="flex flex-col md:flex-row gap-10">
-            <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
-              <span className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
-                Ecommerce Services
-              </span>
-              <p className="text-justify">
-                Are you looking to take your business online or elevate your
-                existing e-commerce operations? At KIRAT, we offer a
-                comprehensive suite of e-commerce services designed to simplify
-                and optimize every aspect of your online store.
-              </p>
-            </div>
-          </div>
-        </div> */}
-
+        
         <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
           <div className="flex flex-col md:flex-row gap-10">
             <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
               <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
                 Leadership Development
               </div>
-              <p className="text-justify">
+              <p className="text-justify w-2/3">
                 The team members of Kirat IT Solutions have an extensive
                 experience over the years. With endeavour, we aim to train some
                 of our members to managing large teams and successfully manage
                 other aspects of the business by enhancing the skills,
                 qualities, and capabilities of individuals.
               </p>
-              <p className="text-justify">
+              <p className="text-justify w-2/3">
                 We focus onimproving our key attributes such as decision-making,
                 communication, problem-solving, and emotional intelligence.
                 Value adding sessions may include mentorship, training, and
                 hands-on experience to build confidence and leadership
                 effectiveness.
               </p>
-              <p className="text-justify">
+              <p className="text-justify w-2/3">
                 Effective leadership development has helped in cultivating our
                 strong leaders, drive innovation, and ensured long-term success
                 by aligning leaders with the company’s vision and goals.

@@ -31,7 +31,7 @@ export default function HoverImgCard({ image, title, content }) {
           transition={{ duration: 0.5 }}
         >
           <motion.h2
-            className={`py-4 w-full font-bold text-lg text-center text-black z-50 bg-transparent ${hovered ? "text-white" : "text-black"}`}
+            className={`py-4 w-full font-bold text-lg text-center text-black z-50 bg-transparent ${hovered ? "hidden" : "block"}`}
             animate={{ opacity: 1, zIndex: 50, y: hovered ? -40 : -3 }}
             transition={{ duration: 0.5 }}
           >
@@ -40,7 +40,7 @@ export default function HoverImgCard({ image, title, content }) {
 
           {/* Content fades in smoothly */}
           {hovered && (
-            <motion.div animate={{ opacity: 1, y: -30 }} transition={{ duration: 0.5 }}>
+            <motion.div animate={{ opacity: 1, y: -10 }} transition={{ duration: 0.5 }}>
               <p className="text-sm text-start mt-2 text-black">{content.description}</p>
               <ul className="mt-2 text-start text-sm list-disc pl-4 text-black">
                 {content.points.map((point, index) => (

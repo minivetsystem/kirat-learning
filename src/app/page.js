@@ -1,6 +1,11 @@
 "use client";
 import Link from "next/link";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
 import React, { useState, useReducer } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -81,19 +86,24 @@ export default function Home() {
           <div className="md:w-1/2 md:mb-0 mb-8">
             <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
-              KIRAT LEARNING  
+                KIRAT LEARNING
               </span>
-             <span className="text-2xl">Nurture Develop Empower</span>
-
-             
+              <span className="text-2xl">Nurture Develop Empower</span>
             </h2>
             <p className="mt-6 mb-10 text-base text-center ">
-            At KIRAT, we are committed to bridging the gap between academic learning and corporate expectations. As a premier learning and development company in India, we specialize in equipping students and professionals with the skills needed to thrive in today's competitive corporate world.
+              At KIRAT, we are committed to bridging the gap between academic
+              learning and corporate expectations. As a premier learning and
+              development company in India, we specialize in equipping students
+              and professionals with the skills needed to thrive in today's
+              competitive corporate world.
             </p>
-            <GenericBigButton url="/three-pillar-ecosystem" name="Discover More" />
+            <GenericBigButton
+              url="/three-pillar-ecosystem"
+              name="Discover More"
+            />
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img src="/homebg.jpeg" alt="no img" className="w-full h-full"/>
+            <img src="/homebg.png" alt="no img" className="w-full h-full" />
           </div>
         </div>
         <div className="flex mb-15 flex-col md:flex-row">
@@ -103,7 +113,9 @@ export default function Home() {
               Mission
             </h3>
             <p className="text-center tracking-normal text-base w-4/5 mx-auto">
-            To empower students and professionals with industry-relevant skills, ensuring they transition seamlessly from academia to the corporate world with confidence and expertise.
+              To empower students and professionals with industry-relevant
+              skills, ensuring they transition seamlessly from academia to the
+              corporate world with confidence and expertise.
             </p>
           </div>
         </div>
@@ -111,74 +123,120 @@ export default function Home() {
 
       <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-        <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
-              <span className="text-primary-orange">What </span>
-               We Offer
-            </h3>
-          
+          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+            <span className="text-primary-orange">What </span>
+            We Offer
+          </h3>
+
           <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
-          Groundbreaking Originals and exclusives from A-list celebs and emerging talent.
-            </p>
-            <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            Groundbreaking Originals and exclusives from A-list celebs and
+            emerging talent.
+          </p>
+          <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <HoverImgCard
-  image="./home/employees-936804_640.jpg"
-  title="Corporate Training Programs"
-  content={{
-    description: "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
-    points: [
-      "Leadership and Management Development",
-      "Effective Communication & Public Speaking",
-      "Team Collaboration & Problem-Solving",
-      "Group Discussion & Personal Branding",
-      "Industry-Specific Technical Skills Workshops",
-    ],
-  }}
-/>
-<HoverImgCard
-  image="./home/pleasure-3147070_640.jpg"
-  title="College Training Programs"
-  content={{
-    description: "We prepare students for successful corporate careers through:",
-    points: [
-      "Campus to Corporate Readiness Programs",
-      "Effective Communication & Public Speaking",
-      "Team Collaboration & Problem-Solving",
-      "Group Discussion & Personal Branding",
-      "Industry-Specific Technical Skills Workshops",
-    ],
-  }}
-/>
-<HoverImgCard
-  image="./home/girl-7029035_640.jpg"
-  title="Consulting Services"
-  content={{
-    description: "Our expert consulting services help businesses and institutions optimize learning and development strategies. We provide:",
-    points: [
-      "Customized Corporate Training Frameworks",
-      "Talent Development and Succession Planning",
-      "Employee Engagement & Retention Strategies",
-      "Curriculum Development for Colleges & Universities",
-      "Organizational Learning Needs Assessment",
-    ],
-  }}
-/>
-            </div>
+              image="./home/employees-936804_640.jpg"
+              title="Corporate Training Programs"
+              content={{
+                description:
+                  "Designed for organizations looking to enhance their workforce’s skills, our training programs focus on:",
+                points: [
+                  "Leadership and Management Development",
+                  "Effective Communication & Public Speaking",
+                  "Team Collaboration & Problem-Solving",
+                  "Group Discussion & Personal Branding",
+                  "Industry-Specific Technical Skills Workshops",
+                ],
+              }}
+            />
+            <HoverImgCard
+              image="./home/pleasure-3147070_640.jpg"
+              title="College Training Programs"
+              content={{
+                description:
+                  "We prepare students for successful corporate careers through:",
+                points: [
+                  "Campus to Corporate Readiness Programs",
+                  "Effective Communication & Public Speaking",
+                  "Team Collaboration & Problem-Solving",
+                  "Group Discussion & Personal Branding",
+                  "Industry-Specific Technical Skills Workshops",
+                ],
+              }}
+            />
+            <HoverImgCard
+              image="./home/girl-7029035_640.jpg"
+              title="Consulting Services"
+              content={{
+                description:
+                  "Our expert consulting services help businesses and institutions optimize learning and development strategies. We provide:",
+                points: [
+                  "Customized Corporate Training Frameworks",
+                  "Talent Development and Succession Planning",
+                  "Employee Engagement & Retention Strategies",
+                  "Curriculum Development for Colleges & Universities",
+                  "Organizational Learning Needs Assessment",
+                ],
+              }}
+            />
+          </div>
         </div>
       </div>
-    
-
       <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-        <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
-              <span className="text-primary-orange">Why </span>
-              Choose Us?
-            </h3>
+          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+            <span className="text-primary-orange">Why </span>
+            Choose Us?
+          </h3>
           <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
-          Groundbreaking Originals and exclusives from A-list celebs and emerging talent.
-            </p>
-            <div className="py-5">
+            Groundbreaking Originals and exclusives from A-list celebs and
+            emerging talent.
+          </p>
+          <div className="py-5">
             <CustomCarousel />
-            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className=" py-20 text-white max-w-7xl mx-auto">
+        <div className="container mx-auto 2xl:px-32 px-8">
+          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+            <span className="text-primary-orange">Frequently </span>
+            Asked Questions
+          </h3>
+          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
+            Groundbreaking Originals and exclusives from A-list celebs and
+            emerging talent.
+          </p>
+          <div className="py-5">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-black">
+                  Is it accessible?
+                </AccordionTrigger>
+                <AccordionContent className="text-black">
+                  Yes. It adheres to the WAI-ARIA design pattern.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-black">
+                  Is it styled?
+                </AccordionTrigger>
+                <AccordionContent className="text-black">
+                  Yes. It comes with default styles that matches the other
+                  components&apos; aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-black">
+                  Is it animated?
+                </AccordionTrigger>
+                <AccordionContent className="text-black">
+                  Yes. It's animated by default, but you can disable it if you
+                  prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
         </div>
       </div>
     </div>
