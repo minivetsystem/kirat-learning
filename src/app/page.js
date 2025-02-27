@@ -14,8 +14,11 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import { Typewriter } from "react-simple-typewriter";
 import GenericBigButton from "@/components/genericButton/GenericBigButton";
 import Map2 from "@/components/map2/Map2";
-import CustomCarousel from "@/components/customCarousel/CustomCarousel";
+import CustomCarousel from "@/components/customCarousel/CarouselOne";
 import HoverImgCard from "@/components/hoverImgCard/HoverImgCard";
+import CarouselOne from "@/components/customCarousel/CarouselOne";
+import CatouselTwo from "@/components/customCarousel/CatouselTwo";
+
 export default function Home() {
   const router = useRouter();
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
@@ -79,6 +82,10 @@ export default function Home() {
     setisCursor(false);
   };
 
+  const OPTIONS = { loop: true }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+
   return (
     <div>
       <div className="container mx-auto 2xl:px-28 px-8 xl:py-5 py-8">
@@ -86,7 +93,19 @@ export default function Home() {
           <div className="md:w-1/2 md:mb-0 mb-8">
             <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
-                KIRAT LEARNING
+              <Typewriter
+                  words={[" KIRAT LEARNING"]}
+                  loop={0}
+                  cursor={isCursor}
+                  cursorStyle="|"
+                  cursorBlinking={false}
+                  typeSpeed={100}
+                  deleteSpeed={80}
+                  delaySpeed={300}
+                  onLoopDone={handleLoopDone}
+                />
+            
+                
               </span>
               <span className="text-2xl">Nurture Develop Empower</span>
             </h2>
@@ -192,7 +211,9 @@ export default function Home() {
             emerging talent.
           </p>
           <div className="py-5">
-            <CustomCarousel />
+            {/* <CarouselOne /> */}
+            <CatouselTwo />
+           
           </div>
         </div>
       </div>

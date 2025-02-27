@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import TeamCard from "./TeamCard";
 
 const teamMembers = [
   {
@@ -37,8 +37,8 @@ const teamMembers = [
 export default function AboutUs() {
   const [hovered, setHovered] = useState(false);
   return (
-    <div className="mt-5">
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-28 py-8">
+    <div className="">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:py-28">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 md:mb-0 mb-8">
             <span className="block text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl uppercase">
@@ -81,18 +81,11 @@ export default function AboutUs() {
             </h3>
           </div>
         </div>
-        <div className="flex justify-between gap-8 flex-col md:flex-row mb-8">
-          <div className="flex my-8 flex-col md:flex-row">
+        <div className="flex justify-between gap-8 flex-col md:flex-row mb-12">
+          <div className="flex justify-between flex-col md:flex-row gap-8">
           {teamMembers.map((member, index) => (
             <TeamCard key={index} member={member} />
           ))}
-
-            
-
-          
-
-            
-
           </div>
         </div>
       </div>
@@ -101,53 +94,3 @@ export default function AboutUs() {
 }
 
 
-const TeamCard = ({ member }) => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      className="md:w-1/4 pr-12 md:mb-0 mb-8"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Image Section with Animation */}
-      <motion.div
-        animate={{ height: hovered ? "25%" : "90%" }}
-        transition={{ duration: 0.3 }}
-        className="relative rounded-2xl overflow-hidden bg-gray-300 flex items-center justify-center"
-      >
-        <img
-          src={member.image}
-          alt={member.name}
-          className="w-full h-full object-cover"
-        />
-
-        {/* LinkedIn Icon */}
-        <div className="absolute top-0 left-0 bg-white rounded-br-lg px-2 py-1">
-          <span className="text-blue-600 font-bold text-xl">in</span>
-        </div>
-      </motion.div>
-
-      {/* Name & Title */}
-      <h3 className="font-extrabold text-lg mt-6">{member.name}</h3>
-      <p className="text-sm text-secondary-gray">{member.title}</p>
-
-      {/* Description Section (Animated on Hover) */}
-      <motion.div
-        className="overflow-hidden relative pt-2"
-        animate={{ height: hovered ? "75%" : "0%" }}
-        transition={{ duration: 0.5 }}
-      >
-        {hovered && (
-          <motion.p
-            animate={{ opacity: 1, y: -10 }}
-            transition={{ duration: 0.5 }}
-            className="text-sm text-start mt-2 text-black"
-          >
-            {member.description}
-          </motion.p>
-        )}
-      </motion.div>
-    </div>
-  );
-};

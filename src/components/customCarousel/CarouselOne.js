@@ -1,8 +1,9 @@
 "use client"
-import Image from "next/image"
+
 import useEmblaCarousel from "embla-carousel-react"
 import { useEffect, useState, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+
 
 const items = [
   { title: "Good Health", img: "./home/cat-8266486_640.jpg", id: 1 },
@@ -12,7 +13,7 @@ const items = [
   { title: "Kaali Awaaz", img: "./home/tool-9253437_640.jpg", id: 5 },
 ]
 
-const CustomCarousel = () => {
+const CarouselOne = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "center", loop: true })
   const [current, setCurrent] = useState(0)
 
@@ -73,4 +74,4 @@ const CustomCarousel = () => {
   )
 }
 
-export default CustomCarousel
+export default CarouselOne
