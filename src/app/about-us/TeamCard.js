@@ -5,7 +5,7 @@ const TeamCard = ({ member }) => {
 
     return (
       <div
-        className="w-full pr-12 md:mb-0 mb-8 border mx-auto"
+        className="w-full pr-12 md:mb-0 mb-8 mx-auto"
       >
     
         <div className="relative rounded-2xl overflow-hidden bg-gray-300 flex items-center justify-center">
