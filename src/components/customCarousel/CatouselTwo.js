@@ -8,31 +8,31 @@ import { cn } from "@/lib/utils";
 
 const slides = [
   {
-    image: "/home/cat-8266486_640.jpg",
+    image: "/home/industry-experienced-trainers.jpg",
     title: "Industry-Experienced Trainers",
     description:
       "Our expert trainers bring years of corporate experience to the classroom.",
   },
   {
-    image: "/home/christmas-7718958_640.jpg",
+    image: "/home/tailored-curriculum.jpg",
     title: "Tailored Curriculum",
     description:
       "Programs designed to meet the unique needs of colleges and corporations.",
   },
   {
-    image: "/home/sky-5766341_640.jpg",
+    image: "/home/practical-learning-approach.jpg",
     title: "Practical Learning Approach",
     description:
       "Interactive sessions, real-world case studies, and hands-on activities.",
   },
   {
-    image: "/home/tool-9253437_640.jpg",
+    image: "/home/placement-readiness.jpg",
     title: "Placement Readiness",
     description:
       "Enhancing students’ employability through strategic career guidance.",
   },
   {
-    image: "/home/tool-9253437_640.jpg",
+    image: "/home/continuous-support.jpg",
     title: "Continuous Support",
     description:
       "Post-training mentorship and learning resources for sustained growth.",

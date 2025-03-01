@@ -25,20 +25,20 @@ export default function Home() {
     AutoScroll({ speed: 0.8 }),
   ]);
 
-  const cards = [
-    { id: 1, icon: "./manufacturing.png", title: "Manufacturing" },
-    { id: 2, icon: "./cutlery.png", title: "FMCG" },
-    { id: 3, icon: "./management.png", title: "Real Estate" },
-    {
-      id: 4,
-      icon: "./pharmacy.png",
-      title: "Pharmaceutical and Biotechnology",
-    },
-    { id: 5, icon: "./retail.png", title: "Retail" },
-    { id: 6, icon: "./institution.png", title: "Governments" },
-    { id: 7, icon: "./shopping-cart.png", title: "E-Commerce" },
-    { id: 8, icon: "./skill.png", title: "Others" },
-  ];
+  // const cards = [
+  //   { id: 1, icon: "./manufacturing.png", title: "Manufacturing" },
+  //   { id: 2, icon: "./cutlery.png", title: "FMCG" },
+  //   { id: 3, icon: "./management.png", title: "Real Estate" },
+  //   {
+  //     id: 4,
+  //     icon: "./pharmacy.png",
+  //     title: "Pharmaceutical and Biotechnology",
+  //   },
+  //   { id: 5, icon: "./retail.png", title: "Retail" },
+  //   { id: 6, icon: "./institution.png", title: "Governments" },
+  //   { id: 7, icon: "./shopping-cart.png", title: "E-Commerce" },
+  //   { id: 8, icon: "./skill.png", title: "Others" },
+  // ];
 
   const initialState = {
     isReadMoreData: true,
@@ -153,7 +153,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
           </p>
           <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <HoverImgCard
-              image="./home/employees-936804_640.jpg"
+              image="./home/corporate-training.jpg"
               title="Corporate Training Programs"
               content={{
                 description:
@@ -168,7 +168,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
               }}
             />
             <HoverImgCard
-              image="./home/pleasure-3147070_640.jpg"
+              image="./home/college-training-programs.jpg"
               title="College Training Programs"
               content={{
                 description:
@@ -183,7 +183,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
               }}
             />
             <HoverImgCard
-              image="./home/girl-7029035_640.jpg"
+              image="./home/consulting-services.jpg"
               title="Consulting Services"
               content={{
                 description:
@@ -218,48 +218,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
         </div>
       </div>
 
-      <div className=" py-20 text-white max-w-7xl mx-auto">
-        <div className="container mx-auto 2xl:px-32 px-8">
-          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
-            <span className="text-primary-orange">Frequently </span>
-            Asked Questions
-          </h3>
-          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
-            Groundbreaking Originals and exclusives from A-list celebs and
-            emerging talent.
-          </p>
-          <div className="py-5">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-black">
-                  Is it accessible?
-                </AccordionTrigger>
-                <AccordionContent className="text-black">
-                  Yes. It adheres to the WAI-ARIA design pattern.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger className="text-black">
-                  Is it styled?
-                </AccordionTrigger>
-                <AccordionContent className="text-black">
-                  Yes. It comes with default styles that matches the other
-                  components&apos; aesthetic.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger className="text-black">
-                  Is it animated?
-                </AccordionTrigger>
-                <AccordionContent className="text-black">
-                  Yes. It's animated by default, but you can disable it if you
-                  prefer.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </div>
-      </div>
+      
     </div>
   );
 }
