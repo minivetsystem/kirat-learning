@@ -84,8 +84,8 @@ export default function AboutUs() {
         <div className="flex justify-between gap-8 flex-col md:flex-row mb-12">
           <div className="flex justify-between flex-col md:flex-row gap-8">
           {teamMembers.map((member, index) => (
-            <TeamCard key={index} member={member} />
-          ))}
+        <TeamCard key={index} member={member} />
+      ))}
           </div>
         </div>
       </div>
