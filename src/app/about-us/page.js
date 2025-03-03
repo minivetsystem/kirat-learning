@@ -9,28 +9,28 @@ const teamMembers = [
     title: "Managing Director (Technology)",
     image: "/about/profile2.jpg",
     description:
-      "Having worked on system integration projects for big international companies in the chemical, banking, retail, and fast-moving consumer goods industries for 14 years...",
+      "Having worked on system integration projects for big international companies in the chemical, banking, retail, and fast-moving consumer goods industries for 14 years. From sales assistance to industry participation in SAP product development, delivery, and deployment, Raghbir has held key positions. Extremely skilled in utilizing SAP technologies, eCommerce platforms and cloud solutions to define and construct Integration Architecture for major Transformation Programs.",
   },
   {
     name: "Sandeep Patel",
     title: "Director (Operations)",
     image: "/about/profile1.jpg",
     description:
-      "Sandeep Patel is in charge of all aspects of the company's operations, client relations, technology, and capability development...",
+      "Sandeep Patel is in charge of all aspects of the company's operations, client relations, technology, and capability development. having held executive positions at organizations such as Amazon, HSBC, GE Money, Party Gaming, and Synchrony Financial for more than 18 years. An entrepreneurial leader that is passionate about recruiting and nurturing talent in various remote places.",
   },
   {
     name: "Rudra Roy",
     title: "Head (SAP Business)",
     image: "/about/profile2.jpg",
     description:
-      "Before joining Kirat and leading the SAP division, Rudra spent 12 years working for IBM and 3 years working as a freelance consultant in Europe...",
+      "Before joining Kirat and leading the SAP division, Rudra spent 12 years working for IBM and 3 years working as a freelance consultant in Europe. Equipped with 16 years of extensive experience leveraging SAP technologies, eCommerce platforms, and cloud solutions to define and construct enterprise architecture for major transformation programs. From sales support to industry participation in SAP product development, delivery, and deployment, Rudra has held key positions.",
   },
   {
     name: "Ripple Kaur",
     title: "Director (Integration and Quality Assurance)",
     image: "/about/profile1.jpg",
     description:
-      "Ripple is the Head of Integration at Kirat and is a Certified SAP Process Integration Consultant...",
+      "Ripple is the Head of Integration at Kirat and is a Certified SAP Process Integration Consultant. With six years of experience working with clients across the UK and India on Integration and Quality Assurance projects, she worked with TechMahindra and Capgemini prior to joining Kirat.",
   },
 ];
 
@@ -82,7 +82,7 @@ export default function AboutUs() {
           </div>
         </div>
         <div className="flex justify-between gap-8 flex-col md:flex-row mb-12">
-          <div className="flex justify-between flex-col md:flex-row gap-8">
+          <div className="flex justify-between flex-col md:flex-row gap-8 w-full">
           {teamMembers.map((member, index) => (
         <TeamCard key={index} member={member} />
       ))}
