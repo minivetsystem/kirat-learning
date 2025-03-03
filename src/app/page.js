@@ -93,8 +93,9 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
           <div className="md:w-1/2 md:mb-0 mb-8">
             <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
+              KIRAT
               <Typewriter
-                  words={[" KIRAT LEARNING"]}
+                  words={[" LEARNING"]}
                   loop={0}
                   cursor={isCursor}
                   cursorStyle="|"
