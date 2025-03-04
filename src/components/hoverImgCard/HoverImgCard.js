@@ -31,8 +31,8 @@ export default function HoverImgCard({ image, title, content }) {
           transition={{ duration: 0.5 }}
         >
           <motion.h2
-            className={`py-4 w-full font-bold text-lg text-center text-black z-50 bg-transparent`}
-            animate={{ opacity: 1, zIndex: 50, y: hovered ? -10 : -3 }}
+            className={`pb-4 w-full font-bold text-lg text-center text-black z-50 bg-transparent`}
+            animate={{ opacity: 1, zIndex: 50, y: hovered ? -10 : -10 }}
             transition={{ duration: 0.5 }}
           >
             {title}
@@ -40,8 +40,13 @@ export default function HoverImgCard({ image, title, content }) {
 
           {/* Content fades in smoothly */}
           {hovered && (
-            <motion.div animate={{ opacity: 1, y: -10 }} transition={{ duration: 0.5 }}>
-              <p className="text-xs text-start  text-black">{content.description}</p>
+            <motion.div
+              animate={{ opacity: 1, y: -10 }}
+              transition={{ duration: 0.5 }}
+            >
+              <p className="text-xs text-start  text-black">
+                {content.description}
+              </p>
               <ul className="mt-2 text-start text-xs list-disc pl-4 text-black">
                 {content.points.map((point, index) => (
                   <li key={index}>{point}</li>
