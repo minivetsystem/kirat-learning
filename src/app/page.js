@@ -82,9 +82,9 @@ export default function Home() {
     setisCursor(false);
   };
 
-  const OPTIONS = { loop: true }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+  const OPTIONS = { loop: true };
+  const SLIDE_COUNT = 5;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return (
     <div>
@@ -93,8 +93,8 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
           <div className="md:w-1/2 md:mb-0 mb-8">
             <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
-              KIRAT
-              <Typewriter
+                KIRAT
+                <Typewriter
                   words={[" LEARNING"]}
                   loop={0}
                   cursor={isCursor}
@@ -105,8 +105,6 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
                   delaySpeed={300}
                   onLoopDone={handleLoopDone}
                 />
-            
-                
               </span>
               <span className="text-2xl">Nurture Develop Empower</span>
             </h2>
@@ -128,7 +126,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
         </div>
         <div className="flex mb-15 flex-col md:flex-row">
           <div className="w-full">
-            <h3 className="font-semibold md:text-4xl text-2xl text-center mb-10">
+            <h3 className="font-semibold md:text-4xl text-2xl text-center pb-3">
               <span className="text-primary-orange">Our </span>
               Mission
             </h3>
@@ -143,7 +141,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
       <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center pb-3">
             <span className="text-primary-orange">What </span>
             We Offer
           </h3>
@@ -203,23 +201,20 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
       </div>
       <div className=" py-20 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
-          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center">
+          <h3 className="font-semibold md:text-4xl text-2xl text-black text-center pb-3">
             <span className="text-primary-orange">Why </span>
             Choose Us?
           </h3>
-          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
+          <p className=" tracking-normal text-base text-primary-midnightBlue text-center ">
             Groundbreaking Originals and exclusives from A-list celebs and
             emerging talent.
           </p>
-          <div className="py-5">
+          <div className="py-10">
             {/* <CarouselOne /> */}
             <CatouselTwo />
-           
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 }

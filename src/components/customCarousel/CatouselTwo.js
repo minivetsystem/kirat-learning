@@ -5,7 +5,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-
 const slides = [
   {
     image: "/home/industry-experienced-trainers.jpg",
@@ -59,18 +58,18 @@ export default function OptimizedCarousel() {
       <div className="overflow-hidden relative" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, index) => (
-            <div className="flex-[0_0_50%] pl-4 min-w-0" key={index}>
-              <div className="flex items-center justify-center h-72">
+            <div className="flex-[0_0_50%] pl-4 min-w-0 " key={index}>
+              <div className="flex items-center justify-center bg-gray-100 rounded-tl-3xl rounded-br-3xl ">
                 {/* Image Section */}
-                <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden bg-white">
+                <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden  ">
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="w-full h-full rounded-br-3xl sm:rounded-bl-none sm:rounded-tr-none sm:rounded-tl-3xl"
+                    className="w-full h-full rounded-br-none sm:rounded-bl-none sm:rounded-tr-none sm:rounded-tl-3xl"
                   />
                 </div>
                 {/* Text Content */}
-                <div className="w-full sm:w-3/5 flex flex-col justify-center items-center text-center p-6">
+                <div className="w-full h-48 sm:w-3/5 flex flex-col justify-center items-center text-center p-6">
                   <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">
                     {slide.title}
                   </h3>
