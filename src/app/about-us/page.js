@@ -9,7 +9,7 @@ const teamMembers = [
     title: "Managing Director (Technology)",
     image: "/about/profile2.jpg",
     description:
-      "Having worked on system integration projects for big international companies in the chemical, banking, retail, and fast-moving consumer goods industries for 14 years. From sales assistance to industry participation in SAP product development, delivery, and deployment, Raghbir has held key positions. Extremely skilled in utilizing SAP technologies, eCommerce platforms and cloud solutions to define and construct Integration Architecture for major Transformation Programs.",
+      "Having worked on system integration projects for big international companies in the chemical, banking, retail, and fast-moving consumer goods industries for 14 years. From sales assistance to industry participation in SAP product development, delivery, and deployment, Raghbir has held key positions. Extremely skilled in utilizing SAP technologies, eCommerce platforms and cloud solutions to define and construct Integration Architecture for major Transformation Programs. After 11 years at Accenture and a brief stint at Nestle/Nespresso, Raghbir joined Kirat as Managing Director and Lead Solution Architect. In addition to setting up a number of software services for Kirat, Raghbir is in charge of product development for the company's main product, LegalBell.",
   },
   {
     name: "Sandeep Patel",
@@ -83,14 +83,12 @@ export default function AboutUs() {
         </div>
         <div className="flex justify-between gap-8 flex-col md:flex-row mb-12">
           <div className="flex justify-between flex-col md:flex-row gap-8 w-full">
-          {teamMembers.map((member, index) => (
-        <TeamCard key={index} member={member} />
-      ))}
+            {teamMembers.map((member, index) => (
+              <TeamCard key={index} member={member} />
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-
