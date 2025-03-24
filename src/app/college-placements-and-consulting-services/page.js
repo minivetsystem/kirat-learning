@@ -2,6 +2,14 @@ import React from "react";
 import Link from "next/link";
 import GenericButton from "@/components/genericButton/GenericButton";
 import GenericBigButton from "@/components/genericButton/GenericBigButton";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export const trainingModules = [
   {
@@ -119,13 +127,14 @@ export default function CollegePlacementsAndConsultingServices() {
 
             <div className="grid w-full grid-cols-1 md:grid-cols-3 gap-6 benefits">
               {trainingModules.map((step, stepIndex) => (
-                <div key={step.id} className="text-center relative p-4">
+                <Card key={step.id} className="text-center relative p-4">
                   <img
                     src={step.imgUrl}
                     alt={step.title}
                     className="inline-block mb-4"
                   />
-                  <h2 className="font-bold text-xl py-1">{step.title}</h2>
+                 <CardContent>
+                 <h2 className="font-bold text-xl py-1">{step.title}</h2>
                   <ul className="px-5 space-y-2 text-sm text-gray-700 text-start">
                     {step.descriptions.map((desc, index) => (
                       <li key={index} className="list-disc list-inside">
@@ -133,13 +142,11 @@ export default function CollegePlacementsAndConsultingServices() {
                       </li>
                     ))}
                   </ul>
+                 </CardContent>
+                  
 
-                  {/* Divider in the middle (Only on desktop) */}
-                  {(stepIndex + 1) % 3 !== 0 &&
-                    stepIndex !== trainingModules.length - 1 && (
-                      <div className="absolute right-0 top-0 h-full border-r border-gray-300 hidden md:block"></div>
-                    )}
-                </div>
+                 
+                </Card>
               ))}
             </div>
 
