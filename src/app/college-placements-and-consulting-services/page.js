@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
 export const trainingModules = [
   {
@@ -80,13 +80,12 @@ export const trainingModules = [
 export default function CollegePlacementsAndConsultingServices() {
   return (
     <div>
-      
-
       <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
         <div className="flex flex-col md:flex-row gap-10">
           <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
             <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
-              College Placement <br />Consulting Services
+              College Placement <br />
+              Consulting Services
             </div>
             <p className="text-justify w-1/2">
               Kirat IT Solutions navigates the competitive landscape of college
@@ -127,25 +126,25 @@ export default function CollegePlacementsAndConsultingServices() {
 
             <div className="grid w-full grid-cols-1 md:grid-cols-3 gap-6 benefits">
               {trainingModules.map((step, stepIndex) => (
-                <Card key={step.id} className="text-center relative p-4">
+                <Card
+                  key={step.id}
+                  className="text-center relative p-4 uration-300  hover:tranform hover:scale-105"
+                >
                   <img
                     src={step.imgUrl}
                     alt={step.title}
                     className="inline-block mb-4"
                   />
-                 <CardContent>
-                 <h2 className="font-bold text-xl py-1">{step.title}</h2>
-                  <ul className="px-5 space-y-2 text-sm text-gray-700 text-start">
-                    {step.descriptions.map((desc, index) => (
-                      <li key={index} className="list-disc list-inside">
-                        {desc}
-                      </li>
-                    ))}
-                  </ul>
-                 </CardContent>
-                  
-
-                 
+                  <CardContent>
+                    <h2 className="font-bold text-xl py-1">{step.title}</h2>
+                    <ul className="px-5 space-y-2 text-sm text-gray-700 text-start">
+                      {step.descriptions.map((desc, index) => (
+                        <li key={index} className="list-disc list-inside">
+                          {desc}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -155,22 +154,30 @@ export default function CollegePlacementsAndConsultingServices() {
                 <span className="text-primary-orange">Why </span>
                 Choose Us?
               </h3>
-            </div> 
+            </div>
 
             <div className="list-disc pl-8 ">
-                        <div className="mb-8 flex flex-row gap-8  items-center">
-                         <ul className="list-disc w-1/2">
-                          <li>A team of experienced mentors with a proven track record in student success.</li>
-                          <li>Tailored programs to match the unique needs of every student.</li>
-                          <li>Comprehensive placement preparation designed to boost confidence and competence.</li>
-                          <li>Access to a vast network of recruiters and alumni.</li>
-                         </ul>
-                         <div className="w-1/2 flex justify-center">
-                            <img src="./change1.png" />
-                          </div>    
-                        </div>  
+              <div className="mb-8 flex flex-row gap-8  items-center">
+                <ul className="list-disc w-1/2">
+                  <li>
+                    A team of experienced mentors with a proven track record in
+                    student success.
+                  </li>
+                  <li>
+                    Tailored programs to match the unique needs of every
+                    student.
+                  </li>
+                  <li>
+                    Comprehensive placement preparation designed to boost
+                    confidence and competence.
+                  </li>
+                  <li>Access to a vast network of recruiters and alumni.</li>
+                </ul>
+                <div className="w-1/2 flex justify-center">
+                  <img src="./change1.png" />
+                </div>
+              </div>
             </div>
-              
           </div>
         </div>
       </div>

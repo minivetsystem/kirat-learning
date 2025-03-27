@@ -2,8 +2,20 @@ import GenericButton from "@/components/genericButton/GenericButton";
 import React from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
-import { Users, TrendingUp, Compass, Shuffle, Layers, RefreshCw } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Users,
+  TrendingUp,
+  Compass,
+  Shuffle,
+  Layers,
+  RefreshCw,
+} from "lucide-react";
 
 const cardData = [
   {
@@ -42,8 +54,7 @@ const cardData = [
       "With these key aspects, Kirat has continued its alignment for the organization's values, behaviours, and norms with strategic changes. It involves addressing employee concerns, fostering a positive environment, and guiding them through transitions. Successful culture and change management ensure that changes are embraced, reducing resistance and promoting long-term success.",
     icon: <Shuffle className="h-6 w-6 text-primary" />,
   },
-]
-
+];
 
 export const metadata = {
   title: "Ecommerce Services",
@@ -55,7 +66,6 @@ export default function LeadershipDevelopment() {
   return (
     <>
       <div>
-        
         <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
           <div className="flex flex-col md:flex-row gap-10">
             <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
@@ -96,23 +106,28 @@ export default function LeadershipDevelopment() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {cardData.map((card, index) => (
-        <Card
-          key={index}
-          className="overflow-hidden border-0 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full bg-gradient-to-br from-white to-slate-50"
-        >
-          <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
-          <CardContent className="p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-full bg-primary/10">{card.icon}</div>
-              <CardTitle className="text-xl font-semibold">{card.title}</CardTitle>
-            </div>
-            <CardDescription className="text-sm text-muted-foreground flex-grow">{card.description}</CardDescription>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-              
+                {cardData.map((card, index) => (
+                  <Card
+                    key={index}
+                    className="overflow-hidden border-0 shadow-lg hover:shadow-xl flex flex-col h-full  duration-300  hover:tranform hover:scale-105"
+                  >
+                    <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                    <CardContent className="p-6 flex flex-col h-full">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-full bg-primary/10">
+                          {card.icon}
+                        </div>
+                        <CardTitle className="text-xl font-semibold">
+                          {card.title}
+                        </CardTitle>
+                      </div>
+                      <CardDescription className="text-sm text-muted-foreground flex-grow">
+                        {card.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         </div>
