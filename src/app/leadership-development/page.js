@@ -109,7 +109,7 @@ export default function LeadershipDevelopment() {
                 {cardData.map((card, index) => (
                   <Card
                     key={index}
-                    className="overflow-hidden border-0 shadow-lg hover:shadow-xl flex flex-col h-full  duration-300  hover:tranform hover:scale-105"
+                    className="overflow-hidden border  shadow-lg hover:shadow-xl flex flex-col h-full  duration-300  hover:tranform hover:scale-105"
                   >
                     <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                     <CardContent className="p-6 flex flex-col h-full">

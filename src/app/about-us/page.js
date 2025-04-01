@@ -82,214 +82,217 @@ export default function AboutUs() {
             </TabsList>
 
             <TabsContent value="levels" className="mt-6">
-              <div className="grid gap-6 md:grid-cols-3">
-                {/* Beginner Level */}
-                <Card className="flex flex-col">
-                  <CardHeader className="bg-primary/10 rounded-t-lg">
-                    <CardTitle>Beginner Level</CardTitle>
-                    <CardDescription>Foundation Building</CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6 flex-grow">
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Active Listening & Empathy Development
-                          </span>{" "}
-                          – Enhancing understanding in conversations.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Interpersonal Communication Skills
-                          </span>{" "}
-                          – Strengthening personal and professional
-                          relationships.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Assertiveness Training
-                          </span>{" "}
-                          – Speaking confidently without aggression.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Professional & Business Writing
-                          </span>{" "}
-                          – Writing clear emails, reports, and messages.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Body Language & Nonverbal Communication
-                          </span>{" "}
-                          – Reading and using silent cues effectively.
-                        </span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="beginner">
+                  <AccordionTrigger className="text-lg font-medium">
+                    Beginner Level - Foundation Building
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <ul className="space-y-3">
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Active Listening & Empathy Development
+                              </span>{" "}
+                              – Enhancing understanding in conversations.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Interpersonal Communication Skills
+                              </span>{" "}
+                              – Strengthening personal and professional
+                              relationships.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Assertiveness Training
+                              </span>{" "}
+                              – Speaking confidently without aggression.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Professional & Business Writing
+                              </span>{" "}
+                              – Writing clear emails, reports, and messages.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Body Language & Nonverbal Communication
+                              </span>{" "}
+                              – Reading and using silent cues effectively.
+                            </span>
+                          </li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </AccordionContent>
+                </AccordionItem>
 
-                {/* Intermediate Level */}
-                <Card className="flex flex-col">
-                  <CardHeader className="bg-primary/20 rounded-t-lg">
-                    <CardTitle>Intermediate Level</CardTitle>
-                    <CardDescription>
-                      Advanced Interactions & Influence
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6 flex-grow">
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Public Speaking Mastery
-                          </span>{" "}
-                          – Structuring speeches and engaging audiences.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Persuasive Communication
-                          </span>{" "}
-                          – Techniques to influence others effectively.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Negotiation & Influence Strategies
-                          </span>{" "}
-                          – Managing disagreements and reaching agreements.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Cross-Cultural Communication
-                          </span>{" "}
-                          – Adapting communication styles for global
-                          interactions.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Facilitation & Moderation Skills
-                          </span>{" "}
-                          – Leading discussions and meetings effectively.
-                        </span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
+                <AccordionItem value="intermediate">
+                  <AccordionTrigger className="text-lg font-medium">
+                    Intermediate Level - Advanced Interactions & Influence
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <ul className="space-y-3">
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Public Speaking Mastery
+                              </span>{" "}
+                              – Structuring speeches and engaging audiences.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Persuasive Communication
+                              </span>{" "}
+                              – Techniques to influence others effectively.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Negotiation & Influence Strategies
+                              </span>{" "}
+                              – Managing disagreements and reaching agreements.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Cross-Cultural Communication
+                              </span>{" "}
+                              – Adapting communication styles for global
+                              interactions.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Facilitation & Moderation Skills
+                              </span>{" "}
+                              – Leading discussions and meetings effectively.
+                            </span>
+                          </li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </AccordionContent>
+                </AccordionItem>
 
-                {/* Advanced Level */}
-                <Card className="flex flex-col">
-                  <CardHeader className="bg-primary/30 rounded-t-lg">
-                    <CardTitle>Advanced Level</CardTitle>
-                    <CardDescription>
-                      Leadership & High-Stakes Communication
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6 flex-grow">
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Executive Presence & Leadership Communication
-                          </span>{" "}
-                          – Speaking with confidence, clarity, and authority.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Crisis Communication & Conflict Management
-                          </span>{" "}
-                          – Handling high-pressure situations.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Storytelling for Impact
-                          </span>{" "}
-                          – Using narratives to inspire and persuade.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Strategic Communication Planning
-                          </span>{" "}
-                          – Developing long-term communication strategies.
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="mr-2 text-primary font-semibold">
-                          •
-                        </span>
-                        <span>
-                          <span className="font-medium">
-                            Coaching & Mentoring Through Communication
-                          </span>{" "}
-                          – Guiding teams with effective communication.
-                        </span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
+                <AccordionItem value="advanced">
+                  <AccordionTrigger className="text-lg font-medium">
+                    Advanced Level - Leadership & High-Stakes Communication
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <ul className="space-y-3">
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Executive Presence & Leadership Communication
+                              </span>{" "}
+                              – Speaking with confidence, clarity, and
+                              authority.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Crisis Communication & Conflict Management
+                              </span>{" "}
+                              – Handling high-pressure situations.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Storytelling for Impact
+                              </span>{" "}
+                              – Using narratives to inspire and persuade.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Strategic Communication Planning
+                              </span>{" "}
+                              – Developing long-term communication strategies.
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="mr-2 text-primary font-semibold">
+                              •
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                Coaching & Mentoring Through Communication
+                              </span>{" "}
+                              – Guiding teams with effective communication.
+                            </span>
+                          </li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </TabsContent>
 
             <TabsContent value="industries" className="mt-6">
