@@ -80,7 +80,7 @@ export const trainingModules = [
 export default function CollegePlacementsAndConsultingServices() {
   return (
     <div>
-      <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
+      <div className="container mx-auto 2xl:px-32 px-8 py-5 xl:py-10">
         <div className="flex flex-col md:flex-row gap-10">
           <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
             <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
@@ -99,32 +99,33 @@ export default function CollegePlacementsAndConsultingServices() {
           </div>
         </div>
       </div>
-
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-28 py-8">
-        <div>
-          <div className="flex flex-col gap-8 xl:my-20">
-            <div className="md:w-full ">
-              <h3 className="font-semibold md:text-4xl text-2xl mb-8">
-                <span className="text-primary-orange">Our </span>
-                Approach
-              </h3>
-              <p className="text-justify">
-                We take a personalized and holistic approach to ensure every
-                student is fully prepared to meet placement challenges head-on.
-                Our program encompasses all the critical aspects of college
-                placement readiness, delivered by seasoned industry experts and
-                educators.
-              </p>
-            </div>
-
+      <div className="container mx-auto 2xl:px-32 px-8  pb-5 xl:pb-10 items-center ">
+        <div className="flex flex-col gap-8 xl:mt-20">
+          <div className="md:w-full pb-8">
+            <h3 className="font-semibold md:text-4xl text-2xl mb-8">
+              <span className="text-primary-orange">Our </span>
+              Approach
+            </h3>
+            <p className="text-justify">
+              We take a personalized and holistic approach to ensure every
+              student is fully prepared to meet placement challenges head-on.
+              Our program encompasses all the critical aspects of college
+              placement readiness, delivered by seasoned industry experts and
+              educators.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="bg-gray-100 rounded-3xl">
+        
+          <div className="container flex gap-8 flex-col mx-auto 2xl:px-32 px-8 py-5 xl:py-10">
             <div className="md:w-full ">
               <h3 className="font-semibold md:text-4xl text-2xl mb-8">
                 <span className="text-primary-orange">Key </span>
                 Offerings
               </h3>
             </div>
-
-            <div className="grid w-full grid-cols-1 md:grid-cols-3 gap-6 benefits">
+            <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6 benefits pb-10">
               {trainingModules.map((step, stepIndex) => (
                 <Card
                   key={step.id}
@@ -148,39 +149,36 @@ export default function CollegePlacementsAndConsultingServices() {
                 </Card>
               ))}
             </div>
+          </div>
+       
+      </div>
 
-            <div className="md:w-full ">
-              <h3 className="font-semibold md:text-4xl text-2xl mb-8">
-                <span className="text-primary-orange">Why </span>
-                Choose Us?
-              </h3>
-            </div>
+      <div className="list-disc container mx-auto 2xl:px-32 px-8 py-5 xl:py-10">
+          <h3 className="font-semibold md:text-4xl text-2xl mb-8">
+            <span className="text-primary-orange">Why </span>
+            Choose Us?
+          </h3>
+          <div className="mb-8 flex flex-row gap-8 ">
+            <ul className="list-disc w-1/2 px-5 ">
+              <li>
+                A team of experienced mentors with a proven track record in
+                student success.
+              </li>
+              <li>
+                Tailored programs to match the unique needs of every student.
+              </li>
+              <li>
+                Comprehensive placement preparation designed to boost confidence
+                and competence.
+              </li>
+              <li>Access to a vast network of recruiters and alumni.</li>
+            </ul>
 
-            <div className="list-disc pl-8 ">
-              <div className="mb-8 flex flex-row gap-8  items-center">
-                <ul className="list-disc w-1/2">
-                  <li>
-                    A team of experienced mentors with a proven track record in
-                    student success.
-                  </li>
-                  <li>
-                    Tailored programs to match the unique needs of every
-                    student.
-                  </li>
-                  <li>
-                    Comprehensive placement preparation designed to boost
-                    confidence and competence.
-                  </li>
-                  <li>Access to a vast network of recruiters and alumni.</li>
-                </ul>
-                <div className="w-1/2 flex justify-center">
-                  <img src="./change1.png" />
-                </div>
-              </div>
+            <div className="w-1/2 flex justify-center ">
+              <img src="./change1.jpg" className="rounded-xl w-4/5" />
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function AboutUs() {
   const [hovered, setHovered] = useState(false);
   return (
     <div className="">
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-28">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:py-10">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 md:mb-0 mb-8">
             <span className="block text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl uppercase">
@@ -62,16 +62,16 @@ export default function AboutUs() {
         </div>
       </div>
 
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-2 py-8">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:pb-10 pb-5">
         <div className="container mx-auto py-10 px-4 md:px-6">
-          <div className="mb-10 text-center">
-            <h3 className="font-semibold md:text-4xl text-2xl mb-8">
+          <div className=" text-center">
+            <h3 className="font-semibold md:text-4xl text-2xl ">
               <span className="text-primary-orange">Soft </span>
               skill Offerings
             </h3>
           </div>
 
-          <Tabs defaultValue="levels" className="w-full">
+          <Tabs defaultValue="levels" className="w-full py-5">
             <TabsList className="grid w-full grid-cols-2 px-8">
               <TabsTrigger value="levels" className="py-4">
                 Skill Levels

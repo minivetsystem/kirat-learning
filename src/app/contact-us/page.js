@@ -1,9 +1,7 @@
-// import Map from '@/components/map/Map';
+
 
 import React from "react";
 import Contactform from "./contactform";
-import Map2 from "@/components/map2/Map2";
-
 
 export const metadata = {
   title: "Contact Us",
@@ -43,7 +41,7 @@ export default function ContactUs() {
             <img className="mb-4 inline " src="/icon2.png" alt="no img" />
             <h3 className="font-extrabold text-xl mb-2">EMAIL </h3>
             <p className="text-sm ">
-              <a href="mailto:hr@kiratitsolutions.com">info@kiratit.com</a>
+              <a href="mailto:hr@kiratitsolutions.com">hello@kiratlearning.com</a>
             </p>
           </div>
 

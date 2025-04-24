@@ -59,7 +59,7 @@ export default function OptimizedCarousel() {
         <div className="flex">
           {slides.map((slide, index) => (
             <div className="flex-[0_0_50%] pl-4 min-w-0 " key={index}>
-              <div className="flex items-center justify-center bg-gray-100 rounded-tl-3xl rounded-br-3xl ">
+              <div className="flex  items-center justify-center bg-gray-100 rounded-tl-3xl rounded-br-3xl ">
                 {/* Image Section */}
                 <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden  ">
                   <img

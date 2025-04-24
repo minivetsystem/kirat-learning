@@ -38,11 +38,11 @@ export default function Footer() {
                     Leadership Development
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/blogs">
                     Blogs
                   </Link>
-                </li>
+                </li> */}
 
                 <li>
                   <Link href="/contact-us">Contact Us</Link>

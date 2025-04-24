@@ -66,7 +66,7 @@ export default function LeadershipDevelopment() {
   return (
     <>
       <div>
-        <div className="container mx-auto 2xl:px-32 px-8 xl:pt-20 pt-8">
+        <div className="container mx-auto 2xl:px-32 px-8 py-5 xl:py-10 pt-8">
           <div className="flex flex-col md:flex-row gap-10">
             <div className="md:w-full md:mb-0 mb-8 flex flex-col gap-4 pt-8">
               <div className=" text-primary-midnightBlue font-extrabold xl:text-6xl lg:text-5xl md:text-4xl text-2xl">
@@ -95,7 +95,7 @@ export default function LeadershipDevelopment() {
           </div>
         </div>
 
-        <div className="container mx-auto 2xl:px-32 px-8 xl:py-28 py-8">
+        <div className="container mx-auto 2xl:px-32 px-8 xl:pb-10 pb-5">
           <div>
             <div className="flex flex-col gap-8 xl:my-20">
               <div className="md:w-full ">

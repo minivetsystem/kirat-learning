@@ -25,20 +25,6 @@ export default function Home() {
     AutoScroll({ speed: 0.8 }),
   ]);
 
-  // const cards = [
-  //   { id: 1, icon: "./manufacturing.png", title: "Manufacturing" },
-  //   { id: 2, icon: "./cutlery.png", title: "FMCG" },
-  //   { id: 3, icon: "./management.png", title: "Real Estate" },
-  //   {
-  //     id: 4,
-  //     icon: "./pharmacy.png",
-  //     title: "Pharmaceutical and Biotechnology",
-  //   },
-  //   { id: 5, icon: "./retail.png", title: "Retail" },
-  //   { id: 6, icon: "./institution.png", title: "Governments" },
-  //   { id: 7, icon: "./shopping-cart.png", title: "E-Commerce" },
-  //   { id: 8, icon: "./skill.png", title: "Others" },
-  // ];
 
   const initialState = {
     isReadMoreData: true,
@@ -116,7 +102,7 @@ export default function Home() {
               competitive corporate world.
             </p>
             <GenericBigButton
-              url="/three-pillar-ecosystem"
+              url="/underconstruction"
               name="Discover More"
             />
           </div>
@@ -124,7 +110,7 @@ export default function Home() {
             <img src="/homebg.png" alt="no img" className="w-full h-full" />
           </div>
         </div>
-        <div className="flex mb-15 flex-col md:flex-row">
+        <div className="flex pb-20 flex-col md:flex-row">
           <div className="w-full">
             <h3 className="font-semibold md:text-4xl text-2xl text-center pb-3">
               <span className="text-primary-orange">Our </span>
@@ -139,7 +125,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className=" py-20 text-white">
+      <div className=" py-20 text-white bg-gray-100 rounded-3xl">
         <div className="container mx-auto 2xl:px-32 px-8">
           <h3 className="font-semibold md:text-4xl text-2xl text-black text-center pb-3">
             <span className="text-primary-orange">What </span>
@@ -209,8 +195,7 @@ export default function Home() {
             Groundbreaking Originals and exclusives from A-list celebs and
             emerging talent.
           </p>
-          <div className="py-10">
-            {/* <CarouselOne /> */}
+          <div className="py-20">
             <CatouselTwo />
           </div>
         </div>
