@@ -15,9 +15,9 @@ export default function ContactUs() {
         <div className="container mx-auto 2xl:px-32 px-8">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/2 md:mb-0 mb-8">
-              <h2 className="block text-primary-midnightBlue font-bold xl:text-7xl lg:text-5xl md:text-4xl text-2xl uppercase md:mt-20 mt-12">
+              <h2 className="block text-primary-midnightBlue font-bold md:text-4xl text-2xl uppercase md:mt-20 mt-12">
                 Contact{" "}
-                <span className="text-primary-orange font-bold xl:text-7xl lg:text-5xl md:text-4xl text-2xl uppercase">
+                <span className="text-primary-orange font-bold md:text-4xl text-2xl uppercase">
                   Us
                 </span>
               </h2>
@@ -32,8 +32,8 @@ export default function ContactUs() {
             <img className="mb-4 inline" src="/icon1.png" alt="no img" />
             <h3 className="font-extrabold text-xl mb-2">PHONE NO.</h3>
             <p>
-              <a href="tel:+971585960949" className=" text-sm block">
-                +971585960949
+              <a href="tel:+918500007126" className=" text-sm block">
+              +918500007126
               </a>
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function ContactUs() {
               <p className="text-sm">
                 Kirat Information Technology LLC, PO BOX - 111409, Dubai, United
                 Arab Emirates,
-                <br /> Phone- +971585960949
+                <br /> Phone- +918500007126
               </p>
               <p className="text-sm">
                 Kirat IT, UK - 127 Fencepiece Road, Ilford, England, IG6 2LD

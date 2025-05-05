@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { MessagesSquare, Menu, X, Search } from "lucide-react";
+import {  usePathname } from "next/navigation";
+
 import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
 const pathname = usePathname()
 
- console.log(pathname)
 
   return (
     <header className="bg-white ">
@@ -24,9 +23,9 @@ const pathname = usePathname()
           <li>
             <Link href="/contact-us" className="hover:text-gray-900">Contact us</Link>
           </li>
-          <li className="border-l border-gray-500 pl-4">
-            <Link href="/" className="hover:text-gray-900">Sign In</Link>
-          </li>
+          {/* <li className="border-l border-gray-500 pl-4">
+            <Link href="/underconstruction" className="hover:text-gray-900">Sign In</Link>
+          </li> */}
         </ul>
         <div className="md:hidden">
         <MobileMenu />

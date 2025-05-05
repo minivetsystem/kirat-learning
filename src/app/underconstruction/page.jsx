@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function UnderConstruction() {
   return (
-    <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center justify-center text-center">
+    <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center h-screen justify-center text-center">
         <div className="max-w-3xl mx-auto">
          
 

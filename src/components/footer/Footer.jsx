@@ -1,6 +1,8 @@
 "use client";
+import { Phone } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   const router = useRouter();
@@ -66,16 +68,24 @@ export default function Footer() {
               <ul className="mb-2">
                 <li>
                   <Link href="mailto:hr@kiratitsolutions.com">
-                    info@kiratit.com
+                    hello@kiratlearning.com
                   </Link>
                 </li>
+                <li>
+                <a href="tel:+918500007126" className=" text-sm flex">
+             Mob : +918500007126
+              </a>
+                </li>
               </ul>
-              <div className="">
-                <Link href="#" className="inline-block mr-2">
-                  <img src="/social1.png" alt="no img" />
+              <div className="flex items-center space-x-2">
+                <Link href="#" className="inline-block">
+                  <img src="/social1.png" alt="Social Icon 1" />
                 </Link>
                 <Link href="#" className="inline-block">
-                  <img src="/social2.png" alt="no img" />
+                  <img src="/social2.png" alt="Social Icon 2" />
+                </Link>
+                <Link target="_blank" href="https://wa.me/918500007126" className="flex justify-center w-7 h-7 rounded-full bg-gray-500 items-center">
+                  <FaWhatsapp className="text-primary-midnightBlue text-lg"/>
                 </Link>
               </div>
             </div>

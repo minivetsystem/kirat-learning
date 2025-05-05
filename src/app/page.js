@@ -1,22 +1,15 @@
 "use client";
-import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 import { useRouter } from "next/navigation";
 import React, { useState, useReducer } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-// import MapComponent from "@/components/map/Map";
+
 import { Typewriter } from "react-simple-typewriter";
 import GenericBigButton from "@/components/genericButton/GenericBigButton";
-import Map2 from "@/components/map2/Map2";
-import CustomCarousel from "@/components/customCarousel/CarouselOne";
+
 import HoverImgCard from "@/components/hoverImgCard/HoverImgCard";
-import CarouselOne from "@/components/customCarousel/CarouselOne";
+
 import CatouselTwo from "@/components/customCarousel/CatouselTwo";
 
 export default function Home() {
@@ -24,7 +17,6 @@ export default function Home() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
     AutoScroll({ speed: 0.8 }),
   ]);
-
 
   const initialState = {
     isReadMoreData: true,
@@ -74,8 +66,8 @@ export default function Home() {
 
   return (
     <div>
-      <div className="container mx-auto 2xl:px-28 px-8 xl:py-5 py-8">
-        <div className="flex mb-32 flex-col items-center md:flex-row">
+      <div className="container mx-auto 2xl:px-28 px-8 xl:pt-12 ">
+        <div className="flex mb-12 flex-col items-center md:flex-row">
           <div className="md:w-1/2 md:mb-0 mb-8">
             <h2 className="leading-10 text-center">
               <span className="block text-primary-midnightBlue  font-bold xl:text-5xl lg:text-4xl md:text-3xl text-2xl pb-3">
@@ -101,16 +93,13 @@ export default function Home() {
               and professionals with the skills needed to thrive in today's
               competitive corporate world.
             </p>
-            <GenericBigButton
-              url="/underconstruction"
-              name="Discover More"
-            />
+            <GenericBigButton url="/underconstruction" name="Discover More" />
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img src="/homebg.png" alt="no img" className="w-full h-full" />
           </div>
         </div>
-        <div className="flex pb-20 flex-col md:flex-row">
+        <div className="flex pb-12 flex-col md:flex-row">
           <div className="w-full">
             <h3 className="font-semibold md:text-4xl text-2xl text-center pb-3">
               <span className="text-primary-orange">Our </span>
@@ -125,7 +114,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className=" py-20 text-white bg-gray-100 rounded-3xl">
+      <div className=" py-12 text-white bg-gray-100 rounded-3xl">
         <div className="container mx-auto 2xl:px-32 px-8">
           <h3 className="font-semibold md:text-4xl text-2xl text-black text-center pb-3">
             <span className="text-primary-orange">What </span>
@@ -136,7 +125,7 @@ export default function Home() {
             Groundbreaking Originals and exclusives from A-list celebs and
             emerging talent.
           </p>
-          <div className="pt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="pt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <HoverImgCard
               image="./home/corporate-training.jpg"
               title="Corporate Training Programs"
@@ -185,7 +174,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className=" py-20 text-white">
+      <div className=" py-12 text-white">
         <div className="container mx-auto 2xl:px-32 px-8">
           <h3 className="font-semibold md:text-4xl text-2xl text-black text-center pb-3">
             <span className="text-primary-orange">Why </span>
@@ -195,7 +184,7 @@ export default function Home() {
             Groundbreaking Originals and exclusives from A-list celebs and
             emerging talent.
           </p>
-          <div className="py-20">
+          <div className="py-12">
             <CatouselTwo />
           </div>
         </div>

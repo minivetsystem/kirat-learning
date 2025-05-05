@@ -9,7 +9,7 @@ const poppins = Poppins({
   variable: '--font-poppins', // Define a CSS variable for the font
 });
 export const metadata = {
-  title: "Kirat IT",
+  title: "Kirat Learning",
   description: "We are a rapidly emerging company harnessing the best in Product Development and IT Services from the leading platforms - SAP, Data, Integration and Opensource to serve end-to-end business process, consulting, implementation with managed service solutions.",
 };
 
