@@ -59,7 +59,7 @@ export default function OptimizedCarousel() {
         <div className="flex">
           {slides.map((slide, index) => (
             <div className="flex-[0_0_50%] pl-4 min-w-0 " key={index}>
-              <div className="flex  items-center justify-center bg-gray-100 rounded-tl-3xl rounded-br-3xl ">
+              <div className="flex md:flex-row flex-col items-center justify-center bg-gray-100 rounded-tl-3xl rounded-br-3xl ">
                 {/* Image Section */}
                 <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden  ">
                   <img
@@ -69,11 +69,11 @@ export default function OptimizedCarousel() {
                   />
                 </div>
                 {/* Text Content */}
-                <div className="w-full h-48 sm:w-3/5 flex flex-col justify-center items-center text-center p-6">
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">
+                <div className="w-full h-48 sm:w-3/5 flex flex-col justify-center items-center text-center p-2 md:p-6">
+                  <h3 className=" text-sm md:text-lg sm:text-xl w-full font-bold mb-2 text-black">
                     {slide.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-muted-foreground">
+                  <p className="text-xs sm:text-base w-full text-muted-foreground">
                     {slide.description}
                   </p>
                 </div>
