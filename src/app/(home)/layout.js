@@ -5,8 +5,8 @@ import { Poppins } from 'next/font/google';
 import Footer from "@/components/footer/Footer";
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '700'], // Include the weights you need
-  variable: '--font-poppins', // Define a CSS variable for the font
+  weight: ['400', '500', '700'], 
+  variable: '--font-poppins', 
 });
 export const metadata = {
   title: "Kirat Learning",
