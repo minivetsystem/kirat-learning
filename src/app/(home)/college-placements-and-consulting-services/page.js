@@ -99,7 +99,7 @@ export default function CollegePlacementsAndConsultingServices() {
               placement processes and secure their dream roles.
             </p>
           </div>
-          <div className="w-1/2 items-center">
+          <div className="w-1/2 ">
             <img src="/Placement.jpg" />
           </div>
         </div>

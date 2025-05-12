@@ -1,5 +1,5 @@
 "use client";
-
+import { sendEmail } from "@/app/actions/email";
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
@@ -13,7 +13,7 @@ export default function Contactform() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    await sendEmail(formData);
    
     setFormData({
       name: "",

@@ -93,7 +93,7 @@ export default function LeadershipDevelopment() {
                 by aligning leaders with the company’s vision and goals.
               </p>
             </div>
-            <div className="w-1/2 py-4">
+            <div className="w-1/2 ">
             <img src="/Leadership.jpg" />
           </div>
           </div>

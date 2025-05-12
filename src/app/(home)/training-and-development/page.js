@@ -39,14 +39,14 @@ const sections = [
   },
 ]
 
-export default function Integration() {
+export default function TraningAndDevelopment() {
   return (
     <div>
       
 
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-10 py-5">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:py-8 py-5">
         <div className="flex flex-col  md:flex-row gap-5">
-          <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4 ">
+          <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4">
             <div className=" text-primary-midnightBlue font-extrabold md:text-4xl text-2xl">
             <span className="text-primary-orange">Training </span> & Development
             </div>
@@ -68,7 +68,7 @@ export default function Integration() {
               providing opportunities for career advancement.
             </p>
           </div>
-          <div className="w-1/2 py-4">
+          <div className="w-1/2 ">
             <img src="/Training.jpg" />
           </div>
         </div>
