@@ -1,6 +1,6 @@
 import DashboardHeader from "@/components/dasboadHeader/DashboardHeader";
 import DashboardSidebar from "@/components/dashboardSidebar/DashboardSidebar";
-import "../globals.css";
+
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
