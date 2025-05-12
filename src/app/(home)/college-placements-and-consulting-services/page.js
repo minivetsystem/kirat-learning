@@ -83,23 +83,24 @@ export const trainingModules = [
 export default function CollegePlacementsAndConsultingServices() {
   return (
     <div>
-      <div className="container mx-auto 2xl:px-32 px-8 ">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:py-8 py-5">
         <div className="flex flex-col  md:flex-row gap-5">
-          <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4 pt-8">
+          <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4">
             <div className=" text-primary-midnightBlue font-extrabold md:text-4xl text-2xl">
-               <span className="text-primary-orange">College Placement </span>Consulting Services
+              <span className="text-primary-orange">College Placement </span>
+              Consulting Services
             </div>
-            <p className="text-justify w-2/3">
+            <p className="text-justify w-ful md:w-2/3">
               Kirat IT Solutions navigates the competitive landscape of college
               placements that can be overwhelming for students.
             </p>
-            <p className="text-justify w-2/3">
+            <p className="text-justify w-full md:w-2/3">
               Our consulting services are designed to empower students with the
               skills, confidence, and strategic mindset needed to excel in
               placement processes and secure their dream roles.
             </p>
           </div>
-          <div className="w-1/2 ">
+          <div className="w-full md:w-1/2 items-center">
             <img src="/Placement.jpg" />
           </div>
         </div>
@@ -143,7 +144,7 @@ export default function CollegePlacementsAndConsultingServices() {
                 />
                 <CardContent>
                   <h2 className="font-bold text-xl py-1">{step.title}</h2>
-                  <ul className="px-5 space-y-2 text-sm text-gray-700 text-start">
+                  <ul className="px-5 space-y-2 text-sm md:text-md text-gray-700 text-start">
                     {step.descriptions.map((desc, index) => (
                       <li key={index} className="list-disc list-inside">
                         {desc}
@@ -162,8 +163,8 @@ export default function CollegePlacementsAndConsultingServices() {
           <span className="text-primary-orange">Why </span>
           Choose Us?
         </h3>
-        <div className="mb-8 flex flex-row gap-8 ">
-          <ul className="list-disc w-1/2 px-5 ">
+        <div className="mb-8 flex flex-col md:flex-row gap-8 ">
+          <ul className=" w-full md:w-1/2 px-0 md:px-5 ">
             <li>
               A team of experienced mentors with a proven track record in
               student success.
@@ -178,7 +179,7 @@ export default function CollegePlacementsAndConsultingServices() {
             <li>Access to a vast network of recruiters and alumni.</li>
           </ul>
 
-          <div className="w-1/2 flex justify-center ">
+          <div className="w-full md:w-1/2 flex justify-center ">
             <img src="./change1.jpg" className="rounded-xl w-4/5" />
           </div>
         </div>

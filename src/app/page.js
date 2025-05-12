@@ -121,10 +121,10 @@ export default function Home() {
             We Offer
           </h3>
 
-          <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
+          {/* <p className=" tracking-normal text-base text-primary-midnightBlue text-center">
             Groundbreaking Originals and exclusives from A-list celebs and
             emerging talent.
-          </p>
+          </p> */}
           <div className="pt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <HoverImgCard
               image="./home/corporate-training.jpg"
