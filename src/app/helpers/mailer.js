@@ -9,9 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// export const sendContactEmail = async ({name, email, subject, text}) => {
 
-// }
 
 
 
