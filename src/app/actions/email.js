@@ -1,27 +1,25 @@
 "use server";
 
-import { sendContact } from "@/app/helpers/mailer";
+import { sendContact } from "@/app/helpers/sendgridmailer";
 
 export async function sendEmail(formData) {
-  try {
-    console.log("inside server", formData["email"]);
-    // validation
-    if (
-      !formData["name"] ||
-      !formData["email"] ||
-      !formData["phone"] ||
-      !formData["message"]
-    ) {
-      return NextResponse.json(
-        { error: "All fields are required" },
-        { status: 400 }
-      );
+  if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+    return {
+      success: false,
+      error: "All fields are required",
     }
+  }
 
-    // send verification email
-
-    await sendContact(formData);
+  try {
+    await sendContact(formData)
+    return {
+      success: true,
+    }
   } catch (error) {
-    throw new Error(error.massage);
+    console.error("Email error:", error.message)
+    return {
+      success: false,
+      error: error.message || "Failed to send email",
+    }
   }
 }
