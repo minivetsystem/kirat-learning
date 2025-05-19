@@ -53,7 +53,7 @@ const pathname = usePathname()
             <Link href="college-placements-and-consulting-services" className={` ${pathname === "/college-placements-and-consulting-services" ? "border-b-2 border-orange-500 text-gray-900 font-medium" : ""}`}>Placements & Consulting</Link>
           </li>
           <li>
-            <Link href="/blogs" className={` ${pathname === "/blogs" ? "border-b-2 border-orange-500 text-gray-900 font-medium" : ""}`}>Blogs</Link>
+            <Link href="/comingsoon" className={` ${pathname === "/comingsoon" ? "border-b-2 border-orange-500 text-gray-900 font-medium" : ""}`}>Blogs</Link>
           </li>
         </ul> 
       </div>

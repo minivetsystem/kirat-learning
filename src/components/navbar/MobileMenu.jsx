@@ -20,7 +20,7 @@ const navLinks = [
   { href: "/training-and-development", label: "Training & Development" },
   { href: "/leadership-development", label: "Leadership Development" },
   { href: "/college-placements-and-consulting-services", label: "Placements & Consulting" },
-  { href: "/blogs", label: "Blogs" },
+  { href: "/comingsoon", label: "Blogs" },
 ];
 
 export default function MobileMenu() {

@@ -1,5 +1,6 @@
 import sgMail from "@sendgrid/mail";
 
+
 const apiKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.SENDGRID_SENDER_EMAIL;
 const receiverEmail = process.env.SENDGRID_RECEIVER_EMAIL;
@@ -30,6 +31,7 @@ export const sendContact = async (formData) => {
     };
 
     const response = await sgMail.send(msg);
+      
     return response;
   } catch (error) {
     console.error("SendGrid error:", error.response?.body || error.message);

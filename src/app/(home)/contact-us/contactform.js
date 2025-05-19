@@ -2,6 +2,7 @@
 import { sendEmail } from "@/app/actions/email"
 import { useState } from "react"
 import { ChevronRight } from "lucide-react"
+import { toast } from "react-toastify"
 
 export default function Contactform() {
   const [formData, setFormData] = useState({
@@ -16,7 +17,7 @@ export default function Contactform() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     await sendEmail(formData)
-
+toast.success("Email sent successfully");
     setFormData({
       name: "",
       email: "",
