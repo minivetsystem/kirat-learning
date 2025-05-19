@@ -93,7 +93,7 @@ export default function Home() {
               and professionals with the skills needed to thrive in today's
               competitive corporate world.
             </p>
-            <GenericBigButton url="/underconstruction" name="Discover More" />
+            <GenericBigButton url="/contact-us" name="Discover More" />
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img src="/homebg.png" alt="no img" className="w-full h-full" />

@@ -12,10 +12,10 @@ export default function Footer() {
         <div className="container mx-auto 2xl:px-32 px-8">
           <div className="flex justify-between flex-col md:flex-row">
             <div className="md:mb-0 mb-8">
-              <Link href="#" className="flex items-center">
+              <Link href="#" className="flex items-center w-36">
                 <img
-                  src="/Logo-01.png"
-                  className="mr-3 h-24"
+                  src="/logo-footer.png"
+                  className="mr-3 "
                   alt="Kirat IT"
                   title="Kirat IT"
                 />
@@ -40,11 +40,16 @@ export default function Footer() {
                     Leadership Development
                   </Link>
                 </li>
-                {/* <li>
-                  <Link href="/blogs">
+                <li>
+                  <Link href="/college-placements-and-consulting-services">
+                    Placements & Consulting
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/comingsoon"> 
                     Blogs
                   </Link>
-                </li> */}
+                </li>
 
                 <li>
                   <Link href="/contact-us">Contact Us</Link>

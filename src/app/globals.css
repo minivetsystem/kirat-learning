@@ -15,6 +15,13 @@ body {
   display: none; /* Chrome, Safari */
 }
 
+table {
+  @apply table-auto border-collapse w-full border border-gray-300;
+}
+td, th {
+  @apply border border-gray-300 px-2 py-1 text-black;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

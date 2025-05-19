@@ -2,6 +2,7 @@
 
 import React from "react";
 import Contactform from "./contactform";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Contact Us",
@@ -61,7 +62,7 @@ export default function ContactUs() {
             </div>
           </div>
         </div>
-        
+        <ToastContainer />
       </div>
     </div>
   );
