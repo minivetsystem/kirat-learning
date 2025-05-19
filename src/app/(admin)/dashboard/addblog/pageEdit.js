@@ -93,6 +93,8 @@ export default function Editor() {
         <MyCustomAutoFocusPlugin />
         <TablePlugin />
       </LexicalComposer>
+
+      <LexicalEditor />
     </div>
   );
 }
