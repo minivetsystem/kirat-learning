@@ -1,8 +1,10 @@
-import LexicalEditor from '@/components/LexicalEditor/LexicalEditor'
-import React from 'react'
+"use client"
+
+import ClientSideCustomEditor from "@/components/ckEditor/client-side-custom-editor"
+
 
 export default function () {
   return (
-    <div><LexicalEditor /></div>
+    <div><ClientSideCustomEditor/></div>
   )
 }
