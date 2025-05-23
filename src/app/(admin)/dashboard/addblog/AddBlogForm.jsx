@@ -1,19 +1,15 @@
-"use client"
+"use client";
 
-
-
-import { useState } from "react"
+import JoEitor from '@/components/joeditor/JoEditor'
+import React, { useState } from 'react'
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import { toast } from "@/hooks/use-toast"
-import JoEitor from "@/components/joeditor/JoEditor"
-
-export default function AddBlogPage() {
-  const router = useRouter()
+export default function AddBlogForm() {
+     const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
@@ -21,9 +17,8 @@ export default function AddBlogPage() {
     coverImage: null ,
     description: "",
   })
-  const [coverImagePreview, setCoverImagePreview] = useState(null)
-
-  const handleInputChange = (e) => {
+    const [coverImagePreview, setCoverImagePreview] = useState(null)
+    const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({
       ...formData,
@@ -42,7 +37,7 @@ export default function AddBlogPage() {
       // Create preview URL
       const reader = new FileReader()
       reader.onload = (event) => {
-        setCoverImagePreview(event.target?.result)
+        setCoverImagePreview(event.target?.result )
       }
       reader.readAsDataURL(file)
     }
@@ -96,9 +91,9 @@ export default function AddBlogPage() {
       setIsSubmitting(false)
     }
   }
-
   return (
-    <div className="container py-10">
+    <div>
+<div className="container py-10">
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle>Add New Blog Post</CardTitle>
@@ -176,6 +171,7 @@ export default function AddBlogPage() {
           </CardFooter>
         </form>
       </Card>
+    </div>
     </div>
   )
 }

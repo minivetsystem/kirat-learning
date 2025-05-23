@@ -13,7 +13,6 @@ import {
   BlockQuote,
   BlockToolbar,
   Bold,
-  CloudServices,
   Code,
   Essentials,
   FontBackgroundColor,
@@ -62,7 +61,7 @@ import "ckeditor5/ckeditor5.css";
 import "./editor.css";
 
 const LICENSE_KEY =
-  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3Nzk0MDc5OTksImp0aSI6IjRlMTcwYTUxLTcwZTAtNGNhNi04MWY0LWE5YzUyMWUzNWUwYiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiXSwiZmVhdHVyZXMiOlsiRFJVUCIsIkUyUCIsIkUyVyJdLCJ2YyI6IjM0N2E2MTVjIn0.Q3H-PtYCJdafFipuzlvLSiKF4L1BYNxT7XJDxfU5YYA9AB-m-oYNIcMS3luZ-u_TjyKyW5UUZn11xRxkR3B6Lg";
+  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkwODE1OTksImp0aSI6IjRkZjJjNmNlLTk0YWMtNGE5My04MTljLTlmNDM3NTUwMzA5MCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6Ijg1NWY5NTA2In0.xhKLNKFdue14krXHpjcKaIyQCjW6zehjpDP2eMWfXv1vfWh7Vn74bRfaPVmE4k2QPLUhZthr9PhlZzfH27zPNQ";
 
 function CustomEditor() {
   const editorContainerRef = useRef(null);
@@ -128,7 +127,6 @@ function CustomEditor() {
           BlockQuote,
           BlockToolbar,
           Bold,
-          CloudServices,
           Code,
           Essentials,
           FontBackgroundColor,
