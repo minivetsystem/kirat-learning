@@ -38,3 +38,30 @@ export const sendContact = async (formData) => {
     throw new Error(error.message || "Failed to send email");
   }
 };
+
+export const sendRegisterEmail = async (formData) => {
+  const { name, email, phone,  } = formData;
+
+  try {
+    const msg = {
+      to: receiverEmail,
+      from: senderEmail,
+      replyTo: email, 
+      subject: `New Contact Form Submission from ${name}`,
+      html: `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+     
+       
+      `,
+    };
+
+    const response = await sgMail.send(msg);
+      
+    return response;
+  } catch (error) {
+    console.error("SendGrid error:", error.response?.body || error.message);
+    throw new Error(error.message || "Failed to send email");
+  }
+};

@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
 import { X } from "lucide-react"
-
+import {submitRegistration} from "@/app/actions/registration"
 
 
 export default function Registration() {
@@ -126,39 +126,38 @@ const [mounted, setMounted] = useState(false)
     setIsSubmitting(true)
     const data = new FormData()
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null) {
-        data.append(key, value.toString())
-      }
-    })
+      // Properly append all form data
+    data.append("name", formData.name.trim())
+    data.append("email", formData.email.trim())
+    data.append("phone", formData.phone.trim())
+    data.append("DOB", formData.DOB)
+    data.append("course", formData.course)
+    data.append("state", formData.state)
+    data.append("city", formData.city)
+    data.append("identity", formData.identity)
+    data.append("consent", formData.consent.toString())
+    
+    // Handle file upload properly
+    if (formData.file) {
+      data.append("file", formData.file)
+    }
 
     try {
-      const response = await fetch("http://localhost:5000/submitform", {
-        method: "POST",
-        body: data,
-      })
+      const response = await submitRegistration(data)
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        if (result.errors) {
-          if (result.errors.email) {
-            showPopup(lang === "hi" ? "यह ईमेल पहले से पंजीकृत है।" : result.errors.email)
-            return
-          }
-          if (result.errors.phone) {
-            showPopup(lang === "hi" ? "यह फ़ोन नंबर पहले से पंजीकृत है।" : result.errors.phone)
-            return
-          }
+      if (!response.success) {
+        if (response.error) {
+          showPopup(response.error)
+          return
         }
-        showPopup(result.message || "Something went wrong.")
+        showPopup("Something went wrong.")
         return
       }
 
       showPopup(lang === "hi" ? "सफलतापूर्वक सब्मिट हुआ!" : "Submitted successfully!")
-
       resetFormData()
     } catch (err) {
+      console.error("Submission error:", err)
       showPopup(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setIsSubmitting(false)
@@ -504,9 +503,7 @@ const [mounted, setMounted] = useState(false)
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between">
               {lang === "hi" ? "सूचना" : "Alert"}
-              <Button variant="ghost" size="sm" onClick={() => setShowDialog(false)} className="h-6 w-6 p-0">
-                <X className="h-4 w-4" />
-              </Button>
+              
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-700 whitespace-pre-wrap">{dialogMessage}</DialogDescription>
           </DialogHeader>
