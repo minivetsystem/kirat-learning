@@ -261,7 +261,7 @@ export default function Registration() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center relative py-8"
+      className="min-h-screen flex items-center justify-center bg-cover bg-center relative py-8 "
       style={{
         backgroundImage: 'url("/placeholder.svg?height=1080&width=1920")',
       }}
