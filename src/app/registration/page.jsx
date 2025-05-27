@@ -1,20 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent } from "@/components/ui/card"
-import { X } from "lucide-react"
-import {submitRegistration} from "@/app/actions/registration"
-
+import { useEffect, useRef, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import { submitRegistration } from "@/app/actions/registration";
 
 export default function Registration() {
-  const lang = "en"
-const [mounted, setMounted] = useState(false)
+  const lang = "en";
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -26,60 +36,87 @@ const [mounted, setMounted] = useState(false)
     file: null,
     identity: "",
     consent: false,
-  })
+  });
 
-
-  const [showDialog, setShowDialog] = useState(false)
-  const [dialogMessage, setDialogMessage] = useState("")
-  const [showPreview, setShowPreview] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const fileInputRef =  useRef(null)
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
 
   const stateCityMap = {
     "West Bengal": ["Kolkata"],
     Karnataka: ["Bangalore"],
     Maharashtra: ["Mumbai"],
     Delhi: ["Delhi"],
-  }
+  };
 
-  const isPaymentEnabled = false
-   useEffect(() => {
-    setMounted(true)
-  }, [])
+  const isPaymentEnabled = false;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
   const handleChange = (name, value) => {
     if (name === "file" && value instanceof File) {
-      const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg"]
-      const maxSize = 10 * 1024 * 1024 // 10MB
+      const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg"];
+      const maxSize = 10 * 1024 * 1024; // 10MB
 
       if (!allowedTypes.includes(value.type)) {
-        showPopup(lang === "hi" ? "केवल PDF या JPEG/JPG फ़ाइलें ही अनुमति हैं।" : "Only PDF or JPEG/JPG files are allowed.")
-        return
+        showPopup(
+          lang === "hi"
+            ? "केवल PDF या JPEG/JPG फ़ाइलें ही अनुमति हैं।"
+            : "Only PDF or JPEG/JPG files are allowed."
+        );
+        return;
       }
 
       if (value.size > maxSize) {
-        showPopup(lang === "hi" ? "फ़ाइल का आकार 10MB से अधिक नहीं होना चाहिए।" : "File size should not exceed 10MB.")
-        return
+        showPopup(
+          lang === "hi"
+            ? "फ़ाइल का आकार 10MB से अधिक नहीं होना चाहिए।"
+            : "File size should not exceed 10MB."
+        );
+        return;
       }
     }
 
-    if (name === "phone" && typeof value === "string" && (!/^[0-9]*$/.test(value) || value.length > 10)) return
+    if (
+      name === "phone" &&
+      typeof value === "string" &&
+      (!/^[0-9]*$/.test(value) || value.length > 10)
+    )
+      return;
 
     if (name === "DOB" && typeof value === "string") {
-      const selectedDate = new Date(value)
-      const currentDate = new Date()
+      const selectedDate = new Date(value);
+      const currentDate = new Date();
 
       if (selectedDate > currentDate) {
-        showPopup(lang === "hi" ? "आप भविष्य की तारीख नहीं चुन सकते।" : "You cannot select a future date.")
-        return
+        showPopup(
+          lang === "hi"
+            ? "आप भविष्य की तारीख नहीं चुन सकते।"
+            : "You cannot select a future date."
+        );
+        return;
       }
     }
 
     if (name === "state") {
-      setFormData((prev) => ({ ...prev, [name]: value, city: "" }))
+      setFormData((prev) => ({ ...prev, [name]: value, city: "" }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }))
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
-  }
+  };
 
   const validateForm = () => {
     const requiredFields = [
@@ -92,87 +129,101 @@ const [mounted, setMounted] = useState(false)
       "city",
       "identity",
       "consent",
-    ]
+    ];
 
     const allFilled = requiredFields.every((field) => {
-      if (field === "consent") return formData[field]
-      return formData[field]?.toString().trim() !== ""
-    })
+      if (field === "consent") return formData[field];
+      return formData[field]?.toString().trim() !== "";
+    });
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const phoneRegex = /^[0-9]{10}$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
 
     if (!allFilled) {
-      showPopup(lang === "hi" ? "कृपया सभी आवश्यक फ़ील्ड भरें।" : "Please fill in all required fields.")
-      return false
+      showPopup(
+        lang === "hi"
+          ? "कृपया सभी आवश्यक फ़ील्ड भरें।"
+          : "Please fill in all required fields."
+      );
+      return false;
     }
 
     if (!emailRegex.test(formData.email)) {
-      showPopup(lang === "hi" ? "कृपया एक वैध ईमेल पता दर्ज करें।" : "Please enter a valid email address.")
-      return false
+      showPopup(
+        lang === "hi"
+          ? "कृपया एक वैध ईमेल पता दर्ज करें।"
+          : "Please enter a valid email address."
+      );
+      return false;
     }
 
     if (!phoneRegex.test(formData.phone)) {
-      showPopup(lang === "hi" ? "फोन नंबर केवल 10 अंकों का होना चाहिए।" : "Phone number must be exactly 10 digits.")
-      return false
+      showPopup(
+        lang === "hi"
+          ? "फोन नंबर केवल 10 अंकों का होना चाहिए।"
+          : "Phone number must be exactly 10 digits."
+      );
+      return false;
     }
 
-    return true
-  }
+    return true;
+  };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    setIsSubmitting(true)
-    const data = new FormData()
+    setIsSubmitting(true);
+    const data = new FormData();
 
-      // Properly append all form data
-    data.append("name", formData.name.trim())
-    data.append("email", formData.email.trim())
-    data.append("phone", formData.phone.trim())
-    data.append("DOB", formData.DOB)
-    data.append("course", formData.course)
-    data.append("state", formData.state)
-    data.append("city", formData.city)
-    data.append("identity", formData.identity)
-    data.append("consent", formData.consent.toString())
-    
+    // Properly append all form data
+    data.append("name", formData.name.trim());
+    data.append("email", formData.email.trim());
+    data.append("phone", formData.phone.trim());
+    data.append("DOB", formData.DOB);
+    data.append("course", formData.course);
+    data.append("state", formData.state);
+    data.append("city", formData.city);
+    data.append("identity", formData.identity);
+    data.append("consent", formData.consent.toString());
+
     // Handle file upload properly
     if (formData.file) {
-      data.append("file", formData.file)
+      data.append("file", formData.file);
     }
 
     try {
-      const response = await submitRegistration(data)
+      const response = await submitRegistration(data);
 
       if (!response.success) {
         if (response.error) {
-          showPopup(response.error)
-          return
+          showPopup(response.error);
+          return;
         }
-        showPopup("Something went wrong.")
-        return
+        showPopup("Something went wrong.");
+        return;
       }
 
-      showPopup(lang === "hi" ? "सफलतापूर्वक सब्मिट हुआ!" : "Submitted successfully!")
-      resetFormData()
+      showPopup(
+        lang === "hi" ? "सफलतापूर्वक सब्मिट हुआ!" : "Submitted successfully!"
+      );
+      resetFormData();
     } catch (err) {
-      console.error("Submission error:", err)
-      showPopup(err instanceof Error ? err.message : "An error occurred")
+      console.error("Submission error:", err);
+      showPopup(err instanceof Error ? err.message : "An error occurred");
     } finally {
-      setIsSubmitting(false)
-      setShowPreview(false)
+      setIsSubmitting(false);
+      setShowPreview(false);
     }
-  }
+  };
 
   const handlePreview = () => {
-    if (validateForm()) setShowPreview(true)
-  }
+    if (validateForm()) setShowPreview(true);
+  };
 
   const showPopup = (message) => {
-    setDialogMessage(message)
-    setShowDialog(true)
-  }
+    setDialogMessage(message);
+    setShowDialog(true);
+  };
 
   const resetFormData = () => {
     setFormData({
@@ -186,16 +237,16 @@ const [mounted, setMounted] = useState(false)
       file: null,
       identity: "",
       consent: false,
-    })
+    });
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""
+      fileInputRef.current.value = "";
     }
-  }
+  };
 
   const resetForm = () => {
-    resetFormData()
-    setShowDialog(false)
-  }
+    resetFormData();
+    setShowDialog(false);
+  };
 
   const renderField = (label, value) => (
     <Card>
@@ -206,12 +257,14 @@ const [mounted, setMounted] = useState(false)
         </div>
       </CardContent>
     </Card>
-  )
+  );
 
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center relative py-8"
-      style={{ backgroundImage: 'url("/placeholder.svg?height=1080&width=1920")' }}
+      style={{
+        backgroundImage: 'url("/placeholder.svg?height=1080&width=1920")',
+      }}
     >
       <div className="relative z-20 w-full max-w-6xl bg-white border-4 border-gray-300 shadow-lg">
         <div
@@ -227,7 +280,8 @@ const [mounted, setMounted] = useState(false)
         <div
           className="p-8"
           style={{
-            backgroundImage: "linear-gradient(86.9deg, rgba(253, 189, 38, 0.7) 28.3%, rgba(253, 153, 38, 0.7) 118.2%)",
+            backgroundImage:
+              "linear-gradient(86.9deg, rgba(253, 189, 38, 0.7) 28.3%, rgba(253, 153, 38, 0.7) 118.2%)",
           }}
         >
           <h2 className="text-2xl font-bold mb-6 text-black">
@@ -297,25 +351,47 @@ const [mounted, setMounted] = useState(false)
             </div>
 
             <div className="space-y-2">
-              <Label className="text-black">{lang === "hi" ? "कोर्स चुनें" : "Select Course"} *</Label>
-              <Select value={formData.course} onValueChange={(value) => handleChange("course", value)}>
+              <Label className="text-black">
+                {lang === "hi" ? "कोर्स चुनें" : "Select Course"} *
+              </Label>
+              <Select
+                value={formData.course}
+                onValueChange={(value) => handleChange("course", value)}
+              >
                 <SelectTrigger className="bg-white text-black">
-                  <SelectValue placeholder={lang === "hi" ? "कोर्स चुनें" : "Select Course"} />
+                  <SelectValue
+                    placeholder={
+                      lang === "hi" ? "कोर्स चुनें" : "Select Course"
+                    }
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="AI/ML">AI/ML</SelectItem>
-                  <SelectItem value="Data Science">{lang === "hi" ? "डाटा साइंस" : "Data Science"}</SelectItem>
-                  <SelectItem value="Cyber Security">{lang === "hi" ? "साइबर सुरक्षा" : "Cyber Security"}</SelectItem>
-                  <SelectItem value="Big Data">{lang === "hi" ? "बिग डाटा" : "Big Data"}</SelectItem>
+                  <SelectItem value="Data Science">
+                    {lang === "hi" ? "डाटा साइंस" : "Data Science"}
+                  </SelectItem>
+                  <SelectItem value="Cyber Security">
+                    {lang === "hi" ? "साइबर सुरक्षा" : "Cyber Security"}
+                  </SelectItem>
+                  <SelectItem value="Big Data">
+                    {lang === "hi" ? "बिग डाटा" : "Big Data"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-black">{lang === "hi" ? "राज्य चुनें" : "Select State"} *</Label>
-              <Select value={formData.state} onValueChange={(value) => handleChange("state", value)}>
+              <Label className="text-black">
+                {lang === "hi" ? "राज्य चुनें" : "Select State"} *
+              </Label>
+              <Select
+                value={formData.state}
+                onValueChange={(value) => handleChange("state", value)}
+              >
                 <SelectTrigger className="bg-white text-black">
-                  <SelectValue placeholder={lang === "hi" ? "राज्य चुनें" : "Select State"} />
+                  <SelectValue
+                    placeholder={lang === "hi" ? "राज्य चुनें" : "Select State"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(stateCityMap).map((state) => (
@@ -328,10 +404,17 @@ const [mounted, setMounted] = useState(false)
             </div>
 
             <div className="space-y-2">
-              <Label className="text-black">{lang === "hi" ? "शहर चुनें" : "Select City"} *</Label>
-              <Select value={formData.city} onValueChange={(value) => handleChange("city", value)}>
+              <Label className="text-black">
+                {lang === "hi" ? "शहर चुनें" : "Select City"} *
+              </Label>
+              <Select
+                value={formData.city}
+                onValueChange={(value) => handleChange("city", value)}
+              >
                 <SelectTrigger className="bg-white text-black">
-                  <SelectValue placeholder={lang === "hi" ? "शहर चुनें" : "Select City"} />
+                  <SelectValue
+                    placeholder={lang === "hi" ? "शहर चुनें" : "Select City"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {(stateCityMap[formData.state] || []).map((city) => (
@@ -344,18 +427,33 @@ const [mounted, setMounted] = useState(false)
             </div>
 
             <div className="space-y-2">
-              <Label className="text-black">{lang === "hi" ? "आप कौन हैं?" : "Who are you?"} *</Label>
-              <Select value={formData.identity} onValueChange={(value) => handleChange("identity", value)}>
+              <Label className="text-black">
+                {lang === "hi" ? "आप कौन हैं?" : "Who are you?"} *
+              </Label>
+              <Select
+                value={formData.identity}
+                onValueChange={(value) => handleChange("identity", value)}
+              >
                 <SelectTrigger className="bg-white text-black">
-                  <SelectValue placeholder={lang === "hi" ? "आप कौन हैं?" : "Who are you?"} />
+                  <SelectValue
+                    placeholder={lang === "hi" ? "आप कौन हैं?" : "Who are you?"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Student">{lang === "hi" ? "छात्र" : "Student"}</SelectItem>
-                  <SelectItem value="Professional">{lang === "hi" ? "पेशेवर" : "Professional"}</SelectItem>
-                  <SelectItem value="Retired Professional">
-                    {lang === "hi" ? "सेवानिवृत्त पेशेवर" : "Retired Professional"}
+                  <SelectItem value="Student">
+                    {lang === "hi" ? "छात्र" : "Student"}
                   </SelectItem>
-                  <SelectItem value="Other">{lang === "hi" ? "अन्य" : "Other"}</SelectItem>
+                  <SelectItem value="Professional">
+                    {lang === "hi" ? "पेशेवर" : "Professional"}
+                  </SelectItem>
+                  <SelectItem value="Retired Professional">
+                    {lang === "hi"
+                      ? "सेवानिवृत्त पेशेवर"
+                      : "Retired Professional"}
+                  </SelectItem>
+                  <SelectItem value="Other">
+                    {lang === "hi" ? "अन्य" : "Other"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -368,7 +466,9 @@ const [mounted, setMounted] = useState(false)
                 id="file"
                 type="file"
                 accept=".pdf,.jpeg,.jpg"
-                onChange={(e) => handleChange("file", e.target.files?.[0] || null)}
+                onChange={(e) =>
+                  handleChange("file", e.target.files?.[0] || null)
+                }
                 className="bg-white text-black"
                 ref={fileInputRef}
               />
@@ -381,42 +481,54 @@ const [mounted, setMounted] = useState(false)
                     <Checkbox
                       id="consent"
                       checked={formData.consent}
-                      onCheckedChange={(checked) => handleChange("consent", checked )}
+                      onCheckedChange={(checked) =>
+                        handleChange("consent", checked)
+                      }
                       className="mt-1"
                       required
                     />
                     <div className="text-black">
-                      <Label htmlFor="consent" className="text-sm font-medium cursor-pointer">
+                      <Label
+                        htmlFor="consent"
+                        className="text-sm font-medium cursor-pointer"
+                      >
                         {lang === "hi" ? "सहमति" : "Consent"} *
                       </Label>
                       <p className="text-xs mt-1 leading-relaxed">
                         {lang === "hi" ? (
                           <>
                             <strong>
-                              अपने फोन नंबर प्रदान करके, आप WhatsApp और SMS के माध्यम से Kirat Learning द्वारा पेश किए जाने वाले
-                              पाठ्यक्रमों और प्रशिक्षण कार्यक्रमों से संबंधित अपडेट, अनुस्मारक, प्रचार सामग्री और महत्वपूर्ण जानकारी प्राप्त
-                              करने के लिए सहमत होते हैं।
+                              अपने फोन नंबर प्रदान करके, आप WhatsApp और SMS के
+                              माध्यम से Kirat Learning द्वारा पेश किए जाने वाले
+                              पाठ्यक्रमों और प्रशिक्षण कार्यक्रमों से संबंधित
+                              अपडेट, अनुस्मारक, प्रचार सामग्री और महत्वपूर्ण
+                              जानकारी प्राप्त करने के लिए सहमत होते हैं।
                             </strong>
                             <br />
                             <br />
                             <strong>
-                              हम आपकी गोपनीयता का सम्मान करते हैं और तीसरे पक्ष के साथ आपकी संपर्क जानकारी साझा नहीं करेंगे। आप किसी
-                              भी समय "STOP" उत्तर देकर WhatsApp और SMS संदेश प्राप्त करने से ऑप्ट आउट कर सकते हैं।
+                              हम आपकी गोपनीयता का सम्मान करते हैं और तीसरे पक्ष
+                              के साथ आपकी संपर्क जानकारी साझा नहीं करेंगे। आप
+                              किसी भी समय "STOP" उत्तर देकर WhatsApp और SMS
+                              संदेश प्राप्त करने से ऑप्ट आउट कर सकते हैं।
                             </strong>
                           </>
                         ) : (
                           <>
                             <strong>
-                              By providing your phone number, you consent to receive updates, reminders, promotional
-                              content, and important information related to courses and training programs offered by
-                              Kirat Learning via WhatsApp and SMS.
+                              By providing your phone number, you consent to
+                              receive updates, reminders, promotional content,
+                              and important information related to courses and
+                              training programs offered by Kirat Learning via
+                              WhatsApp and SMS.
                             </strong>
                             <br />
                             <br />
                             <strong>
-                              We respect your privacy and will not share your contact information with third parties.
-                              You may opt out of receiving WhatsApp and SMS messages at any time by replying with
-                              "STOP".
+                              We respect your privacy and will not share your
+                              contact information with third parties. You may
+                              opt out of receiving WhatsApp and SMS messages at
+                              any time by replying with "STOP".
                             </strong>
                           </>
                         )}
@@ -429,7 +541,11 @@ const [mounted, setMounted] = useState(false)
           </div>
 
           <div className="mt-10 flex justify-end space-x-4">
-            <Button disabled variant="secondary" className="bg-gray-600 text-gray-200 cursor-not-allowed">
+            <Button
+              disabled
+              variant="secondary"
+              className="bg-gray-600 text-gray-200 cursor-not-allowed"
+            >
               {lang === "hi" ? "भुगतान करें" : "Pay Now"}
             </Button>
 
@@ -445,7 +561,10 @@ const [mounted, setMounted] = useState(false)
       </div>
 
       {/* Preview Dialog */}
-      <Dialog open={showPreview} onOpenChange={(open) => !isSubmitting && setShowPreview(open)}>
+      <Dialog
+        open={showPreview}
+        onOpenChange={(open) => !isSubmitting && setShowPreview(open)}
+      >
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <div
             className="p-6 rounded-lg"
@@ -461,26 +580,48 @@ const [mounted, setMounted] = useState(false)
             </DialogHeader>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              {renderField(lang === "hi" ? "पूरा नाम" : "Full Name", formData.name)}
-              {renderField(lang === "hi" ? "फोन नंबर" : "Phone Number", formData.phone)}
+              {renderField(
+                lang === "hi" ? "पूरा नाम" : "Full Name",
+                formData.name
+              )}
+              {renderField(
+                lang === "hi" ? "फोन नंबर" : "Phone Number",
+                formData.phone
+              )}
               {renderField("Email", formData.email)}
-              {renderField(lang === "hi" ? "जन्म तिथि" : "Date of Birth", formData.DOB)}
+              {renderField(
+                lang === "hi" ? "जन्म तिथि" : "Date of Birth",
+                formData.DOB
+              )}
               {renderField(lang === "hi" ? "कोर्स" : "Course", formData.course)}
               {renderField(lang === "hi" ? "राज्य" : "State", formData.state)}
               {renderField(lang === "hi" ? "शहर" : "City", formData.city)}
-              {renderField(lang === "hi" ? "पहचान" : "Identity", formData.identity)}
+              {renderField(
+                lang === "hi" ? "पहचान" : "Identity",
+                formData.identity
+              )}
               {renderField(
                 lang === "hi" ? "फ़ाइल" : "File",
-                formData.file?.name || (lang === "hi" ? "कोई नहीं" : "None"),
+                formData.file?.name || (lang === "hi" ? "कोई नहीं" : "None")
               )}
               {renderField(
                 lang === "hi" ? "सहमति" : "Consent",
-                formData.consent ? (lang === "hi" ? "हाँ" : "Yes") : lang === "hi" ? "नहीं" : "No",
+                formData.consent
+                  ? lang === "hi"
+                    ? "हाँ"
+                    : "Yes"
+                  : lang === "hi"
+                  ? "नहीं"
+                  : "No"
               )}
             </div>
 
             <div className="flex justify-end gap-4 mt-6">
-              <Button onClick={() => setShowPreview(false)} disabled={isSubmitting} variant="outline">
+              <Button
+                onClick={() => setShowPreview(false)}
+                disabled={isSubmitting}
+                variant="outline"
+              >
                 {lang === "hi" ? "वापस जाएं" : "Go Back"}
               </Button>
               <Button onClick={handleSubmit} disabled={isSubmitting}>
@@ -489,8 +630,8 @@ const [mounted, setMounted] = useState(false)
                     ? "सब्मिट कर रहा है..."
                     : "Submitting..."
                   : lang === "hi"
-                    ? "पुष्टि करें और सब्मिट करें"
-                    : "Confirm & Submit"}
+                  ? "पुष्टि करें और सब्मिट करें"
+                  : "Confirm & Submit"}
               </Button>
             </div>
           </div>
@@ -503,9 +644,10 @@ const [mounted, setMounted] = useState(false)
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between">
               {lang === "hi" ? "सूचना" : "Alert"}
-              
             </DialogTitle>
-            <DialogDescription className="text-sm text-gray-700 whitespace-pre-wrap">{dialogMessage}</DialogDescription>
+            <DialogDescription className="text-sm text-gray-700 whitespace-pre-wrap">
+              {dialogMessage}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="flex justify-end gap-4 mt-4">
@@ -519,5 +661,5 @@ const [mounted, setMounted] = useState(false)
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
