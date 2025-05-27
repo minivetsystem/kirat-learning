@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 body {
   @apply font-poppins;
 }
+
+
 
 .custom-scrollbar {
   scrollbar-width: none; /* Firefox */
