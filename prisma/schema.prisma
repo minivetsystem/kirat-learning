@@ -26,5 +26,4 @@ model Blog {
   updatedAt   DateTime @updatedAt
 
   @@map("blog")
-
 }

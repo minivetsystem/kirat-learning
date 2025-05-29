@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import axios from 'axios';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -86,8 +87,12 @@ export default function AddBlogPage() {
       // Here you would typically send the data to your API
       console.log("Form data to submit:", formData);
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await axios.post("/api/blog", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("res",response)
 
       toast({
         title: "Blog post created",
