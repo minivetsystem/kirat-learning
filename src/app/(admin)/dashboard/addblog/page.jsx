@@ -1,22 +1,38 @@
 "use client"
 
-import { useState } from "react"
+
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import axios from "axios"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { toast } from "@/hooks/use-toast"
-import dynamic from "next/dynamic"
 import { Switch } from "@/components/ui/switch"
 
-const JoEitor = dynamic(() => import("@/components/joeditor/JoEditor"), {
+import { toast } from "@/hooks/use-toast"
+import { Loader2, Upload, X, User } from "lucide-react"
+import dynamic from "next/dynamic"
+import Image from "next/image"
+
+const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
   ssr: false,
+  loading: () => (
+    <div className="min-h-[300px] border rounded-md flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+        <p className="text-sm text-muted-foreground">Loading editor...</p>
+      </div>
+    </div>
+  ),
 })
+
+
+
+
 
 export default function AddBlogPage() {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
@@ -24,78 +40,235 @@ export default function AddBlogPage() {
     coverImage: null,
     description: "",
     published: false,
+    author: "",
+    authorEmail: "",
+
   })
   const [coverImagePreview, setCoverImagePreview] = useState(null)
+ 
+  const [errors, setErrors] = useState({})
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  const handleImageChange = (e) => {
+  const validateForm = useCallback(() => {
+    const newErrors = {}
+
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required"
+    } else if (formData.title.length < 3) {
+      newErrors.title = "Title must be at least 3 characters"
+    } else if (formData.title.length > 200) {
+      newErrors.title = "Title must be less than 200 characters"
+    }
+
+    if (!formData.slug.trim()) {
+      newErrors.slug = "Slug is required"
+    } else if (!/^[a-z0-9-]+$/.test(formData.slug)) {
+      newErrors.slug = "Slug can only contain lowercase letters, numbers, and hyphens"
+    } else if (formData.slug.length > 100) {
+      newErrors.slug = "Slug must be less than 100 characters"
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = "Description is required"
+    } else if (formData.description.length < 10) {
+      newErrors.description = "Description must be at least 10 characters"
+    }
+
+    if (!formData.author.trim()) {
+      newErrors.author = "Author name is required"
+    } else if (formData.author.length > 100) {
+      newErrors.author = "Author name must be less than 100 characters"
+    }
+
+    if (formData.authorEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.authorEmail)) {
+      newErrors.authorEmail = "Please enter a valid email address"
+    }
+
+   
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }, [formData])
+
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }))
+
+      if (errors[name ]) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: undefined,
+        }))
+      }
+    },
+    [errors],
+  )
+
+  const handleImageChange = useCallback((e, imageType) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      setFormData({
-        ...formData,
-        coverImage: file,
-      })
 
-      // Create preview URL
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        setCoverImagePreview(event.target?.result)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors((prev) => ({
+          ...prev,
+          [imageType === "cover" ? "coverImage" : "authorImage"]: "Image size must be less than 5MB",
+        }))
+        return
       }
-      reader.readAsDataURL(file)
+
+      if (!file.type.startsWith("image/")) {
+        setErrors((prev) => ({
+          ...prev,
+          [imageType === "cover" ? "coverImage" : "authorImage"]: "Please select a valid image file",
+        }))
+        return
+      }
+
+      if (imageType === "cover") {
+        setFormData((prev) => ({ ...prev, coverImage: file }))
+        setErrors((prev) => ({ ...prev, coverImage: undefined }))
+
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          setCoverImagePreview(event.target?.result )
+        }
+        reader.readAsDataURL(file)
+      } else {
+        setFormData((prev) => ({ ...prev, authorImage: file }))
+        setErrors((prev) => ({ ...prev, authorImage: undefined }))
+
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          setAuthorImagePreview(event.target?.result)
+        }
+        reader.readAsDataURL(file)
+      }
     }
-  }
+  }, [])
 
-  const handleDescriptionChange = (value) => {
-    setFormData({
-      ...formData,
-      description: value,
-    })
-  }
+  const handleDescriptionChange = useCallback(
+    (value) => {
+      setFormData((prev) => ({
+        ...prev,
+        description: value,
+      }))
 
-  const generateSlug = () => {
+      if (errors.description) {
+        setErrors((prev) => ({
+          ...prev,
+          description: undefined,
+        }))
+      }
+    },
+    [errors.description],
+  )
+
+  const generateSlug = useCallback(() => {
+    if (!formData.title.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a title first",
+        variant: "destructive",
+      })
+      return
+    }
+
     const slug = formData.title
       .toLowerCase()
-      .replace(/[^\w\s]/gi, "")
+      .trim()
+      .replace(/[^\w\s-]/g, "")
       .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       slug,
-    })
-  }
+    }))
+
+    setErrors((prev) => ({
+      ...prev,
+      slug: undefined,
+    }))
+  }, [formData.title])
+
+  const removeCoverImage = useCallback(() => {
+    setFormData((prev) => ({
+      ...prev,
+      coverImage: null,
+    }))
+    setCoverImagePreview(null)
+
+    if (mounted) {
+      const fileInput = document.getElementById("coverImage")
+      if (fileInput) {
+        fileInput.value = ""
+      }
+    }
+  }, [mounted])
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the errors before submitting",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
-      console.log("Form data to submit:", formData)
+      const submitFormData = new FormData()
+      submitFormData.append("title", formData.title.trim())
+      submitFormData.append("slug", formData.slug.trim())
+      submitFormData.append("description", formData.description.trim())
+      submitFormData.append("published", formData.published.toString())
+      submitFormData.append("author", formData.author.trim())
+      submitFormData.append("authorEmail", formData.authorEmail.trim())
+     
 
-      const response = await axios.post("/api/blog", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      if (formData.coverImage) {
+        submitFormData.append("coverImage", formData.coverImage)
+      }
+
       
-console.log("Response data:", response.data)
-      toast({
-        title: "Blog post created",
-        description: "Your blog post has been created successfully.",
+
+      const response = await fetch("/api/blog", {
+        method: "POST",
+        body: submitFormData,
       })
 
-      // router.push("/dashboard/blogs")
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to create blog post")
+      }
+
+      const blog = await response.json()
+
+      toast({
+        title: "Success!",
+        description: `Blog post "${formData.title}" has been ${formData.published ? "published" : "saved as draft"} successfully.`,
+      })
+
+      router.push("/dashboard/blogs")
     } catch (error) {
       console.error("Error submitting form:", error)
       toast({
         title: "Error",
-        description: "There was an error creating your blog post.",
+        description: error instanceof Error ? error.message : "There was an error creating your blog post.",
         variant: "destructive",
       })
     } finally {
@@ -103,101 +276,226 @@ console.log("Response data:", response.data)
     }
   }
 
-  return (
-    <div className="container mx-auto">
-      <div className="flex justify-between items-center mb-8">
-              <div>
-                <h1 className="text-3xl font-bold">Add Blog</h1>
-                <p className="text-muted-foreground">Manage your blog</p>
-              </div>  
+  if (!mounted) {
+    return (
+      <div className="container mx-auto py-6">
+        <Card className="w-full max-w-4xl mx-auto">
+          <CardContent className="py-16">
+            <div className="flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin" />
             </div>
-      <Card className="w-full">
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container mx-auto py-6">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold">Add Blog</h1>
+          <p className="text-muted-foreground">Create and publish your blog content</p>
+        </div>
+      </div>
+
+      <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle>Add New Blog Post</CardTitle>
           <CardDescription>Create a new blog post with title, slug, cover image, and description.</CardDescription>
         </CardHeader>
+
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                name="title"
-                placeholder="Enter blog title"
-                value={formData.title}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+            {/* Basic Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Basic Information</h3>
 
-            <div className="space-y-2">
-              <div className="flex items-end gap-4">
-                <div className="flex-1">
-                  <Label htmlFor="slug">Slug</Label>
-                  <Input
-                    id="slug"
-                    name="slug"
-                    placeholder="enter-blog-slug"
-                    value={formData.slug}
-                    onChange={handleInputChange}
-                    required
-                  />
+              <div className="space-y-2">
+                <Label htmlFor="title">
+                  Title <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="title"
+                  name="title"
+                  placeholder="Enter an engaging blog title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className={errors.title ? "border-red-500" : ""}
+                  maxLength={200}
+                />
+                {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
+                <p className="text-xs text-muted-foreground">{formData.title.length}/200 characters</p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-end gap-4">
+                  <div className="flex-1">
+                    <Label htmlFor="slug">
+                      URL Slug <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="slug"
+                      name="slug"
+                      placeholder="enter-blog-slug"
+                      value={formData.slug}
+                      onChange={handleInputChange}
+                      className={errors.slug ? "border-red-500" : ""}
+                      maxLength={100}
+                    />
+                    {errors.slug && <p className="text-sm text-red-500 mt-1">{errors.slug}</p>}
+                  </div>
+                  <Button type="button" variant="outline" onClick={generateSlug} disabled={!formData.title.trim()}>
+                    Generate from Title
+                  </Button>
                 </div>
-                <Button type="button" variant="outline" onClick={generateSlug} disabled={!formData.title}>
-                  Generate from Title
-                </Button>
+                <p className="text-xs text-muted-foreground">URL: /blog/{formData.slug || "your-slug"}</p>
               </div>
             </div>
 
+            {/* Author Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Author Information
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="author">
+                    Author Name <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="author"
+                    name="author"
+                    placeholder="Enter author name"
+                    value={formData.author}
+                    onChange={handleInputChange}
+                    className={errors.author ? "border-red-500" : ""}
+                    maxLength={100}
+                  />
+                  {errors.author && <p className="text-sm text-red-500">{errors.author}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="authorEmail">Author Email</Label>
+                  <Input
+                    id="authorEmail"
+                    name="authorEmail"
+                    type="email"
+                    placeholder="author@example.com"
+                    value={formData.authorEmail}
+                    onChange={handleInputChange}
+                    className={errors.authorEmail ? "border-red-500" : ""}
+                  />
+                  {errors.authorEmail && <p className="text-sm text-red-500">{errors.authorEmail}</p>}
+                </div>
+              </div>
+
+             
+
+             
+            </div>
+
+            {/* Cover Image */}
             <div className="space-y-2">
               <Label htmlFor="coverImage">Cover Image</Label>
-              <Input
-                id="coverImage"
-                name="coverImage"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                required
-              />
-              {coverImagePreview && (
-                <div className="mt-2">
-                  <p className="text-sm text-muted-foreground mb-2">Preview:</p>
-                  <img
-                    src={coverImagePreview || "/placeholder.svg"}
-                    alt="Cover preview"
-                    className="max-h-40 rounded-md object-cover"
-                  />
+
+              {!coverImagePreview ? (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                  <div className="mt-4">
+                    <Label htmlFor="coverImage" className="cursor-pointer">
+                      <span className="mt-2 block text-sm font-medium text-gray-900">Click to upload cover image</span>
+                      <span className="mt-1 block text-xs text-gray-500">PNG, JPG, GIF up to 5MB</span>
+                    </Label>
+                    <Input
+                      id="coverImage"
+                      name="coverImage"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e, "cover")}
+                      className="hidden"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="relative">
+                  <div className="relative w-full h-48 rounded-lg overflow-hidden">
+                    <Image
+                      src={coverImagePreview || "/placeholder.svg"}
+                      alt="Cover preview"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={removeCoverImage}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
                 </div>
               )}
+
+              {errors.coverImage && <p className="text-sm text-red-500">{errors.coverImage}</p>}
             </div>
 
+            {/* Content */}
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <div className="mt-2 min-h-[300px]">
-                <JoEitor value={formData.description} onChange={handleDescriptionChange} />
+              <Label htmlFor="description">
+                Content <span className="text-red-500">*</span>
+              </Label>
+              <div className="min-h-[300px] border rounded-md">
+                <JoEditor value={formData.description} onChange={handleDescriptionChange} />
               </div>
+              {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
             </div>
 
+            {/* Publication Status */}
             <div className="space-y-2">
-              <Label htmlFor="published">Publish Now</Label>
-              <div className="flex items-center gap-4 mt-1">
+              <Label htmlFor="published">Publication Status</Label>
+              <div className="flex items-center gap-4 p-4 border rounded-lg">
                 <Switch
                   id="published"
                   checked={formData.published}
-                  onCheckedChange={(value) => setFormData({ ...formData, published: value })}
+                  onCheckedChange={(value) => setFormData((prev) => ({ ...prev, published: value }))}
                 />
-                <span className="text-sm text-muted-foreground">
-                  {formData.published ? "This post will be public." : "This post is a draft."}
-                </span>
+                <div className="flex-1">
+                  <p className="font-medium">{formData.published ? "Publish immediately" : "Save as draft"}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {formData.published
+                      ? "This post will be visible to all visitors"
+                      : "This post will be saved as a draft and won't be visible to visitors"}
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>
+
           <CardFooter className="flex justify-between">
-            <Button type="button" variant="outline" onClick={() => router.back()}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/dashboard/blog")}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Blog Post"}
+            <Button type="submit" disabled={isSubmitting} className="min-w-[120px]">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : formData.published ? (
+                "Publish Post"
+              ) : (
+                "Save Draft"
+              )}
             </Button>
           </CardFooter>
         </form>

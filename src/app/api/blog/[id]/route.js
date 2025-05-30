@@ -21,10 +21,14 @@ export async function GET(request, { params }) {
 export async function PUT(request, { params }) {
   try {
     const formData = await request.formData();
-    const title = formData.get("title");
+   const title = formData.get("title");
     const slug = formData.get("slug");
     const description = formData.get("description");
     const published = formData.get("published") === "true";
+    const author = formData.get("author");
+    const authorEmail = formData.get("authorEmail");
+    const coverImage = formData.get("coverImage") | null;
+
 
     const blog = await prisma.blog.update({
       where: { id: params.id },
@@ -33,6 +37,9 @@ export async function PUT(request, { params }) {
         slug,
         description,
         published,
+        author,
+        authorEmail,
+        coverImage
       },
     });
 

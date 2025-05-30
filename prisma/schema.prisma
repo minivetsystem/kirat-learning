@@ -22,8 +22,12 @@ model Blog {
   description String      @db.Text
   coverImage  String?
   published   Boolean     @default(false)
+  author      String      @db.VarChar(100) 
+  authorEmail String?     @db.VarChar(255) 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  views       Int         @default(0)
+  viewEvents  ViewEvent[]
   images      BlogImage[] 
 
   @@map("blogs")
@@ -31,9 +35,9 @@ model Blog {
 
 model BlogImage {
   id        String   @id @default(cuid())
-  blogId    String?  // Optional: link to specific blog
-  url       String   // S3 URL
-  s3Key     String   // S3 object key for deletion
+  blogId    String?  
+  url       String   
+  s3Key     String   
   filename  String
   size      Int
   mimeType  String
@@ -41,4 +45,35 @@ model BlogImage {
   blog      Blog?    @relation(fields: [blogId], references: [id], onDelete: SetNull)
 
   @@map("blog_images")
+}
+
+model ViewEvent {
+  id        String   @id @default(cuid())
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  ip        String?  @db.VarChar(45)
+  userAgent String?  @db.Text
+  referer   String?  @db.Text
+  createdAt DateTime @default(now())
+  country   String?  @db.VarChar(2)
+  city      String?  @db.VarChar(100)
+  device    String?  @db.VarChar(50)
+  browser   String?  @db.VarChar(50)
+
+  @@index([blogId])
+  @@index([createdAt])
+  @@map("view_events")
+}
+
+model AnalyticsSummary {
+  id            String   @id @default(cuid())
+  blogId        String   @unique
+  totalViews    Int      @default(0)
+  uniqueVisitors Int     @default(0)
+  lastUpdated   DateTime @default(now())
+  dailyViews    Json?    // Store daily view counts as JSON
+  weeklyViews   Json?    // Store weekly view counts as JSON
+  monthlyViews  Json?    // Store monthly view counts as JSON
+
+  @@map("analytics_summaries")
 }
