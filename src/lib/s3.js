@@ -16,10 +16,18 @@ export async function uploadToS3(fileBuffer, fileName, fileType) {
     Key: fileName,
     Body: fileBuffer,
     ContentType: fileType,
-    ACL: "public-read", // optional: makes file accessible via URL
+    ACL: "public-read", 
   })
 
-  await s3.send(command)
+ try {
+    await s3.send(command)
 
-  return `https://${bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`
+    // Use the correct URL format based on the region
+    // For most regions, the format is: https://bucket-name.s3.region.amazonaws.com/filename
+    // For us-east-1, it might be: https://bucket-name.s3.amazonaws.com/filename
+    return `https://${bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`
+  } catch (error) {
+    console.error("S3 upload error:", error)
+    throw new Error("Failed to upload file to S3")
+  }
 }

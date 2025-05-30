@@ -26,7 +26,7 @@ export default function DashboardHeader() {
 
   return (
     <>
-      <header className="flex flex-none overflow-hidden w-full px-10 py-2 justify-between border border-gray-200">
+      <header className="flex flex-none overflow-hidden w-full px-2 py-2 justify-between border border-gray-200">
         <div className="flex gap-2 items-center">
         <img src="/Logo.png" className="mr-3 h-14" alt="Kirat IT Solution" title='Kirat IT Solution' />
         </div>

@@ -2,6 +2,21 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { uploadToS3 } from "@/lib/s3"
 
+
+export async function GET() {
+  try {
+    const blogs = await prisma.blogs.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+    return NextResponse.json(blogs)
+  } catch (error) {
+    console.error("Error fetching blog posts:", error)
+    return NextResponse.json({ error: "Failed to fetch blog posts" }, { status: 500 })
+  }
+}
+
 export async function POST(request) {
   try {
     const formData = await request.formData()

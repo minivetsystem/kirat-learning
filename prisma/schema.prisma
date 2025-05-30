@@ -16,14 +16,29 @@ model User {
 }
 
 model Blog {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String
+  id          String      @id @default(cuid())
+  title       String      @db.VarChar(200)
+  slug        String      @unique @db.VarChar(100)
+  description String      @db.Text
   coverImage  String?
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  published   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  images      BlogImage[] 
 
-  @@map("blog")
+  @@map("blogs")
+}
+
+model BlogImage {
+  id        String   @id @default(cuid())
+  blogId    String?  // Optional: link to specific blog
+  url       String   // S3 URL
+  s3Key     String   // S3 object key for deletion
+  filename  String
+  size      Int
+  mimeType  String
+  createdAt DateTime @default(now())
+  blog      Blog?    @relation(fields: [blogId], references: [id], onDelete: SetNull)
+
+  @@map("blog_images")
 }

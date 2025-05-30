@@ -1,120 +1,67 @@
 import React from "react";
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import BlogTable from "./BlogTable";
 
-export default function BlogsList() {
+async function getBlogs() {
+  try {
+    const blogs = await prisma.blog.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return blogs;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
+}
+export default async function BlogsList() {
+  const blogs = await getBlogs();
+
+ 
+
   return (
-    <div className="container flex flex-col p-12 w-full mx-auto gap-8">
-      <div className="flex justify-between">
-        <span>
-        <h1 className="text-3xl font-bold text-primary-midnightBlue">Add Blog</h1>
-        <h3 className="font-semibold text-secondary-lightGray">Admin Panel</h3>
-        </span>
-        <span>
-        </span>
+    <div className="container mx-auto py-10">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold">Blog Posts</h1>
+          <p className="text-muted-foreground">Manage your blog posts</p>
+        </div>
+        <Link href="/dashboard/addblog">
+          <Button>
+            <Plus className="w-4 h-4 mr-2" />
+            Add New Post
+          </Button>
+        </Link>
       </div>
-      <div className="border p-6 rounded-lg">
 
-
-      <div className="relative overflow-x-auto ">
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3 w-[10%]">
-                    #
-                </th>
-                <th scope="col" className="px-6 py-3 w-[40%]">
-                    Title
-                </th>
-                <th scope="col" className="px-6 py-3 w-[40%]">
-                    Slug
-                </th>
-               
-                <th scope="col" className="px-6 py-3 w-[10%]">
-                    Edit / Delete
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    1
-                </th>
-                <td className="px-6 py-4">
-                    Silver
-                </td>
-                <td className="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> / <> </>
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   2
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> / <> </>
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    3
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> / <> </>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   4
-                </th>
-                <td className="px-6 py-4">
-                    Gray
-                </td>
-                <td className="px-6 py-4">
-                    Phone
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> / <> </>
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    5
-                </th>
-                <td className="px-6 py-4">
-                    Red
-                </td>
-                <td className="px-6 py-4">
-                    Wearables
-                </td>
-               
-                <td class="px-6 py-4">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> / <> </>
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-      </div>
+      {blogs.length === 0 ? (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <h3 className="text-lg font-semibold mb-2">No blog posts yet</h3>
+            <p className="text-muted-foreground mb-4">
+              Get started by creating your first blog post.
+            </p>
+            <Link href="/addblog">
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Create First Blog
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="">
+          <BlogTable blogs={blogs}  />
+        </div>
+      )}
     </div>
   );
 }
