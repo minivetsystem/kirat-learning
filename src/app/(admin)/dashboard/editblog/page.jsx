@@ -31,6 +31,8 @@ export default function EditBlogPage() {
   const [errors, setErrors] = useState({});
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [originalCoverImage, setOriginalCoverImage] = useState(null) 
+    const [imageToDelete, setImageToDelete] = useState(null) // Track image to delete from S3
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -64,7 +66,8 @@ export default function EditBlogPage() {
           authorEmail: data.authorEmail || "",
         });
 
-        setCoverImagePreview(data.coverImage || null);
+       setOriginalCoverImage(data.coverImage || null)
+        setCoverImagePreview(data.coverImage || null)
       } catch (err) {
         toast({
           title: "Error loading blog",
@@ -121,6 +124,7 @@ export default function EditBlogPage() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }, [formData]);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -129,16 +133,31 @@ export default function EditBlogPage() {
     }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
+ const handleImageChange = (e) => {
+    const file = e.target.files?.[0]
     if (file) {
-      setFormData((prev) => ({ ...prev, coverImage: file }));
+      // Validate file size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File Too Large",
+          description: "Cover image must be less than 5MB.",
+          variant: "destructive",
+        })
+        return
+      }
 
-      const reader = new FileReader();
-      reader.onload = (event) => setCoverImagePreview(event.target?.result);
-      reader.readAsDataURL(file);
+      setFormData((prev) => ({ ...prev, coverImage: file }))
+
+      const reader = new FileReader()
+      reader.onload = (event) => setCoverImagePreview(event.target?.result)
+      reader.readAsDataURL(file)
+
+      // If there was an original S3 image, mark it for deletion
+      if (originalCoverImage && originalCoverImage.includes("s3.")) {
+        setImageToDelete(originalCoverImage)
+      }
     }
-  };
+  }
 
   const handleDescriptionChange = (value) => {
     setFormData((prev) => ({ ...prev, description: value }));
@@ -152,18 +171,74 @@ export default function EditBlogPage() {
     setFormData((prev) => ({ ...prev, slug }));
   };
 
+  const deleteImageFromS3 = async (imageUrl) => {
+    try {
+      const response = await axios.delete("/api/delete-image", {
+        data: { imageUrl },
+      })
+
+      if (response.data.success) {
+        console.log("Image deleted from S3 successfully")
+      }
+    } catch (error) {
+      console.error("Error deleting image from S3:", error)
+      // Don't show error to user as this is background cleanup
+    }
+  }
+
+  const removeCoverImage = useCallback(async () => {
+    // If there's an original S3 image, delete it immediately
+    if (originalCoverImage && originalCoverImage.includes("s3.")) {
+      await deleteImageFromS3(originalCoverImage)
+      setOriginalCoverImage(null)
+    }
+
+    // If there's a new image marked for deletion, clear it
+    if (imageToDelete) {
+      setImageToDelete(null)
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      coverImage: null,
+    }))
+    setCoverImagePreview(null)
+
+    if (mounted) {
+      const fileInput = document.getElementById("coverImage")
+      if (fileInput) {
+        fileInput.value = ""
+      }
+    }
+
+    toast({
+      title: "Image Removed",
+      description: "Cover image has been removed and deleted from storage.",
+    })
+  }, [mounted, originalCoverImage, imageToDelete])
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
       const payload = new FormData();
-      payload.append("title", formData.title);
-      payload.append("slug", formData.slug);
-      payload.append("description", formData.description);
-      payload.append("published", formData.published.toString());
-      if (formData.coverImage) {
-        payload.append("coverImage", formData.coverImage);
+     payload.append("title", formData.title)
+      payload.append("slug", formData.slug)
+      payload.append("description", formData.description)
+      payload.append("published", formData.published.toString())
+      payload.append("author", formData.author)
+      payload.append("authorEmail", formData.authorEmail)
+
+      // Only append coverImage if it's a new file
+      if (formData.coverImage instanceof File) {
+        payload.append("coverImage", formData.coverImage)
+      }
+
+      // If there's an image to delete and we're uploading a new one, include it
+      if (imageToDelete) {
+        payload.append("deleteImageUrl", imageToDelete)
       }
 
       await axios.put(`/api/blog/${blogId}`, payload, {
@@ -188,20 +263,7 @@ export default function EditBlogPage() {
     }
   };
 
-  const removeCoverImage = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      coverImage: null,
-    }));
-    setCoverImagePreview(null);
-
-    if (mounted) {
-      const fileInput = document.getElementById("coverImage");
-      if (fileInput) {
-        fileInput.value = "";
-      }
-    }
-  }, [mounted]);
+  
 
   if (isLoading) return <p>Loading blog...</p>;
 
@@ -355,7 +417,7 @@ export default function EditBlogPage() {
                 <div className="relative">
                   <div className="relative w-full h-48 rounded-lg overflow-hidden">
                     <Image
-                      src={coverImagePreview || "/placeholder.svg"}
+                      src={coverImagePreview || ""}
                       alt="Cover preview"
                       fill
                       className="object-cover"

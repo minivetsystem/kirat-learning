@@ -17,7 +17,7 @@ import Image from "next/image"
 const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
   ssr: false,
   loading: () => (
-    <div className="min-h-[300px] border rounded-md flex items-center justify-center bg-gray-50">
+    <div className="min-h-[500px] border rounded-md flex items-center justify-center bg-gray-50">
       <div className="text-center">
         <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
         <p className="text-sm text-muted-foreground">Loading editor...</p>
@@ -32,6 +32,8 @@ const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
 
 export default function AddBlogPage() {
   const router = useRouter()
+  const [topics, setTopics] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -42,7 +44,7 @@ export default function AddBlogPage() {
     published: false,
     author: "",
     authorEmail: "",
-
+topicName: "",
   })
   const [coverImagePreview, setCoverImagePreview] = useState(null)
  
@@ -50,7 +52,28 @@ export default function AddBlogPage() {
 
   useEffect(() => {
     setMounted(true)
+    fetchTopics()
   }, [])
+
+  const fetchTopics = async () => {
+  try {
+    const response = await fetch("/api/topics")
+    if (!response.ok) {
+      throw new Error("Failed to fetch topics")
+    }
+    const data = await response.json()
+    setTopics(data)
+  } catch (error) {
+    console.error("Error fetching topics:", error)
+    toast({
+      title: "Error",
+      description: "Failed to load topics",
+      variant: "destructive",
+    })
+  } finally {
+    setIsLoading(false)
+  }
+}
 
   const validateForm = useCallback(() => {
     const newErrors = {}
@@ -62,6 +85,10 @@ export default function AddBlogPage() {
     } else if (formData.title.length > 200) {
       newErrors.title = "Title must be less than 200 characters"
     }
+
+    if (!formData.topicName) {
+  newErrors.topicName = "Topic is required"
+}
 
     if (!formData.slug.trim()) {
       newErrors.slug = "Slug is required"
@@ -238,7 +265,7 @@ export default function AddBlogPage() {
       submitFormData.append("published", formData.published.toString())
       submitFormData.append("author", formData.author.trim())
       submitFormData.append("authorEmail", formData.authorEmail.trim())
-     
+     submitFormData.append("topicName", formData.topicName)
 
       if (formData.coverImage) {
         submitFormData.append("coverImage", formData.coverImage)
@@ -299,7 +326,7 @@ export default function AddBlogPage() {
         </div>
       </div>
 
-      <Card className="w-full max-w-4xl mx-auto">
+      <Card className="w-full  mx-auto">
         <CardHeader>
           <CardTitle>Add New Blog Post</CardTitle>
           <CardDescription>Create a new blog post with title, slug, cover image, and description.</CardDescription>
@@ -396,6 +423,30 @@ export default function AddBlogPage() {
 
              
             </div>
+
+            <div className="space-y-2">
+  <Label htmlFor="topicId">
+    Topic <span className="text-red-500">*</span>
+  </Label>
+ <select
+  id="topicName"
+  name="topicName"
+  value={formData.topicName}
+  onChange={handleInputChange}
+  className="w-full border rounded-md p-2"
+  required
+>
+  <option value="" disabled>Select a topic</option>
+  {topics.map((topic) => (
+    <option key={topic.id} value={topic.name}>
+      {topic.name}
+    </option>
+  ))}
+</select>
+
+  {errors.topicId && <p className="text-sm text-red-500">{errors.topicId}</p>}
+</div>
+
 
             {/* Cover Image */}
             <div className="space-y-2">

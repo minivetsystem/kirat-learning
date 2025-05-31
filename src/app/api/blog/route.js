@@ -25,8 +25,8 @@ export async function POST(request) {
     const published = formData.get("published") === "true"
     const author = formData.get("author")
     const authorEmail = formData.get("authorEmail")
-    const coverImage = formData.get("coverImage") // Fixed: Removed the | null
-
+    const coverImage = formData.get("coverImage") 
+    const subject = formData.get("topicName")
     console.log("Form data received:", {
       title,
       slug,
@@ -74,6 +74,7 @@ export async function POST(request) {
         published,
         authorEmail,
         author,
+        subject,
         coverImage: coverImageUrl,
       },
     })

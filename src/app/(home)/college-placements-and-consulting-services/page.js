@@ -86,10 +86,10 @@ export default function CollegePlacementsAndConsultingServices() {
       <div className="container mx-auto 2xl:px-32 px-8 xl:py-8 py-5">
         <div className="flex flex-col  md:flex-row gap-5">
           <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4">
-            <div className=" text-primary-midnightBlue font-extrabold md:text-4xl text-2xl">
+            <h1 className=" text-primary-midnightBlue font-extrabold md:text-4xl text-2xl">
               <span className="text-primary-orange">College Placement </span>
               Consulting Services
-            </div>
+            </h1>
             <p className="text-justify w-ful md:w-2/3">
               Kirat IT Solutions navigates the competitive landscape of college
               placements that can be overwhelming for students.

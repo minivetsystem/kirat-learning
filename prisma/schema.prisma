@@ -1,11 +1,11 @@
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -22,35 +22,43 @@ model Blog {
   description String      @db.Text
   coverImage  String?
   published   Boolean     @default(false)
-  author      String      @db.VarChar(100) 
-  authorEmail String?     @db.VarChar(255) 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  author      String      @db.VarChar(100)
+  authorEmail String?     @db.VarChar(255)
+  subject     String?      @db.VarChar(255)
   views       Int         @default(0)
+  images      BlogImage[]
   viewEvents  ViewEvent[]
-  images      BlogImage[] 
 
   @@map("blogs")
 }
 
+model Topic {
+  id   String @id @default(cuid())
+  name String @unique
+
+  @@map("topics")
+}
+
 model BlogImage {
   id        String   @id @default(cuid())
-  blogId    String?  
-  url       String   
-  s3Key     String   
+  blogId    String?
+  url       String
+  s3Key     String
   filename  String
   size      Int
   mimeType  String
   createdAt DateTime @default(now())
-  blog      Blog?    @relation(fields: [blogId], references: [id], onDelete: SetNull)
+  blog      Blog?    @relation(fields: [blogId], references: [id])
 
+  @@index([blogId], map: "blog_images_blogId_fkey")
   @@map("blog_images")
 }
 
 model ViewEvent {
   id        String   @id @default(cuid())
   blogId    String
-  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
   ip        String?  @db.VarChar(45)
   userAgent String?  @db.Text
   referer   String?  @db.Text
@@ -59,6 +67,7 @@ model ViewEvent {
   city      String?  @db.VarChar(100)
   device    String?  @db.VarChar(50)
   browser   String?  @db.VarChar(50)
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
 
   @@index([blogId])
   @@index([createdAt])
@@ -66,14 +75,14 @@ model ViewEvent {
 }
 
 model AnalyticsSummary {
-  id            String   @id @default(cuid())
-  blogId        String   @unique
-  totalViews    Int      @default(0)
-  uniqueVisitors Int     @default(0)
-  lastUpdated   DateTime @default(now())
-  dailyViews    Json?    // Store daily view counts as JSON
-  weeklyViews   Json?    // Store weekly view counts as JSON
-  monthlyViews  Json?    // Store monthly view counts as JSON
+  id             String   @id @default(cuid())
+  blogId         String   @unique
+  totalViews     Int      @default(0)
+  uniqueVisitors Int      @default(0)
+  lastUpdated    DateTime @default(now())
+  dailyViews     Json?
+  weeklyViews    Json?
+  monthlyViews   Json?
 
   @@map("analytics_summaries")
 }

@@ -40,33 +40,44 @@ import { toast } from "@/hooks/use-toast"
 
 const ITEMS_PER_PAGE = 10
 
-
-
-// Utility function for consistent date formatting
-const formatDate = (date ) => {
-  const dateObj = typeof date === "string" ? new Date(date) : date
-  return dateObj.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
+// Fixed date formatting function that works consistently on both server and client
+const formatDate = (dateString) => {
+  try {
+    // Use a format that's consistent between server and client
+    const date = new Date(dateString)
+    const month = date.toLocaleString("default", { month: "short" })
+    const day = date.getDate()
+    const year = date.getFullYear()
+    return `${month} ${day}, ${year}`
+  } catch (error) {
+    return "Invalid date"
+  }
 }
 
-export default function BlogTable({ blogs, onBlogDeleted }) {
+export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
   const [mounted, setMounted] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [blogToDelete, setBlogToDelete] = useState(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [clientBlogs, setClientBlogs] = useState([])
 
   // Handle hydration
   useEffect(() => {
     setMounted(true)
-  }, [])
+    // Create a client-side copy of the blogs with pre-formatted dates
+    // This ensures we don't have hydration mismatches
+    setClientBlogs(
+      blogs.map((blog) => ({
+        ...blog,
+        formattedDate: formatDate(blog.createdAt),
+      })),
+    )
+  }, [blogs])
 
-  const totalPages = Math.ceil(blogs.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(clientBlogs.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const currentBlogs = blogs.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+  const currentBlogs = clientBlogs.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -76,7 +87,7 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
 
   const getVisiblePages = () => {
     const delta = 2
-    const range= []
+    const range = []
     const rangeWithDots = []
 
     for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
@@ -110,7 +121,7 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
 
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/posts/${blogToDelete.id}`, {
+      const response = await fetch(`/api/blog/${blogToDelete.id}`, {
         method: "DELETE",
       })
 
@@ -124,7 +135,12 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
       })
 
       // Notify parent component about the deletion
-      onBlogDeleted?.(blogToDelete.id)
+      if (onBlogDeleted) {
+        onBlogDeleted(blogToDelete.id)
+      } else {
+        // If no callback provided, update the local state
+        setClientBlogs((prev) => prev.filter((blog) => blog.id !== blogToDelete.id))
+      }
 
       setDeleteDialogOpen(false)
       setBlogToDelete(null)
@@ -153,7 +169,20 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
     )
   }
 
-  if (blogs.length === 0) {
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="py-16">
+          <div className="flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <span className="ml-2 text-muted-foreground">Loading blogs...</span>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (clientBlogs.length === 0) {
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-16">
@@ -176,7 +205,7 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
           <CardTitle className="flex items-center justify-between">
             <span>Blog Posts</span>
             <Badge variant="secondary" className="ml-2">
-              {blogs.length} total
+              {clientBlogs.length} total
             </Badge>
           </CardTitle>
         </CardHeader>
@@ -197,11 +226,7 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
                   <TableRow key={blog.id} className="hover:bg-muted/50">
                     <TableCell>
                       <Avatar className="h-12 w-16 rounded-md">
-                        <AvatarImage
-                          src={blog.coverImage || "/placeholder.svg"}
-                          alt={blog.title}
-                          className="object-cover"
-                        />
+                        <AvatarImage src={blog.coverImage || ""} alt={blog.title} className="object-cover" />
                         <AvatarFallback className="rounded-md bg-muted">
                           <div className="text-xs font-medium">{blog.title.substring(0, 2).toUpperCase()}</div>
                         </AvatarFallback>
@@ -216,7 +241,7 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
                     <TableCell>
                       <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
-                        <span suppressHydrationWarning>{formatDate(blog.createdAt)}</span>
+                        <span>{blog.formattedDate}</span>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -273,8 +298,8 @@ export default function BlogTable({ blogs, onBlogDeleted }) {
           <CardContent className="py-4">
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Showing {startIndex + 1} to {Math.min(startIndex + ITEMS_PER_PAGE, blogs.length)} of {blogs.length}{" "}
-                entries
+                Showing {startIndex + 1} to {Math.min(startIndex + ITEMS_PER_PAGE, clientBlogs.length)} of{" "}
+                {clientBlogs.length} entries
               </div>
 
               <div className="flex items-center space-x-2">
