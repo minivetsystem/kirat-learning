@@ -2,6 +2,7 @@ import {  NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { S3Client,  DeleteObjectCommand } from "@aws-sdk/client-s3"
 import { uploadToS3 } from "@/lib/s3"
+import { getAuthUser } from "@/lib/auth"
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -13,11 +14,18 @@ const s3Client = new S3Client({
 
 
 export async function GET(request, { params }) {
+
   
   try {
     const { id } = await params
-    // Convert string id to number if your Post model uses Int for id
-    const postId = Number.parseInt(id)
+
+    const user = await getAuthUser(request)
+        if (!user) {
+          return NextResponse.json({ error: "Authentication required" }, { status: 401 })
+        }
+  
+ 
+
     const blog = await prisma.blog.findUnique({
       where: { id },
     })
@@ -35,13 +43,16 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
+   const user = await getAuthUser(request)
+        if (!user) {
+          return NextResponse.json({ error: "Authentication required" }, { status: 401 })
+        }
     const { id } = await params
     const formData = await request.formData()
     const title = formData.get("title") 
     const slug = formData.get("slug") 
     const description = formData.get("description") 
     const published = formData.get("published") === "true"
-    const authorEmail = formData.get("authorEmail") 
    const coverImage = formData.get("coverImage") 
 
     let coverImageUrl = null
@@ -70,7 +81,6 @@ export async function PUT(request, { params }) {
       title,
       slug,
       description,
-      authorEmail,
       published,
     }
 

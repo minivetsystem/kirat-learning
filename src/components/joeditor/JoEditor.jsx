@@ -200,6 +200,7 @@ const editorRef = useRef(null)
       askBeforePasteHTML: true,
       askBeforePasteFromWord: true,
       buttons: buttons,
+      
       uploader: {
         url: "/api/upload",
         format: "json",
@@ -318,6 +319,7 @@ const editorRef = useRef(null)
       enableDragAndDropFileToEditor: true,
       // Image upload settings
       insertImageAsBase64URI: false,
+      
     }),
     [],
   ) // Empty dependency array means this only runs once

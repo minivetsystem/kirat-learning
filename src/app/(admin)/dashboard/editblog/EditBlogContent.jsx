@@ -1,36 +1,35 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import { useRouter } from "next/navigation"
+import { useEffect, useState, useCallback } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import dynamic from "next/dynamic"
+import axios from "axios"
 import { toast } from "@/hooks/use-toast"
 import { Loader2, Upload, X } from "lucide-react"
-import dynamic from "next/dynamic"
-import Image from "next/image"
-import { authFetch } from "@/components/auth/AuthFetch"
-
+  import { authFetch } from "@/components/auth/AuthFetch"
+import Loading from "@/components/loading/Loading";
 const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
   ssr: false,
-  loading: () => (
-    <div className="min-h-[500px] border rounded-md flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
-        <p className="text-sm text-muted-foreground">Loading editor...</p>
-      </div>
-    </div>
-  ),
 })
 
-export default function AddBlogPage() {
+export default function EditBlogContent() {
   const router = useRouter()
-  const [topics, setTopics] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const searchParams = useSearchParams()
+  const blogId = searchParams.get("id")
+  const [errors, setErrors] = useState({})
   const [mounted, setMounted] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [originalCoverImage, setOriginalCoverImage] = useState(null)
+  const [imageToDelete, setImageToDelete] = useState(null) // Track image to delete from S3
   const [isSubmitting, setIsSubmitting] = useState(false)
+const [topics, setTopics] = useState([])
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -40,44 +39,76 @@ export default function AddBlogPage() {
     topicName: "",
   })
   const [coverImagePreview, setCoverImagePreview] = useState(null)
-  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     setMounted(true)
     fetchTopics()
   }, [])
 
-  const fetchTopics = async () => {
-    try {
-      // Use authFetch instead of regular fetch
-      const response = await authFetch("/api/topics")
+  // Fetch blog data on mount
+  useEffect(() => {
+    if (!blogId) return
+    const fetchData = async () => {
+      try {
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          toast({
-            title: "Authentication Error",
-            description: "Please log in again",
-            variant: "destructive",
-          })
-          router.push("/login")
-          return
-        }
-        throw new Error("Failed to fetch topics")
+        const response = await authFetch(`/api/blog/${blogId}`)
+        const data = await response.json()
+        setFormData({
+          title: data.title || "",
+          slug: data.slug || "",
+          coverImage: data.coverImage || null,
+          description: data.description || "",
+          published: data.published || false,
+          topicName: data.subject || "",
+        })
+
+        setOriginalCoverImage(data.coverImage || null)
+        setCoverImagePreview(data.coverImage || null)
+      } catch (err) {
+        toast({
+          title: "Error loading blog",
+          description: "Could not fetch blog data.",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
       }
-
-      const data = await response.json()
-      setTopics(data)
-    } catch (error) {
-      console.error("Error fetching topics:", error)
-      toast({
-        title: "Error",
-        description: "Failed to load topics",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
     }
-  }
+
+    fetchData()
+  }, [blogId])
+
+  const fetchTopics = async () => {
+      try {
+        // Use authFetch instead of regular fetch
+        const response = await authFetch("/api/topics")
+  
+        if (!response.ok) {
+          if (response.status === 401) {
+            toast({
+              title: "Authentication Error",
+              description: "Please log in again",
+              variant: "destructive",
+            })
+            router.push("/login")
+            return
+          }
+          throw new Error("Failed to fetch topics")
+        }
+  
+        const data = await response.json()
+        setTopics(data)
+      } catch (error) {
+        console.error("Error fetching topics:", error)
+        toast({
+          title: "Error",
+          description: "Failed to load topics",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
   const validateForm = useCallback(() => {
     const newErrors = {}
@@ -88,10 +119,6 @@ export default function AddBlogPage() {
       newErrors.title = "Title must be at least 3 characters"
     } else if (formData.title.length > 200) {
       newErrors.title = "Title must be less than 200 characters"
-    }
-
-    if (!formData.topicName) {
-      newErrors.topicName = "Topic is required"
     }
 
     if (!formData.slug.trim()) {
@@ -112,102 +139,79 @@ export default function AddBlogPage() {
     return Object.keys(newErrors).length === 0
   }, [formData])
 
-  const handleInputChange = useCallback(
-    (e) => {
-      const { name, value } = e.target
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }))
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
 
-      if (errors[name]) {
-        setErrors((prev) => ({
-          ...prev,
-          [name]: undefined,
-        }))
-      }
-    },
-    [errors],
-  )
-
-  const handleImageChange = useCallback((e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({
-          ...prev,
-          coverImage: "Image size must be less than 5MB",
-        }))
-        return
-      }
-
-      if (!file.type.startsWith("image/")) {
-        setErrors((prev) => ({
-          ...prev,
-          coverImage: "Please select a valid image file",
-        }))
+        toast({
+          title: "File Too Large",
+          description: "Cover image must be less than 5MB.",
+          variant: "destructive",
+        })
         return
       }
 
       setFormData((prev) => ({ ...prev, coverImage: file }))
-      setErrors((prev) => ({ ...prev, coverImage: undefined }))
 
       const reader = new FileReader()
-      reader.onload = (event) => {
-        setCoverImagePreview(event.target?.result)
-      }
+      reader.onload = (event) => setCoverImagePreview(event.target?.result)
       reader.readAsDataURL(file)
-    }
-  }, [])
 
-  const handleDescriptionChange = useCallback(
-    (value) => {
-      setFormData((prev) => ({
-        ...prev,
-        description: value,
-      }))
-
-      if (errors.description) {
-        setErrors((prev) => ({
-          ...prev,
-          description: undefined,
-        }))
+      // If there was an original S3 image, mark it for deletion
+      if (originalCoverImage && originalCoverImage.includes("s3.")) {
+        setImageToDelete(originalCoverImage)
       }
-    },
-    [errors.description],
-  )
-
-  const generateSlug = useCallback(() => {
-    if (!formData.title.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a title first",
-        variant: "destructive",
-      })
-      return
     }
+  }
 
+  const handleDescriptionChange = (value) => {
+    setFormData((prev) => ({ ...prev, description: value }))
+  }
+
+  const generateSlug = () => {
     const slug = formData.title
       .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "")
+      .replace(/[^\w\s]/gi, "")
       .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "")
+    setFormData((prev) => ({ ...prev, slug }))
+  }
 
-    setFormData((prev) => ({
-      ...prev,
-      slug,
-    }))
+  const deleteImageFromS3 = async (imageUrl) => {
+    try {
+      const response = await axios.delete("/api/delete-image", {
+        data: { imageUrl },
+      })
 
-    setErrors((prev) => ({
-      ...prev,
-      slug: undefined,
-    }))
-  }, [formData.title])
+      if (response.data.success) {
+        console.log("Image deleted from S3 successfully")
+      }
+    } catch (error) {
+      console.error("Error deleting image from S3:", error)
+      // Don't show error to user as this is background cleanup
+    }
+  }
 
-  const removeCoverImage = useCallback(() => {
+  const removeCoverImage = useCallback(async () => {
+    // If there's an original S3 image, delete it immediately
+    if (originalCoverImage && originalCoverImage.includes("s3.")) {
+      await deleteImageFromS3(originalCoverImage)
+      setOriginalCoverImage(null)
+    }
+
+    // If there's a new image marked for deletion, clear it
+    if (imageToDelete) {
+      setImageToDelete(null)
+    }
+
     setFormData((prev) => ({
       ...prev,
       coverImage: null,
@@ -220,68 +224,54 @@ export default function AddBlogPage() {
         fileInput.value = ""
       }
     }
-  }, [mounted])
+
+    toast({
+      title: "Image Removed",
+      description: "Cover image has been removed and deleted from storage.",
+    })
+  }, [mounted, originalCoverImage, imageToDelete])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    if (!validateForm()) {
-      toast({
-        title: "Validation Error",
-        description: "Please fix the errors before submitting",
-        variant: "destructive",
-      })
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
-      const submitFormData = new FormData()
-      submitFormData.append("title", formData.title.trim())
-      submitFormData.append("slug", formData.slug.trim())
-      submitFormData.append("description", formData.description.trim())
-      submitFormData.append("published", formData.published.toString())
-      submitFormData.append("topicName", formData.topicName)
+      const payload = new FormData()
+      payload.append("title", formData.title)
+      payload.append("slug", formData.slug)
+      payload.append("description", formData.description)
+      payload.append("published", formData.published.toString())
 
-      if (formData.coverImage) {
-        submitFormData.append("coverImage", formData.coverImage)
+      // Only append coverImage if it's a new file
+      if (formData.coverImage instanceof File) {
+        payload.append("coverImage", formData.coverImage)
       }
 
-      // Use authFetch for authenticated request
-      const response = await authFetch("/api/blog", {
-        method: "POST",
-        body: submitFormData,
-      })
+      // If there's an image to delete and we're uploading a new one, include it
+      if (imageToDelete) {
+        payload.append("deleteImageUrl", imageToDelete)
+      }
+
+      const response = await authFetch(`/api/blog/${blogId}`, {
+              method: "PUT",
+              body: payload,
+            })
 
       if (!response.ok) {
-        if (response.status === 401) {
-          toast({
-            title: "Authentication Error",
-            description: "Please log in again",
-            variant: "destructive",
-          })
-          router.push("/login")
-          return
-        }
-
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to create blog post")
+        throw new Error("Failed to update blog")
       }
 
-      const blog = await response.json()
-
       toast({
-        title: "Success!",
-        description: `Blog post "${formData.title}" has been ${formData.published ? "published" : "saved as draft"} successfully.`,
+        title: "Blog updated",
+        description: "Your blog post was updated successfully.",
       })
 
       router.push("/dashboard/blogs")
-    } catch (error) {
-      console.error("Error submitting form:", error)
+    } catch (err) {
+      console.error("Update error", err)
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "There was an error creating your blog post.",
+        title: "Error updating blog",
+        description: "Something went wrong.",
         variant: "destructive",
       })
     } finally {
@@ -289,35 +279,21 @@ export default function AddBlogPage() {
     }
   }
 
-  if (!mounted) {
-    return (
-      <div className="container mx-auto py-6">
-        <Card className="w-full max-w-4xl mx-auto">
-          <CardContent className="py-16">
-            <div className="flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
+  if (isLoading) return <Loading />
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Add Blog</h1>
-          <p className="text-muted-foreground">Create and publish your blog content</p>
+          <h1 className="text-3xl font-bold">Edit Blog</h1>
+          <p className="text-muted-foreground">Update your blog post</p>
         </div>
       </div>
-
-      <Card className="w-full mx-auto">
+      <Card>
         <CardHeader>
-          <CardTitle>Add New Blog Post</CardTitle>
-          <CardDescription>Create a new blog post with title, slug, cover image, and description.</CardDescription>
+          <CardTitle>Edit Blog Post</CardTitle>
+          <CardDescription>Update title, slug, image, description, or status.</CardDescription>
         </CardHeader>
-
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
             {/* Basic Information */}
@@ -367,28 +343,28 @@ export default function AddBlogPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="topicName">
-                Topic <span className="text-red-500">*</span>
-              </Label>
-              <select
-                id="topicName"
-                name="topicName"
-                value={formData.topicName}
-                onChange={handleInputChange}
-                className="w-full border rounded-md p-2"
-                required
-              >
-                <option value="" disabled>
-                  Select a topic
-                </option>
-                {topics.map((topic) => (
-                  <option key={topic.id} value={topic.name}>
-                    {topic.name}
-                  </option>
-                ))}
-              </select>
-              {errors.topicName && <p className="text-sm text-red-500">{errors.topicName}</p>}
-            </div>
+                          <Label htmlFor="topicName">
+                            Topic <span className="text-red-500">*</span>
+                          </Label>
+                          <select
+                            id="topicName"
+                            name="topicName"
+                            value={formData.topicName}
+                            onChange={handleInputChange}
+                            className="w-full border rounded-md p-2"
+                            required
+                          >
+                            <option value="" disabled>
+                              Select a topic
+                            </option>
+                            {topics.map((topic) => (
+                              <option key={topic.id} value={topic.name}>
+                                {topic.name}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.topicName && <p className="text-sm text-red-500">{errors.topicName}</p>}
+                        </div>
 
             {/* Cover Image */}
             <div className="space-y-2">
@@ -415,12 +391,7 @@ export default function AddBlogPage() {
               ) : (
                 <div className="relative">
                   <div className="relative w-full h-48 rounded-lg overflow-hidden">
-                    <Image
-                      src={coverImagePreview || "/placeholder.svg"}
-                      alt="Cover preview"
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={coverImagePreview || ""} alt="Cover preview" fill className="object-cover" />
                   </div>
                   <Button
                     type="button"
@@ -473,7 +444,7 @@ export default function AddBlogPage() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push("/dashboard/blogs")}
+              onClick={() => router.push("/dashboard/blog")}
               disabled={isSubmitting}
             >
               Cancel
