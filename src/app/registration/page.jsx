@@ -20,7 +20,37 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
-import { submitRegistration } from "@/app/actions/registration";
+
+
+async function submitRegistration(data) {
+  try {
+    const response = await fetch("/api/registration", {
+      method: "POST",
+      body: data, // FormData is sent directly
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      return {
+        success: false,
+        error: result.error || "Submission failed",
+      }
+    }
+
+    return {
+      success: true,
+      message: result.message,
+      referenceId: result.referenceId,
+    }
+  } catch (error) {
+    console.error("API call error:", error)
+    return {
+      success: false,
+      error: "Network error occurred. Please try again.",
+    }
+  }
+}
 
 export default function Registration() {
   const lang = "en";
@@ -52,6 +82,7 @@ export default function Registration() {
   };
 
   const isPaymentEnabled = false;
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -261,7 +292,7 @@ export default function Registration() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center relative py-8 "
+      className="min-h-screen flex items-center justify-center bg-cover bg-center relative py-8"
       style={{
         backgroundImage: 'url("/placeholder.svg?height=1080&width=1920")',
       }}
