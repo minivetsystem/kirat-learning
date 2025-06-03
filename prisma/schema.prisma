@@ -1,16 +1,100 @@
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
-  age   Int?
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  blogs Blog[]
+
+  @@map("users")
+}
+
+model Blog {
+  id          String      @id @default(cuid())
+  title       String      @db.VarChar(200)
+  slug        String      @unique @db.VarChar(100)
+  description String      @db.Text
+  coverImage  String?
+  published   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  subject     String?      @db.VarChar(255)
+  views       Int         @default(0)
+  images      BlogImage[]
+  viewEvents  ViewEvent[]
+  authorId    String
+  author      User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("blogs")
+}
+
+model Topic {
+  id   String @id @default(cuid())
+  name String @unique
+
+  @@map("topics")
+}
+
+model BlogImage {
+  id        String   @id @default(cuid())
+  blogId    String?
+  url       String
+  s3Key     String
+  filename  String
+  size      Int
+  mimeType  String
+  createdAt DateTime @default(now())
+  blog      Blog?    @relation(fields: [blogId], references: [id])
+
+  @@index([blogId], map: "blog_images_blogId_fkey")
+  @@map("blog_images")
+}
+
+model ViewEvent {
+  id        String   @id @default(cuid())
+  blogId    String
+  ip        String?  @db.VarChar(45)
+  userAgent String?  @db.Text
+  referer   String?  @db.Text
+  createdAt DateTime @default(now())
+  country   String?  @db.VarChar(2)
+  city      String?  @db.VarChar(100)
+  device    String?  @db.VarChar(50)
+  browser   String?  @db.VarChar(50)
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([createdAt])
+  @@map("view_events")
+}
+
+model AnalyticsSummary {
+  id             String   @id @default(cuid())
+  blogId         String   @unique
+  totalViews     Int      @default(0)
+  uniqueVisitors Int      @default(0)
+  lastUpdated    DateTime @default(now())
+  dailyViews     Json?
+  weeklyViews    Json?
+  monthlyViews   Json?
+
+  @@map("analytics_summaries")
+}
+
+enum Role {
+  ADMIN
 }
