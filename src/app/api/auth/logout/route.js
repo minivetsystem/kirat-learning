@@ -1,14 +1,12 @@
-import {  NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
-export async function POST(request) {
-  try {
-    // Since we're using JWT tokens, logout is handled client-side
-    // by removing the token from storage
-    return NextResponse.json({
-      message: "Logout successful",
-    })
-  } catch (error) {
-    console.error("Logout error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
-  }
+export async function GET() {
+  const response = NextResponse.json({ message: "Logout successful" });
+
+  response.headers.set(
+    "Set-Cookie",
+    "authToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=Lax"
+  );
+
+  return response;
 }
