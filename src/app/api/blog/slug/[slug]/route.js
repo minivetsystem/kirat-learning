@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 export async function GET(req, { params }) {
   try {
     const blog = await prisma.blog.findUnique({
-      where: { slug: params.slug },
+      where: { slug: params?.slug },
     })
 
     if (!blog) {

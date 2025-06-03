@@ -1,56 +1,7 @@
-"use client"
+import Image from "next/image";
+import "./BlogDetails.css";
 
-import { useEffect, useState } from "react"
-import axios from "axios"
-import Image from "next/image"
-import "./BlogDetails.css"
-import BlogDetailSkeleton from "../loading/BlogDetailsSkeleton"
-
-const getBlogPost = async (slug) => {
-  try {
-    // Fix the API endpoint URL - remove the extra "slug/" in the path
-    const res = await axios.get(`/api/blog/slug/${slug}`)
-
-    if (res.status === 404) {
-      return null
-    }
-
-    if (res.status !== 200) {
-      throw new Error("Failed to fetch blog post")
-    }
-
-    console.log(res.data)
-    return res.data
-  } catch (error) {
-    console.error("Error fetching blog post:", error)
-    throw error
-  }
-}
-
-export default function BlogDetail({ slug }) {
-  const [blogPost, setBlogPost] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-
-  useEffect(() => {
-    if (!slug) return
-
-    const fetchData = async () => {
-      try {
-        const data = await getBlogPost(slug)
-        setBlogPost(data)
-      } catch (error) {
-        console.error("Failed to load blog post:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [slug])
-
-  if (isLoading) return <BlogDetailSkeleton />
-
+export default function BlogDetail({ blogPost }) {
   if (!blogPost) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -59,7 +10,7 @@ export default function BlogDetail({ slug }) {
           <p className="mt-2">The blog post you're looking for doesn't exist or may have been removed.</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -101,5 +52,5 @@ export default function BlogDetail({ slug }) {
         )}
       </div>
     </div>
-  )
+  );
 }

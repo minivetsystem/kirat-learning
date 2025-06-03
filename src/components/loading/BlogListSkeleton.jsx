@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton"
 
 export default function BlogListSkeleton() {
   return (
-    <div className="w-full">
+    <div className="w-full py-10">
       {/* Featured Blog Skeleton */}
       <div className="container mx-auto 2xl:px-32 px-8 gap-10 flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex flex-col gap-4">
