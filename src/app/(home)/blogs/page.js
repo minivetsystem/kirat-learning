@@ -14,6 +14,8 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import Loading from "@/components/loading/Loading"
+import BlogList from "@/components/blog/BlogList"
+import BlogListSkeleton from "@/components/loading/BlogListSkeleton"
 
 // Utility: truncate HTML content by words
 const truncateHtmlWords = (html, wordLimit) => {
@@ -66,6 +68,7 @@ const otherBlogs = blogList?.blogs.length > 1 ? blogList?.blogs.slice(1) : [];
 
   return (
     <div>
+      {/* <BlogList /> */}
       <section className="py-8 lg:py-20 bg-primary-midnightBlue">
         <div className="container mx-auto 2xl:px-32 px-8">
           <h1 className="text-white font-extrabold md:text-4xl text-2xl">Kirat Learning Blogs</h1>
@@ -73,7 +76,7 @@ const otherBlogs = blogList?.blogs.length > 1 ? blogList?.blogs.slice(1) : [];
       </section>
 
       <section className="py-8 lg:py-20">
-        {isLoading ? <div className=""><Loading/></div> : <div><div className="container mx-auto 2xl:px-32 px-8 gap-10 flex flex-col md:flex-row">
+        {isLoading ? <div className=""><BlogListSkeleton/></div> : <div><div className="container mx-auto 2xl:px-32 px-8 gap-10 flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 flex flex-col gap-2">
             <p className="font-bold">Blog</p>
             <Link href={`/blogs/${firstBlog?.slug}`}>
@@ -143,9 +146,9 @@ const otherBlogs = blogList?.blogs.length > 1 ? blogList?.blogs.slice(1) : [];
                     </div>
                   )}
                 </div>
-                <h3 className="font-bold text-black text-xl leading-tight line-clamp-2">
+                <Link href={`/blogs/${blog?.slug}`} className="font-bold text-black text-xl leading-tight line-clamp-2 hover:underline">
                   {blog?.title}
-                </h3>
+                </Link>
                 
               </CardContent>
             </Card>

@@ -1,0 +1,28 @@
+.blog-content h1{
+    font-size: 32px !important;
+    font-weight: 700 !important;
+}
+
+.blog-content h2{
+    font-size: 28px !important;
+    font-weight: 700 !important;
+}
+
+.blog-content h3{
+    font-size: 24px !important;
+    font-weight: 700 !important;
+}
+
+.blog-content h4{
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.blog-content ol,
+.blog-content ul,
+.blog-content li {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+  
+}
+  

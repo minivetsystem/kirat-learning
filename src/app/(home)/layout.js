@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Poppins } from "next/font/google";
 
 import Footer from "@/components/footer/Footer";
+import FloatingSocials from "../../components/floatingSocials/FloatingSocials";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
     <div>
       <Navbar />
       <div className="relative overflow-hidden">{children}</div>
+       <FloatingSocials/>
       <Footer />
     </div>
   );

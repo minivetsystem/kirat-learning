@@ -1,0 +1,59 @@
+"use client"
+
+import { Skeleton } from "@/components/ui/skeleton"
+
+export default function BlogDetailSkeleton() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Title skeleton */}
+        <div className="mb-6">
+          <Skeleton className="h-10 w-3/4 mb-2" />
+          <Skeleton className="h-10 w-1/2" />
+        </div>
+
+        {/* Cover image skeleton */}
+        <Skeleton className="w-full h-64 md:h-96 mb-8 rounded-lg" />
+
+        {/* Blog content skeleton */}
+        <div className="prose prose-lg max-w-none space-y-4">
+          {/* Paragraph skeletons */}
+          {Array(6)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-4/5" />
+              </div>
+            ))}
+
+          {/* Subheading skeleton */}
+          <Skeleton className="h-8 w-2/3 mt-8" />
+
+          {/* More paragraph skeletons */}
+          {Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i + 6} className="space-y-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-3/4" />
+              </div>
+            ))}
+        </div>
+
+        {/* Author section skeleton */}
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="flex items-center gap-4">
+            <Skeleton className="w-12 h-12 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-4 w-48" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

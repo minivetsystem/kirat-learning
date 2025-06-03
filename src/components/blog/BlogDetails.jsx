@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Image from "next/image"
+import "./BlogDetails.css"
+import BlogDetailSkeleton from "../loading/BlogDetailsSkeleton"
 
 const getBlogPost = async (slug) => {
   try {
@@ -29,7 +31,6 @@ export default function BlogDetail({ slug }) {
   const [blogPost, setBlogPost] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  console.log("slug", slug)
 
   useEffect(() => {
     if (!slug) return
@@ -48,13 +49,7 @@ export default function BlogDetail({ slug }) {
     fetchData()
   }, [slug])
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    )
-  }
+  if (isLoading) return <BlogDetailSkeleton />
 
   if (!blogPost) {
     return (
@@ -86,7 +81,7 @@ export default function BlogDetail({ slug }) {
         )}
 
         <div className="prose prose-lg max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: blogPost.description }} />
+          <div className="blog-content" dangerouslySetInnerHTML={{ __html: blogPost.description }} />
         </div>
 
         {blogPost.author && (
