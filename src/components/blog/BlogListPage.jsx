@@ -6,10 +6,12 @@ import DOMPurify from "dompurify";
 import { MoveRight, CalendarIcon, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import ComingSoonPage from "@/app/(home)/comingsoon/page";
+import BlogListSkeleton from "../loading/BlogListSkeleton";
+import axios from "axios";
 
-// ✅ Safe utility for truncating HTML on the client
-const truncateHtmlWords = (html, wordLimit)=> {
-  if (typeof window === "undefined") return ""; // SSR-safe
+const truncateHtmlWords = (html, wordLimit) => {
+  if (typeof window === "undefined") return "";
 
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
@@ -18,27 +20,43 @@ const truncateHtmlWords = (html, wordLimit)=> {
   return DOMPurify.sanitize(words + "...");
 };
 
-// ✅ Date formatter
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return `${date.toLocaleString("default", { month: "short" })} ${date.getDate()}, ${date.getFullYear()}`;
+  return `${date.toLocaleString("default", {
+    month: "short",
+  })} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
 export default function BlogListPage({ blogs }) {
-  const [truncatedDescription, setTruncatedDescription] = useState("");
-
-  if (!blogs || blogs.length === 0) {
-    return <p className="text-center">No blogs found</p>;
-  }
-
-  const firstBlog = blogs[0];
-  const otherBlogs = blogs.slice(1);
+  const [blogList, setBlogList] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (firstBlog?.description) {
-      setTruncatedDescription(truncateHtmlWords(firstBlog.description, 80));
+    fetchBlog();
+  }, []);
+
+  const fetchBlog = async () => {
+    try {
+      const res = await axios.get("/api/blog");
+      setBlogList(res.data);
+      setIsLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load blogs",
+        variant: "destructive",
+      });
     }
-  }, [firstBlog?.description]);
+  };
+  if (isLoading) {
+    return <BlogListSkeleton />;
+  }
+  if (!blogList?.blogs || blogList?.blogs.length === 0) {
+    return <ComingSoonPage />;
+  }
+
+  const firstBlog = blogList?.blogs?.[0] || null;
+  const otherBlogs = blogList?.blogs.length > 1 ? blogList?.blogs.slice(1) : [];
 
   return (
     <div>
@@ -54,9 +72,11 @@ export default function BlogListPage({ blogs }) {
               <p>{formatDate(firstBlog.createdAt)}</p>
             </div>
             <div
-  className="prose max-w-none text-lg mt-5"
-  dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-/>
+              className="prose max-w-none text-lg mt-5"
+              dangerouslySetInnerHTML={{
+                __html: truncateHtmlWords(firstBlog?.description, 80),
+              }}
+            />
             <Link href={`/blogs/${firstBlog.slug}`}>
               <button className="flex gap-2 mt-5 items-center">
                 Read More{" "}

@@ -1,36 +1,36 @@
-import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+"use client";
 
-import { revalidatePath } from "next/cache"
-import BlogTable from "./BlogTable"
-import TopicManagement from "./TopicManagement"
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
-async function getBlogs() {
-  try {
-    const blogs = await prisma.blog.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    })
-    return blogs
-  } catch (error) {
-    console.error("Error fetching posts:", error)
-    return []
-  }
-}
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import BlogTable from "./BlogTable";
+import TopicManagement from "./TopicManagement";
+import { authFetch } from "@/components/auth/AuthFetch";
 
-export default async function BlogsList() {
-  const blogs = await getBlogs()
+export default function BlogsList() {
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // This function will be called by the client component via a server action
-  async function handleBlogDeleted(blogId) {
-    "use server"
-    // Revalidate the blogs page to refresh the data
-    revalidatePath("/dashboard/blogs")
-  }
+  useEffect(() => {
+    const fetchBlogPost = async () => {
+      setIsLoading(true);
+      try {
+        const response = await authFetch("/api/blog");
+        const data = await response.json();
+        setBlogs(data.blogs || []);
+      } catch (error) {
+        console.error("Error fetching blog post:", error);
+        setBlogs([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBlogPost();
+  }, []);
 
   return (
     <div className="container mx-auto py-10">
@@ -47,28 +47,12 @@ export default async function BlogsList() {
         </Link>
       </div>
 
-      {blogs.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-16">
-            <h3 className="text-lg font-semibold mb-2">No blog posts yet</h3>
-            <p className="text-muted-foreground mb-4">Get started by creating your first blog post.</p>
-            <Link href="/dashboard/addblog">
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                Create First Blog
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="">
-          <BlogTable blogs={blogs}  />
-        </div>
-      )}
-<div className="mt-8">
-<TopicManagement />
-</div>
-      
+      {/* BlogTable handles both loading and empty states */}
+      <BlogTable blogs={blogs} isLoading={isLoading} />
+
+      <div className="mt-8">
+        <TopicManagement />
+      </div>
     </div>
-  )
+  );
 }
