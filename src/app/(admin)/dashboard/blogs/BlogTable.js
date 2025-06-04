@@ -1,17 +1,24 @@
-"use client"
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+"use client";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +28,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from "@/components/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   MoreHorizontal,
   Eye,
@@ -35,126 +42,129 @@ import {
   ChevronsRight,
   AlertCircle,
   Loader2,
-} from "lucide-react"
-import { toast } from "@/hooks/use-toast"
+} from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 10;
 
-// Fixed date formatting function that works consistently on both server and client
 const formatDate = (dateString) => {
   try {
-    // Use a format that's consistent between server and client
-    const date = new Date(dateString)
-    const month = date.toLocaleString("default", { month: "short" })
-    const day = date.getDate()
-    const year = date.getFullYear()
-    return `${month} ${day}, ${year}`
+    const date = new Date(dateString);
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
   } catch (error) {
-    return "Invalid date"
+    return "Invalid date";
   }
-}
+};
 
-export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
-  const [mounted, setMounted] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [blogToDelete, setBlogToDelete] = useState(null)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [clientBlogs, setClientBlogs] = useState([])
+export default function BlogTable({ blogs, onBlogDeleted, isLoading }) {
+  const [mounted, setMounted] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [clientBlogs, setClientBlogs] = useState([]);
 
   // Handle hydration
   useEffect(() => {
-    setMounted(true)
-    // Create a client-side copy of the blogs with pre-formatted dates
-    // This ensures we don't have hydration mismatches
+    setMounted(true);
     setClientBlogs(
       blogs.map((blog) => ({
         ...blog,
         formattedDate: formatDate(blog.createdAt),
-      })),
-    )
-  }, [blogs])
+      }))
+    );
+  }, [blogs]);
 
-  const totalPages = Math.ceil(clientBlogs.length / ITEMS_PER_PAGE)
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const currentBlogs = clientBlogs.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(clientBlogs.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentBlogs = clientBlogs.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page)
+      setCurrentPage(page);
     }
-  }
+  };
 
   const getVisiblePages = () => {
-    const delta = 2
-    const range = []
-    const rangeWithDots = []
+    const delta = 2;
+    const range = [];
+    const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
-      range.push(i)
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
+      range.push(i);
     }
 
     if (currentPage - delta > 2) {
-      rangeWithDots.push(1, "...")
+      rangeWithDots.push(1, "...");
     } else {
-      rangeWithDots.push(1)
+      rangeWithDots.push(1);
     }
 
-    rangeWithDots.push(...range)
+    rangeWithDots.push(...range);
 
     if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push("...", totalPages)
+      rangeWithDots.push("...", totalPages);
     } else if (totalPages > 1) {
-      rangeWithDots.push(totalPages)
+      rangeWithDots.push(totalPages);
     }
 
-    return rangeWithDots
-  }
+    return rangeWithDots;
+  };
 
   const openDeleteDialog = (blog) => {
-    setBlogToDelete(blog)
-    setDeleteDialogOpen(true)
-  }
+    setBlogToDelete(blog);
+    setDeleteDialogOpen(true);
+  };
 
   const handleDelete = async () => {
-    if (!blogToDelete) return
+    if (!blogToDelete) return;
 
-    setIsDeleting(true)
+    setIsDeleting(true);
     try {
       const response = await fetch(`/api/blog/${blogToDelete.id}`, {
         method: "DELETE",
-      })
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to delete blog post")
+        throw new Error("Failed to delete blog post");
       }
 
       toast({
         title: "Blog deleted",
         description: "Blog post deleted successfully.",
-      })
+      });
 
-      // Notify parent component about the deletion
       if (onBlogDeleted) {
-        onBlogDeleted(blogToDelete.id)
+        onBlogDeleted(blogToDelete.id);
       } else {
-        // If no callback provided, update the local state
-        setClientBlogs((prev) => prev.filter((blog) => blog.id !== blogToDelete.id))
+        setClientBlogs((prev) =>
+          prev.filter((blog) => blog.id !== blogToDelete.id)
+        );
       }
 
-      setDeleteDialogOpen(false)
-      setBlogToDelete(null)
+      setDeleteDialogOpen(false);
+      setBlogToDelete(null);
     } catch (error) {
-      console.error("Error deleting blog:", error)
+      console.error("Error deleting blog:", error);
       toast({
         title: "Error",
         description: "Failed to delete blog post.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsDeleting(false)
+      setIsDeleting(false);
     }
-  }
+  };
 
   // Show loading state until mounted to prevent hydration issues
   if (!mounted) {
@@ -166,7 +176,7 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (isLoading) {
@@ -175,11 +185,10 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
         <CardContent className="py-16">
           <div className="flex items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2 text-muted-foreground">Loading blogs...</span>
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (clientBlogs.length === 0) {
@@ -187,15 +196,19 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-16">
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-muted-foreground mb-2">No blog posts found</h3>
-            <p className="text-sm text-muted-foreground mb-4">Get started by creating your first blog post.</p>
+            <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+              No blog posts found
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Get started by creating your first blog post.
+            </p>
             <Link href="/dashboard/addblog">
               <Button>Create Blog Post</Button>
             </Link>
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -226,16 +239,26 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
                   <TableRow key={blog.id} className="hover:bg-muted/50">
                     <TableCell>
                       <Avatar className="h-12 w-16 rounded-md">
-                        <AvatarImage src={blog.coverImage || ""} alt={blog.title} className="object-cover" />
+                        <AvatarImage
+                          src={blog.coverImage || ""}
+                          alt={blog.title}
+                          className="object-cover"
+                        />
                         <AvatarFallback className="rounded-md bg-muted">
-                          <div className="text-xs font-medium">{blog.title.substring(0, 2).toUpperCase()}</div>
+                          <div className="text-xs font-medium">
+                            {blog.title.substring(0, 2).toUpperCase()}
+                          </div>
                         </AvatarFallback>
                       </Avatar>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="font-medium leading-none line-clamp-2">{blog.title}</div>
-                        <div className="text-sm text-muted-foreground">/{blog.slug}</div>
+                        <div className="font-medium leading-none line-clamp-2">
+                          {blog.title}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          /{blog.slug}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -247,7 +270,11 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
                     <TableCell>
                       <Badge
                         variant={blog.published ? "default" : "secondary"}
-                        className={blog.published ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
+                        className={
+                          blog.published
+                            ? "bg-green-100 text-green-800 hover:bg-green-100"
+                            : ""
+                        }
                       >
                         {blog.published ? "Published" : "Draft"}
                       </Badge>
@@ -255,20 +282,30 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Open menu</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
                           <DropdownMenuItem asChild>
-                            <Link href={`/blog/${blog.slug}`} className="flex items-center">
+                            <Link
+                              href={`/blog/${blog.slug}`}
+                              className="flex items-center"
+                            >
                               <Eye className="mr-2 h-4 w-4" />
                               View Blog
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <Link href={`/dashboard/editblog?id=${blog.id}`} className="flex items-center">
+                            <Link
+                              href={`/dashboard/editblog?id=${blog.id}`}
+                              className="flex items-center"
+                            >
                               <Edit className="mr-2 h-4 w-4" />
                               Edit Blog
                             </Link>
@@ -298,7 +335,8 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
           <CardContent className="py-4">
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Showing {startIndex + 1} to {Math.min(startIndex + ITEMS_PER_PAGE, clientBlogs.length)} of{" "}
+                Showing {startIndex + 1} to{" "}
+                {Math.min(startIndex + ITEMS_PER_PAGE, clientBlogs.length)} of{" "}
                 {clientBlogs.length} entries
               </div>
 
@@ -330,7 +368,11 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
                     key={index}
                     variant={currentPage === page ? "default" : "outline"}
                     size="sm"
-                    onClick={() => (typeof page === "number" ? handlePageChange(page) : undefined)}
+                    onClick={() =>
+                      typeof page === "number"
+                        ? handlePageChange(page)
+                        : undefined
+                    }
                     disabled={page === "..."}
                     className="h-8 w-8 p-0"
                   >
@@ -375,8 +417,9 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
             </AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete &quot;
-              <span className="font-medium">{blogToDelete?.title}</span>&quot;? This action cannot be undone and all
-              data associated with this blog post will be permanently removed.
+              <span className="font-medium">{blogToDelete?.title}</span>&quot;?
+              This action cannot be undone and all data associated with this
+              blog post will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -399,5 +442,5 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading = false }) {
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
+  );
 }

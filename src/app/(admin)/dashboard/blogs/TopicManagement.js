@@ -1,15 +1,19 @@
-"use client"
+"use client";
 
-
-
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "@/hooks/use-toast"
-import { Loader2, Plus, Trash2, Edit2, X, Check } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
+import { Loader2, Plus, Trash2, Edit2, X, Check } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,55 +24,54 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-
-
+} from "@/components/ui/alert-dialog";
+import { authFetch } from "@/components/auth/AuthFetch";
 
 export default function TopicManagement() {
-  const [topics, setTopics] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [newTopicName, setNewTopicName] = useState("")
-  const [editingTopic, setEditingTopic] = useState(null)
-  const [editName, setEditName] = useState("")
+  const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newTopicName, setNewTopicName] = useState("");
+  const [editingTopic, setEditingTopic] = useState(null);
+  const [editName, setEditName] = useState("");
 
   useEffect(() => {
-    fetchTopics()
-  }, [])
+    fetchTopics();
+  }, []);
 
   const fetchTopics = async () => {
     try {
-      const response = await fetch("/api/topics")
+      const response = await fetch("/api/topics");
       if (!response.ok) {
-        throw new Error("Failed to fetch topics")
+        throw new Error("Failed to fetch topics");
       }
-      const data = await response.json()
-      setTopics(data)
+      const data = await response.json();
+      setTopics(data);
     } catch (error) {
-      console.error("Error fetching topics:", error)
+      console.error("Error fetching topics:", error);
       toast({
         title: "Error",
         description: "Failed to load topics",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleAddTopic = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!newTopicName.trim()) {
       toast({
         title: "Error",
         description: "Please enter a topic name",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/topics", {
@@ -77,113 +80,123 @@ export default function TopicManagement() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ name: newTopicName.trim() }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to create topic")
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create topic");
       }
 
-      const newTopic = await response.json()
-      setTopics((prev) => [...prev, { ...newTopic, _count: { blogs: 0 } }])
-      setNewTopicName("")
+      const newTopic = await response.json();
+      setTopics((prev) => [...prev, { ...newTopic, _count: { blogs: 0 } }]);
+      setNewTopicName("");
 
       toast({
         title: "Success",
         description: `Topic "${newTopic.name}" created successfully`,
-      })
+      });
     } catch (error) {
-      console.error("Error creating topic:", error)
+      console.error("Error creating topic:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to create topic",
+        description:
+          error instanceof Error ? error.message : "Failed to create topic",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleDeleteTopic = async (topicId, topicName) => {
     try {
       const response = await fetch(`/api/topics/${topicId}`, {
         method: "DELETE",
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to delete topic")
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to delete topic");
       }
 
-      setTopics((prev) => prev.filter((topic) => topic.id !== topicId))
+      setTopics((prev) => prev.filter((topic) => topic.id !== topicId));
 
       toast({
         title: "Success",
         description: `Topic "${topicName}" deleted successfully`,
-      })
+      });
     } catch (error) {
-      console.error("Error deleting topic:", error)
+      console.error("Error deleting topic:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to delete topic",
+        description:
+          error instanceof Error ? error.message : "Failed to delete topic",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleEditTopic = async (topicId) => {
-    if (!editName.trim()) {
+    const name = editName.trim();
+
+    if (!name) {
       toast({
         title: "Error",
         description: "Please enter a topic name",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
-      const response = await fetch(`/api/topics/${topicId}`, {
+      const response = await authFetch(`/api/topics/${topicId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: editName.trim() }),
-      })
+        body: JSON.stringify({ name }),
+      });
+
+      const result = await response.json();
+      console.log("PUT result:", result);
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to update topic")
+        throw new Error(result.error || "Failed to update topic");
       }
 
-      const updatedTopic = await response.json()
-      setTopics((prev) => prev.map((topic) => (topic.id === topicId ? { ...topic, name: updatedTopic.name } : topic)))
+      setTopics((prev) =>
+        prev.map((topic) =>
+          topic.id === topicId ? { ...topic, name: result.name } : topic
+        )
+      );
 
-      setEditingTopic(null)
-      setEditName("")
+      setEditingTopic(null);
+      setEditName("");
 
       toast({
         title: "Success",
-        description: `Topic updated successfully`,
-      })
+        description: "Topic updated successfully",
+      });
     } catch (error) {
-      console.error("Error updating topic:", error)
+      console.error("Error updating topic:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update topic",
+        description:
+          error instanceof Error ? error.message : "Failed to update topic",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const startEditing = (topic) => {
-    setEditingTopic({ id: topic.id, name: topic.name })
-    setEditName(topic.name)
-  }
+    setEditingTopic({ id: topic.id, name: topic.name });
+    setEditName(topic.name);
+  };
 
   const cancelEditing = () => {
-    setEditingTopic(null)
-    setEditName("")
-  }
+    setEditingTopic(null);
+    setEditName("");
+  };
 
   if (isLoading) {
     return (
@@ -194,7 +207,7 @@ export default function TopicManagement() {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -202,8 +215,8 @@ export default function TopicManagement() {
       <CardHeader>
         <CardTitle>Topic Management</CardTitle>
         <CardDescription>
-          Create and manage blog topics. Topics help organize your content and make it easier for readers to find
-          related posts.
+          Create and manage blog topics. Topics help organize your content and
+          make it easier for readers to find related posts.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -222,7 +235,10 @@ export default function TopicManagement() {
               />
             </div>
             <div className="flex items-end">
-              <Button type="submit" disabled={isSubmitting || !newTopicName.trim()}>
+              <Button
+                type="submit"
+                disabled={isSubmitting || !newTopicName.trim()}
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -241,12 +257,16 @@ export default function TopicManagement() {
 
         {/* Topics List */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Existing Topics ({topics.length})</h3>
+          <h3 className="text-lg font-semibold">
+            Existing Topics ({topics.length})
+          </h3>
 
           {topics.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <p>No topics created yet.</p>
-              <p className="text-sm">Add your first topic above to get started.</p>
+              <p className="text-sm">
+                Add your first topic above to get started.
+              </p>
             </div>
           ) : (
             <div className="grid gap-3">
@@ -265,10 +285,18 @@ export default function TopicManagement() {
                           maxLength={50}
                           autoFocus
                         />
-                        <Button size="sm" onClick={() => handleEditTopic(topic.id)} disabled={!editName.trim()}>
+                        <Button
+                          size="sm"
+                          onClick={() => handleEditTopic(topic.id)}
+                          disabled={!editName.trim()}
+                        >
                           <Check className="h-4 w-4" />
                         </Button>
-                        <Button size="sm" variant="outline" onClick={cancelEditing}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={cancelEditing}
+                        >
                           <X className="h-4 w-4" />
                         </Button>
                       </div>
@@ -277,20 +305,23 @@ export default function TopicManagement() {
                         <Badge variant="secondary" className="text-sm">
                           {topic.name}
                         </Badge>
-                      
                       </>
                     )}
                   </div>
 
                   {editingTopic?.id !== topic.id && (
                     <div className="flex items-center gap-2">
-                      <Button size="sm" variant="outline" onClick={() => startEditing(topic)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => startEditing(topic)}
+                      >
                         <Edit2 className="h-4 w-4" />
                       </Button>
 
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button size="sm" variant="outline" >
+                          <Button size="sm" variant="outline">
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </AlertDialogTrigger>
@@ -298,13 +329,16 @@ export default function TopicManagement() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Topic</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete the topic "{topic.name}"? This action cannot be undone.
+                              Are you sure you want to delete the topic "
+                              {topic.name}"? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={() => handleDeleteTopic(topic.id, topic.name)}
+                              onClick={() =>
+                                handleDeleteTopic(topic.id, topic.name)
+                              }
                               className="bg-red-600 hover:bg-red-700"
                             >
                               Delete
@@ -321,5 +355,5 @@ export default function TopicManagement() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
