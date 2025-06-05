@@ -148,8 +148,15 @@ export default function Registration() {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
        
-        await axios.delete(`/api/registration/${userId}`)
+       
+const response = await authFetch(`/api/registration/${userId}`, {
+                    method: "DELETE",
+                  })
 
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Failed to delete user");
+                  }
        
         if (users) {
           setUsers(users.filter((user) => user.id !== Number.parseInt(userId)))
