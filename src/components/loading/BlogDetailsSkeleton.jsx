@@ -4,8 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function BlogDetailSkeleton() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="py-8 lg:py-20">
+      <div className="container mx-auto 2xl:px-32 px-8">
         {/* Title skeleton */}
         <div className="mb-6">
           <Skeleton className="h-10 w-3/4 mb-2" />

@@ -21,6 +21,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { submitRegistration } from "@/app/actions/registration";
+import axios from "axios";
 
 export default function Registration() {
   const lang = "en";
@@ -192,16 +193,16 @@ export default function Registration() {
     }
 
     try {
-      const response = await submitRegistration(data);
+      const response = await axios.post("/api/registration", data);
 
-      if (!response.success) {
-        if (response.error) {
-          showPopup(response.error);
-          return;
-        }
-        showPopup("Something went wrong.");
-        return;
-      }
+      if (!response.data?.success) {
+  if (response.data?.error) {
+    showPopup(response.data.error);
+    return;
+  }
+  showPopup("Something went wrong.");
+  return;
+}
 
       showPopup(
         lang === "hi" ? "सफलतापूर्वक सब्मिट हुआ!" : "Submitted successfully!"

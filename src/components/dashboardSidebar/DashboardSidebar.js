@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { Home, FileText } from "lucide-react";
+import { Home, FileText, ClipboardPen } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -12,7 +12,13 @@ const links = [
     href: "/dashboard/blogs",
     label: "Manage Blogs",
     icon: FileText,
-    activeOn: ["/dashboard/blogs", "/dashboard/addblog", "/dashboard/editblog"],
+    activeOn: ["/dashboard/blogs", "/dashboard/addblog", "/dashboard/editblog", ],
+  },
+  {
+    href: "/dashboard/registration",
+    label: "Registration",
+    icon: ClipboardPen ,
+    activeOn: ["/dashboard/registration" ],
   },
 ];
 

@@ -56,7 +56,7 @@ export async function POST(request) {
     const title = formData.get("title")
     const slug = formData.get("slug")
     const description = formData.get("description")
-    const published = formData.get("published") === "true"
+    const published = formData.get("published") === "true" 
     const coverImage = formData.get("coverImage") 
     const subject = formData.get("topicName")
 

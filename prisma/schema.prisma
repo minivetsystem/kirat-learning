@@ -95,6 +95,19 @@ model AnalyticsSummary {
   @@map("analytics_summaries")
 }
 
+model Registration {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String   @unique
+  email     String   @unique
+  dob       DateTime
+  course    String
+  state     String
+  city      String
+  fileUrl   String?
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   ADMIN
 }
