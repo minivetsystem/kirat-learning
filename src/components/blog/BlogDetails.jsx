@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { MoveRight, CalendarIcon, Clock } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import "./BlogDetails.css";
 const getBlogPost = async (slug) => {
   try {
     const res = await axios.get(`/api/blog/slug/${slug}`);
@@ -98,7 +99,7 @@ export default function BlogDetail({ slug }) {
         )}
 
         <div className="prose prose-lg max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: blogPost?.description }} />
+          <div className="blog-content" dangerouslySetInnerHTML={{ __html: blogPost?.description }} />
         </div>
       </div>
       <div className="container mx-auto 2xl:px-32 px-8 mt-20">

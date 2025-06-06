@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import dynamic from "next/dynamic"
 import axios from "axios"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import { Loader2, Upload, X } from "lucide-react"
   import { authFetch } from "@/components/auth/AuthFetch"
 import Loading from "@/components/loading/Loading";
