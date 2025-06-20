@@ -262,7 +262,7 @@ export default function EditBlogContent() {
           <p className="text-muted-foreground">Update your blog post</p>
         </div>
       </div>
-      // Display a loading component if the data is still loading
+
       <Card>
         <CardHeader>
           <CardTitle>Edit Blog Post</CardTitle>
