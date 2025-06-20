@@ -22,7 +22,6 @@ const getBlogPost = async (slug) => {
       throw new Error("Failed to fetch blog post");
     }
 
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("Error fetching blog post:", error);
