@@ -61,11 +61,7 @@ export default function BlogDetail({ slug }) {
       setBlogList(res.data);
       setIsLoading(false);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load blogs",
-        variant: "destructive",
-      });
+      toast("Failed to load blogs");
     }
   };
 
@@ -75,8 +71,6 @@ export default function BlogDetail({ slug }) {
   if (isLoading) {
     return <BlogDetailSkeleton />;
   }
-
-  
 
   return (
     <div className="py-8 lg:py-20">
@@ -99,7 +93,10 @@ export default function BlogDetail({ slug }) {
         )}
 
         <div className="prose prose-lg max-w-none">
-          <div className="blog-content" dangerouslySetInnerHTML={{ __html: blogPost?.description }} />
+          <div
+            className="blog-content"
+            dangerouslySetInnerHTML={{ __html: blogPost?.description }}
+          />
         </div>
       </div>
       <div className="container mx-auto 2xl:px-32 px-8 mt-20">

@@ -1,8 +1,5 @@
-
-
 import React from "react";
 import Contactform from "./contactform";
-import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Contact Us",
@@ -34,7 +31,7 @@ export default function ContactUs() {
             <h3 className="font-extrabold text-xl mb-2">PHONE NO.</h3>
             <p>
               <a href="tel:+918500007126" className=" text-sm block">
-              +918500007126
+                +918500007126
               </a>
             </p>
           </div>
@@ -42,7 +39,9 @@ export default function ContactUs() {
             <img className="mb-4 inline " src="/icon2.png" alt="no img" />
             <h3 className="font-extrabold text-xl mb-2">EMAIL </h3>
             <p className="text-sm ">
-              <a href="mailto:hr@kiratitsolutions.com">hello@kiratlearning.com</a>
+              <a href="mailto:hr@kiratitsolutions.com">
+                hello@kiratlearning.com
+              </a>
             </p>
           </div>
 
@@ -58,11 +57,9 @@ export default function ContactUs() {
               <p className="text-sm">
                 Kirat IT, UK - 127 Fencepiece Road, Ilford, England, IG6 2LD
               </p>
-              
             </div>
           </div>
         </div>
-        <ToastContainer />
       </div>
     </div>
   );

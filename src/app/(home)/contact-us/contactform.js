@@ -1,8 +1,8 @@
-"use client"
-import { sendEmail } from "@/app/actions/email"
-import { useState } from "react"
-import { ChevronRight } from "lucide-react"
-import { toast } from "react-toastify"
+"use client";
+import { sendEmail } from "@/app/actions/email";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function Contactform() {
   const [formData, setFormData] = useState({
@@ -12,12 +12,12 @@ export default function Contactform() {
     message: "",
     organizationType: "",
     organizationName: "",
-  })
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await sendEmail(formData)
-toast.success("Email sent successfully");
+    e.preventDefault();
+    await sendEmail(formData);
+    toast.success("Email sent successfully");
     setFormData({
       name: "",
       email: "",
@@ -25,8 +25,8 @@ toast.success("Email sent successfully");
       message: "",
       organizationType: "",
       organizationName: "",
-    })
-  }
+    });
+  };
 
   return (
     <div className="md:w-1/2 xl:py-10 py-8 bg-white px-16 md:mb-0 mb-16">
@@ -38,7 +38,9 @@ toast.success("Email sent successfully");
                 placeholder="NAME"
                 name="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 id="first-name"
                 type="text"
                 className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
@@ -52,7 +54,9 @@ toast.success("Email sent successfully");
                 placeholder="EMAIL"
                 name="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 type="email"
                 className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
               />
@@ -65,7 +69,9 @@ toast.success("Email sent successfully");
                 placeholder="PHONE NO."
                 name="phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 type="tel"
                 className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
               />
@@ -78,7 +84,9 @@ toast.success("Email sent successfully");
               <select
                 name="organizationType"
                 value={formData.organizationType}
-                onChange={(e) => setFormData({ ...formData, organizationType: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, organizationType: e.target.value })
+                }
                 className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2 appearance-none"
               >
                 <option value="" disabled>
@@ -99,7 +107,12 @@ toast.success("Email sent successfully");
                   placeholder={`${formData.organizationType.toUpperCase()} NAME`}
                   name="organizationName"
                   value={formData.organizationName}
-                  onChange={(e) => setFormData({ ...formData, organizationName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      organizationName: e.target.value,
+                    })
+                  }
                   type="text"
                   className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
                 />
@@ -114,7 +127,9 @@ toast.success("Email sent successfully");
                   placeholder="MESSAGE"
                   name="message"
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   type="text"
                   rows="3"
                   className="block w-full bg-transparent border border-transparent border-b-primary-midnightBlue text-primary-midnightBlue p-2"
@@ -135,5 +150,5 @@ toast.success("Email sent successfully");
         </div>
       </form>
     </div>
-  )
+  );
 }
