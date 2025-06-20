@@ -41,11 +41,7 @@ export default function BlogListPage({ blogs }) {
       setBlogList(res.data);
       setIsLoading(false);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load blogs",
-        variant: "destructive",
-      });
+      toast("Failed to load blogs");
     }
   };
   if (isLoading) {

@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/sonner";
+import { ToastContainer } from "react-toastify";
 export const metadata = {
   title: "Kirat Learning",
   description: "This is a learning platform",
@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning={true}>
         <AuthProvider>
           <main>{children}</main>
-          <Toaster />
+          <ToastContainer />
         </AuthProvider>
       </body>
     </html>

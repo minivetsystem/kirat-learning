@@ -1,14 +1,39 @@
-"use client"
+"use client";
 
-
-import { useState, useEffect } from "react"
-import axios from "axios"
-import { Download, Search, Eye, Trash2, ChevronUp, ChevronDown, FileText } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  Download,
+  Search,
+  Eye,
+  Trash2,
+  ChevronUp,
+  ChevronDown,
+  FileText,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Pagination,
   PaginationContent,
@@ -17,40 +42,37 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
-import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
-import { authFetch } from "@/components/auth/AuthFetch"
-
-
+} from "@/components/ui/pagination";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { authFetch } from "@/components/auth/AuthFetch";
 
 export default function Registration() {
   // Initialize users and filteredUsers as empty arrays to prevent undefined errors
-  const [users, setUsers] = useState([])
-  const [filteredUsers, setFilteredUsers] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  const [sortField, setSortField] = useState("createdAt")
-  const [sortDirection, setSortDirection] = useState("asc")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [selectedDocument, setSelectedDocument] = useState(null)
-  const [viewUser, setViewUser] = useState(null)
-  const itemsPerPage = 10
-  const { toast } = useToast()
-  const router = useRouter()
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortField, setSortField] = useState("createdAt");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedDocument, setSelectedDocument] = useState(null);
+  const [viewUser, setViewUser] = useState(null);
+  const itemsPerPage = 10;
+
+  const router = useRouter();
 
   useEffect(() => {
-    fetchUsers()
-  }, [currentPage, sortField, sortDirection])
+    fetchUsers();
+  }, [currentPage, sortField, sortDirection]);
 
   const fetchUsers = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-
       const response = await authFetch(`/api/registration`, {
-                    method: "GET",
-                  })
+        method: "GET",
+      });
       // In a real application, you would include pagination parameters
       // const response = await axios.get("/api/registration", {
       //   params: {
@@ -63,26 +85,22 @@ export default function Registration() {
       const data = await response.json();
 
       // Assuming the API returns { data: User[], totalPages: number }
-      setUsers(data.data)
-      setFilteredUsers(data.data)
-      setTotalPages(data.totalPages || Math.ceil(data.data.length / itemsPerPage))
+      setUsers(data.data);
+      setFilteredUsers(data.data);
+      setTotalPages(
+        data.totalPages || Math.ceil(data.data.length / itemsPerPage)
+      );
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch users. Please try again.",
-        variant: "destructive",
-      })
-      console.error("Error fetching users:", error)
+      toast("Failed to fetch users. Please try again.");
+      console.error("Error fetching users:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-
-
+  };
 
   // Update the useEffect that handles search to safely check for users
   useEffect(() => {
-    if (!users) return // Add safety check
+    if (!users) return; // Add safety check
 
     if (searchTerm) {
       const filtered = users.filter(
@@ -92,35 +110,36 @@ export default function Registration() {
           user.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
           user.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
           user.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.city.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
-      setFilteredUsers(filtered.slice(0, itemsPerPage))
-      setTotalPages(Math.ceil(filtered.length / itemsPerPage))
+          user.city.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredUsers(filtered.slice(0, itemsPerPage));
+      setTotalPages(Math.ceil(filtered.length / itemsPerPage));
     } else {
-      const startIndex = (currentPage - 1) * itemsPerPage
-      const endIndex = startIndex + itemsPerPage
-      setFilteredUsers(sortUsers(users, sortField, sortDirection).slice(startIndex, endIndex))
-      setTotalPages(Math.ceil(users.length / itemsPerPage))
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      setFilteredUsers(
+        sortUsers(users, sortField, sortDirection).slice(startIndex, endIndex)
+      );
+      setTotalPages(Math.ceil(users.length / itemsPerPage));
     }
-  }, [searchTerm, users, currentPage, itemsPerPage, sortField, sortDirection])
+  }, [searchTerm, users, currentPage, itemsPerPage, sortField, sortDirection]);
 
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value)
-    setCurrentPage(1)
-  }
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
 
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
-      setSortField(field)
-      setSortDirection("asc")
+      setSortField(field);
+      setSortDirection("asc");
     }
-  }
-
+  };
 
   const sortUsers = (usersToSort, field, direction) => {
-    if (!usersToSort || usersToSort.length === 0) return []
+    if (!usersToSort || usersToSort.length === 0) return [];
 
     return [...usersToSort].sort((a, b) => {
       if (
@@ -131,114 +150,105 @@ export default function Registration() {
         field === "state" ||
         field === "city"
       ) {
-        return direction === "asc" ? a[field].localeCompare(b[field]) : b[field].localeCompare(a[field])
+        return direction === "asc"
+          ? a[field].localeCompare(b[field])
+          : b[field].localeCompare(a[field]);
       } else if (field === "createdAt" || field === "dob") {
         return direction === "asc"
           ? new Date(a[field]).getTime() - new Date(b[field]).getTime()
-          : new Date(b[field]).getTime() - new Date(a[field]).getTime()
+          : new Date(b[field]).getTime() - new Date(a[field]).getTime();
       } else if (field === "id") {
-        return direction === "asc" ? a.id - b.id : b.id - a.id
+        return direction === "asc" ? a.id - b.id : b.id - a.id;
       }
-      return 0
-    })
-  }
-
+      return 0;
+    });
+  };
 
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-       
-       
-const response = await authFetch(`/api/registration/${userId}`, {
-                    method: "DELETE",
-                  })
+        const response = await authFetch(`/api/registration/${userId}`, {
+          method: "DELETE",
+        });
 
-                  if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Failed to delete user");
-                  }
-       
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to delete user");
+        }
+
         if (users) {
-          setUsers(users.filter((user) => user.id !== Number.parseInt(userId)))
+          setUsers(users.filter((user) => user.id !== Number.parseInt(userId)));
         }
         if (filteredUsers) {
-          setFilteredUsers(filteredUsers.filter((user) => user.id !== Number.parseInt(userId)))
+          setFilteredUsers(
+            filteredUsers.filter((user) => user.id !== Number.parseInt(userId))
+          );
         }
 
-        toast({
-          title: "Success",
-          description: "User deleted successfully",
-        })
+        toast("User deleted successfully");
       } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to delete user. Please try again.",
-          variant: "destructive",
-        })
-        console.error("Error deleting user:", error)
+        toast("Failed to delete user. Please try again.");
+        console.error("Error deleting user:", error);
       }
     }
-  }
+  };
 
   const handleViewUser = (user) => {
-    setViewUser(user)
-  }
+    setViewUser(user);
+  };
 
   const handleViewDocument = (documentUrl) => {
-    setSelectedDocument(documentUrl)
-  }
+    setSelectedDocument(documentUrl);
+  };
 
   const exportToExcel = async () => {
-  try {
-    const response = await axios.get("/api/registration/export", {
-      responseType: "blob",
-    });
-
-    if (response.status === 200) {
-      const blob = new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    try {
+      const response = await axios.get("/api/registration/export", {
+        responseType: "blob",
       });
 
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "registered-users.xlsx");
-      document.body.appendChild(link);
-      link.click();
+      if (response.status === 200) {
+        const blob = new Blob([response.data], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
 
-      // Clean up
-      link.remove();
-      window.URL.revokeObjectURL(url);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "registered-users.xlsx");
+        document.body.appendChild(link);
+        link.click();
 
-      toast({
-        title: "Success",
-        description: "Excel file downloaded successfully.",
-      });
-    } else {
-      throw new Error("File download failed with status " + response.status);
+        // Clean up
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+        toast("Excel file downloaded successfully.");
+      } else {
+        throw new Error("File download failed with status " + response.status);
+      }
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
+      toast("Failed to download Excel file. Please try again.");
     }
-  } catch (error) {
-    console.error("Error exporting to Excel:", error);
-    toast({
-      title: "Error",
-      description: "Failed to download Excel file. Please try again.",
-      variant: "destructive",
-    });
-  }
-};
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
-    })
-  }
+    });
+  };
 
   const renderSortIcon = (field) => {
-    if (sortField !== field) return null
-    return sortDirection === "asc" ? <ChevronUp className="ml-1 h-4 w-4" /> : <ChevronDown className="ml-1 h-4 w-4" />
-  }
+    if (sortField !== field) return null;
+    return sortDirection === "asc" ? (
+      <ChevronUp className="ml-1 h-4 w-4" />
+    ) : (
+      <ChevronDown className="ml-1 h-4 w-4" />
+    );
+  };
 
   return (
     <div className="container mx-auto py-8">
@@ -268,8 +278,8 @@ const response = await authFetch(`/api/registration/${userId}`, {
           <Select
             value={sortField}
             onValueChange={(value) => {
-              setSortField(value)
-              setCurrentPage(1)
+              setSortField(value);
+              setCurrentPage(1);
             }}
           >
             <SelectTrigger className="w-[180px]">
@@ -290,9 +300,15 @@ const response = await authFetch(`/api/registration/${userId}`, {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
+            onClick={() =>
+              setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+            }
           >
-            {sortDirection === "asc" ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            {sortDirection === "asc" ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </div>
@@ -301,33 +317,78 @@ const response = await authFetch(`/api/registration/${userId}`, {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[80px] cursor-pointer" onClick={() => handleSort("id")}>
-                <div className="flex items-center">ID {renderSortIcon("id")}</div>
+              <TableHead
+                className="w-[80px] cursor-pointer"
+                onClick={() => handleSort("id")}
+              >
+                <div className="flex items-center">
+                  ID {renderSortIcon("id")}
+                </div>
               </TableHead>
-              <TableHead className="w-[200px] cursor-pointer" onClick={() => handleSort("name")}>
-                <div className="flex items-center">Name {renderSortIcon("name")}</div>
+              <TableHead
+                className="w-[200px] cursor-pointer"
+                onClick={() => handleSort("name")}
+              >
+                <div className="flex items-center">
+                  Name {renderSortIcon("name")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("email")}>
-                <div className="flex items-center">Email {renderSortIcon("email")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("email")}
+              >
+                <div className="flex items-center">
+                  Email {renderSortIcon("email")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("phone")}>
-                <div className="flex items-center">Phone {renderSortIcon("phone")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("phone")}
+              >
+                <div className="flex items-center">
+                  Phone {renderSortIcon("phone")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("dob")}>
-                <div className="flex items-center">Date of Birth {renderSortIcon("dob")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("dob")}
+              >
+                <div className="flex items-center">
+                  Date of Birth {renderSortIcon("dob")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("course")}>
-                <div className="flex items-center">Course {renderSortIcon("course")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("course")}
+              >
+                <div className="flex items-center">
+                  Course {renderSortIcon("course")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("state")}>
-                <div className="flex items-center">State {renderSortIcon("state")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("state")}
+              >
+                <div className="flex items-center">
+                  State {renderSortIcon("state")}
+                </div>
               </TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("city")}>
-                <div className="flex items-center">City {renderSortIcon("city")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("city")}
+              >
+                <div className="flex items-center">
+                  City {renderSortIcon("city")}
+                </div>
               </TableHead>
               <TableHead>Document</TableHead>
-              <TableHead className="cursor-pointer" onClick={() => handleSort("createdAt")}>
-                <div className="flex items-center">Registration Date {renderSortIcon("createdAt")}</div>
+              <TableHead
+                className="cursor-pointer"
+                onClick={() => handleSort("createdAt")}
+              >
+                <div className="flex items-center">
+                  Registration Date {renderSortIcon("createdAt")}
+                </div>
               </TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -372,13 +433,19 @@ const response = await authFetch(`/api/registration/${userId}`, {
                         View
                       </Button>
                     ) : (
-                      <span className="text-muted-foreground text-sm">No document</span>
+                      <span className="text-muted-foreground text-sm">
+                        No document
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>{formatDate(user.createdAt)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" onClick={() => handleViewUser(user)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleViewUser(user)}
+                      >
                         <Eye className="h-4 w-4" />
                         <span className="sr-only">View</span>
                       </Button>
@@ -406,30 +473,37 @@ const response = await authFetch(`/api/registration/${userId}`, {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                className={
+                  currentPage === 1
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
               />
             </PaginationItem>
 
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNumber
+              let pageNumber;
 
               if (totalPages <= 5) {
-                pageNumber = i + 1
+                pageNumber = i + 1;
               } else if (currentPage <= 3) {
-                pageNumber = i + 1
+                pageNumber = i + 1;
               } else if (currentPage >= totalPages - 2) {
-                pageNumber = totalPages - 4 + i
+                pageNumber = totalPages - 4 + i;
               } else {
-                pageNumber = currentPage - 2 + i
+                pageNumber = currentPage - 2 + i;
               }
 
               return (
                 <PaginationItem key={pageNumber}>
-                  <PaginationLink isActive={currentPage === pageNumber} onClick={() => setCurrentPage(pageNumber)}>
+                  <PaginationLink
+                    isActive={currentPage === pageNumber}
+                    onClick={() => setCurrentPage(pageNumber)}
+                  >
                     {pageNumber}
                   </PaginationLink>
                 </PaginationItem>
-              )
+              );
             })}
 
             {totalPages > 5 && currentPage < totalPages - 2 && (
@@ -438,15 +512,23 @@ const response = await authFetch(`/api/registration/${userId}`, {
                   <PaginationEllipsis />
                 </PaginationItem>
                 <PaginationItem>
-                  <PaginationLink onClick={() => setCurrentPage(totalPages)}>{totalPages}</PaginationLink>
+                  <PaginationLink onClick={() => setCurrentPage(totalPages)}>
+                    {totalPages}
+                  </PaginationLink>
                 </PaginationItem>
               </>
             )}
 
             <PaginationItem>
               <PaginationNext
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                onClick={() =>
+                  setCurrentPage(Math.min(totalPages, currentPage + 1))
+                }
+                className={
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
               />
             </PaginationItem>
           </PaginationContent>
@@ -454,7 +536,10 @@ const response = await authFetch(`/api/registration/${userId}`, {
       </div>
 
       {/* Document Viewer Dialog */}
-      <Dialog open={!!selectedDocument} onOpenChange={() => setSelectedDocument(null)}>
+      <Dialog
+        open={!!selectedDocument}
+        onOpenChange={() => setSelectedDocument(null)}
+      >
         <DialogContent className="max-w-4xl max-h-[80vh]">
           <DialogHeader>
             <DialogTitle>Document Viewer</DialogTitle>
@@ -462,7 +547,11 @@ const response = await authFetch(`/api/registration/${userId}`, {
           <div className="mt-4 h-[60vh] overflow-auto">
             {selectedDocument &&
               (selectedDocument.endsWith(".pdf") ? (
-                <iframe src={selectedDocument} className="w-full h-full" title="Document Viewer" />
+                <iframe
+                  src={selectedDocument}
+                  className="w-full h-full"
+                  title="Document Viewer"
+                />
               ) : (
                 <img
                   src={selectedDocument || "/placeholder.svg"}
@@ -484,45 +573,65 @@ const response = await authFetch(`/api/registration/${userId}`, {
             <div className="mt-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">ID</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    ID
+                  </p>
                   <p>#{viewUser.id}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Name</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Name
+                  </p>
                   <p>{viewUser.name}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Email</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Email
+                  </p>
                   <p>{viewUser.email}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Phone</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Phone
+                  </p>
                   <p>{viewUser.phone}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Date of Birth</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Date of Birth
+                  </p>
                   <p>{formatDate(viewUser.dob)}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Course</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Course
+                  </p>
                   <p>{viewUser.course}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">State</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    State
+                  </p>
                   <p>{viewUser.state}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">City</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    City
+                  </p>
                   <p>{viewUser.city}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Registration Date</p>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Registration Date
+                  </p>
                   <p>{formatDate(viewUser.createdAt)}</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-2">Document</p>
+                <p className="text-sm font-medium text-muted-foreground mb-2">
+                  Document
+                </p>
                 {viewUser.fileUrl ? (
                   <Button
                     variant="outline"
@@ -541,5 +650,5 @@ const response = await authFetch(`/api/registration/${userId}`, {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

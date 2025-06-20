@@ -43,7 +43,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "react-toastify";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -139,8 +139,7 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading }) {
         throw new Error("Failed to delete blog post");
       }
 
-      toast({
-        title: "Blog deleted",
+      toast("Blog deleted", {
         description: "Blog post deleted successfully.",
       });
 
@@ -156,10 +155,8 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading }) {
       setBlogToDelete(null);
     } catch (error) {
       console.error("Error deleting blog:", error);
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "Failed to delete blog post.",
-        variant: "destructive",
       });
     } finally {
       setIsDeleting(false);
@@ -292,15 +289,6 @@ export default function BlogTable({ blogs, onBlogDeleted, isLoading }) {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem asChild>
-                            <Link
-                              href={`/blog/${blog.slug}`}
-                              className="flex items-center"
-                            >
-                              <Eye className="mr-2 h-4 w-4" />
-                              View Blog
-                            </Link>
-                          </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link
                               href={`/dashboard/editblog?id=${blog.id}`}

@@ -1,17 +1,24 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { toast } from "@/hooks/use-toast"
-import { Loader2, Upload, X } from "lucide-react"
-import dynamic from "next/dynamic"
-import Image from "next/image"
-import { authFetch } from "@/components/auth/AuthFetch"
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "react-toastify";
+import { Loader2, Upload, X } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { authFetch } from "@/components/auth/AuthFetch";
 
 const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
   ssr: false,
@@ -23,14 +30,14 @@ const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
       </div>
     </div>
   ),
-})
+});
 
 export default function AddBlogPage() {
-  const router = useRouter()
-  const [topics, setTopics] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [mounted, setMounted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter();
+  const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -38,154 +45,143 @@ export default function AddBlogPage() {
     description: "",
     published: false,
     topicName: "",
-  })
-  const [coverImagePreview, setCoverImagePreview] = useState(null)
-  const [errors, setErrors] = useState({})
+  });
+  const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setMounted(true)
-    fetchTopics()
-  }, [])
+    setMounted(true);
+    fetchTopics();
+  }, []);
 
   const fetchTopics = async () => {
     try {
       // Use authFetch instead of regular fetch
-      const response = await authFetch("/api/topics")
+      const response = await authFetch("/api/topics");
 
       if (!response.ok) {
         if (response.status === 401) {
-          toast({
-            title: "Authentication Error",
-            description: "Please log in again",
-            variant: "destructive",
-          })
-          router.push("/login")
-          return
+          toast.warning("Please log in again");
+          router.push("/login");
+          return;
         }
-        throw new Error("Failed to fetch topics")
+        throw new Error("Failed to fetch topics");
       }
 
-      const data = await response.json()
-      setTopics(data)
+      const data = await response.json();
+      setTopics(data);
     } catch (error) {
-      console.error("Error fetching topics:", error)
-      toast({
-        title: "Error",
-        description: "Failed to load topics",
-        variant: "destructive",
-      })
+      console.error("Error fetching topics:", error);
+      toast.error("Failed to load topics");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const validateForm = useCallback(() => {
-    const newErrors = {}
+    const newErrors = {};
 
     if (!formData.title.trim()) {
-      newErrors.title = "Title is required"
+      newErrors.title = "Title is required";
     } else if (formData.title.length < 3) {
-      newErrors.title = "Title must be at least 3 characters"
+      newErrors.title = "Title must be at least 3 characters";
     } else if (formData.title.length > 200) {
-      newErrors.title = "Title must be less than 200 characters"
+      newErrors.title = "Title must be less than 200 characters";
     }
 
     if (!formData.topicName) {
-      newErrors.topicName = "Topic is required"
+      newErrors.topicName = "Topic is required";
     }
 
     if (!formData.slug.trim()) {
-      newErrors.slug = "Slug is required"
+      newErrors.slug = "Slug is required";
     } else if (!/^[a-z0-9-]+$/.test(formData.slug)) {
-      newErrors.slug = "Slug can only contain lowercase letters, numbers, and hyphens"
+      newErrors.slug =
+        "Slug can only contain lowercase letters, numbers, and hyphens";
     } else if (formData.slug.length > 100) {
-      newErrors.slug = "Slug must be less than 100 characters"
+      newErrors.slug = "Slug must be less than 100 characters";
     }
 
     if (!formData.description.trim()) {
-      newErrors.description = "Description is required"
+      newErrors.description = "Description is required";
     } else if (formData.description.length < 10) {
-      newErrors.description = "Description must be at least 10 characters"
+      newErrors.description = "Description must be at least 10 characters";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }, [formData])
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }, [formData]);
 
   const handleInputChange = useCallback(
     (e) => {
-      const { name, value } = e.target
+      const { name, value } = e.target;
       setFormData((prev) => ({
         ...prev,
         [name]: value,
-      }))
+      }));
 
       if (errors[name]) {
         setErrors((prev) => ({
           ...prev,
           [name]: undefined,
-        }))
+        }));
       }
     },
-    [errors],
-  )
+    [errors]
+  );
 
   const handleImageChange = useCallback((e) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
+      const file = e.target.files[0];
 
       if (file.size > 5 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
           coverImage: "Image size must be less than 5MB",
-        }))
-        return
+        }));
+        return;
       }
 
       if (!file.type.startsWith("image/")) {
         setErrors((prev) => ({
           ...prev,
           coverImage: "Please select a valid image file",
-        }))
-        return
+        }));
+        return;
       }
 
-      setFormData((prev) => ({ ...prev, coverImage: file }))
-      setErrors((prev) => ({ ...prev, coverImage: undefined }))
+      setFormData((prev) => ({ ...prev, coverImage: file }));
+      setErrors((prev) => ({ ...prev, coverImage: undefined }));
 
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (event) => {
-        setCoverImagePreview(event.target?.result)
-      }
-      reader.readAsDataURL(file)
+        setCoverImagePreview(event.target?.result);
+      };
+      reader.readAsDataURL(file);
     }
-  }, [])
+  }, []);
 
   const handleDescriptionChange = useCallback(
     (value) => {
       setFormData((prev) => ({
         ...prev,
         description: value,
-      }))
+      }));
 
       if (errors.description) {
         setErrors((prev) => ({
           ...prev,
           description: undefined,
-        }))
+        }));
       }
     },
-    [errors.description],
-  )
+    [errors.description]
+  );
 
   const generateSlug = useCallback(() => {
     if (!formData.title.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a title first",
-        variant: "destructive",
-      })
-      return
+      toast.error("Please enter a title first");
+      return;
     }
 
     const slug = formData.title
@@ -194,100 +190,92 @@ export default function AddBlogPage() {
       .replace(/[^\w\s-]/g, "")
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "")
+      .replace(/^-|-$/g, "");
 
     setFormData((prev) => ({
       ...prev,
       slug,
-    }))
+    }));
 
     setErrors((prev) => ({
       ...prev,
       slug: undefined,
-    }))
-  }, [formData.title])
+    }));
+  }, [formData.title]);
 
   const removeCoverImage = useCallback(() => {
     setFormData((prev) => ({
       ...prev,
       coverImage: null,
-    }))
-    setCoverImagePreview(null)
+    }));
+    setCoverImagePreview(null);
 
     if (mounted) {
-      const fileInput = document.getElementById("coverImage")
+      const fileInput = document.getElementById("coverImage");
       if (fileInput) {
-        fileInput.value = ""
+        fileInput.value = "";
       }
     }
-  }, [mounted])
+  }, [mounted]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      toast({
-        title: "Validation Error",
-        description: "Please fix the errors before submitting",
-        variant: "destructive",
-      })
-      return
+      toast("Please fill in the required fields before submitting");
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const submitFormData = new FormData()
-      submitFormData.append("title", formData.title.trim())
-      submitFormData.append("slug", formData.slug.trim())
-      submitFormData.append("description", formData.description.trim())
-      submitFormData.append("published", formData.published.toString())
-      submitFormData.append("topicName", formData.topicName)
+      const submitFormData = new FormData();
+      submitFormData.append("title", formData.title.trim());
+      submitFormData.append("slug", formData.slug.trim());
+      submitFormData.append("description", formData.description.trim());
+      submitFormData.append("published", formData.published.toString());
+      submitFormData.append("topicName", formData.topicName);
 
       if (formData.coverImage) {
-        submitFormData.append("coverImage", formData.coverImage)
+        submitFormData.append("coverImage", formData.coverImage);
       }
 
       // Use authFetch for authenticated request
       const response = await authFetch("/api/blog", {
         method: "POST",
         body: submitFormData,
-      })
+      });
 
       if (!response.ok) {
         if (response.status === 401) {
-          toast({
-            title: "Authentication Error",
+          toast("Authentication Error", {
             description: "Please log in again",
-            variant: "destructive",
-          })
-          router.push("/login")
-          return
+          });
+          router.push("/login");
+          return;
         }
 
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to create blog post")
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create blog post");
       }
 
-      const blog = await response.json()
+      const blog = await response.json();
 
-      toast({
-        title: "Success!",
-        description: `Blog post "${formData.title}" has been ${formData.published ? "published" : "saved as draft"} successfully.`,
-      })
+      toast.success("Blog post created successfully.");
 
-      router.push("/dashboard/blogs")
+      router.push("/dashboard/blogs");
     } catch (error) {
-      console.error("Error submitting form:", error)
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "There was an error creating your blog post.",
-        variant: "destructive",
-      })
+      console.error("Error submitting form:", error);
+      toast("Error", {
+        description:
+          error instanceof Error
+            ? error.message
+            : "There was an error creating your blog post.",
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (!mounted) {
     return (
@@ -300,7 +288,7 @@ export default function AddBlogPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -308,14 +296,19 @@ export default function AddBlogPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">Add Blog</h1>
-          <p className="text-muted-foreground">Create and publish your blog content</p>
+          <p className="text-muted-foreground">
+            Create and publish your blog content
+          </p>
         </div>
       </div>
 
       <Card className="w-full mx-auto">
         <CardHeader>
           <CardTitle>Add New Blog Post</CardTitle>
-          <CardDescription>Create a new blog post with title, slug, cover image, and description.</CardDescription>
+          <CardDescription>
+            Create a new blog post with title, slug, cover image, and
+            description.
+          </CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
@@ -337,8 +330,12 @@ export default function AddBlogPage() {
                   className={errors.title ? "border-red-500" : ""}
                   maxLength={200}
                 />
-                {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
-                <p className="text-xs text-muted-foreground">{formData.title.length}/200 characters</p>
+                {errors.title && (
+                  <p className="text-sm text-red-500">{errors.title}</p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  {formData.title.length}/200 characters
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -356,13 +353,22 @@ export default function AddBlogPage() {
                       className={errors.slug ? "border-red-500" : ""}
                       maxLength={100}
                     />
-                    {errors.slug && <p className="text-sm text-red-500 mt-1">{errors.slug}</p>}
+                    {errors.slug && (
+                      <p className="text-sm text-red-500 mt-1">{errors.slug}</p>
+                    )}
                   </div>
-                  <Button type="button" variant="outline" onClick={generateSlug} disabled={!formData.title.trim()}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={generateSlug}
+                    disabled={!formData.title.trim()}
+                  >
                     Generate from Title
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground">URL: /blog/{formData.slug || "your-slug"}</p>
+                <p className="text-xs text-muted-foreground">
+                  URL: /blog/{formData.slug || "your-slug"}
+                </p>
               </div>
             </div>
 
@@ -387,7 +393,9 @@ export default function AddBlogPage() {
                   </option>
                 ))}
               </select>
-              {errors.topicName && <p className="text-sm text-red-500">{errors.topicName}</p>}
+              {errors.topicName && (
+                <p className="text-sm text-red-500">{errors.topicName}</p>
+              )}
             </div>
 
             {/* Cover Image */}
@@ -399,8 +407,12 @@ export default function AddBlogPage() {
                   <Upload className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="mt-4">
                     <Label htmlFor="coverImage" className="cursor-pointer">
-                      <span className="mt-2 block text-sm font-medium text-gray-900">Click to upload cover image</span>
-                      <span className="mt-1 block text-xs text-gray-500">PNG, JPG, GIF up to 5MB</span>
+                      <span className="mt-2 block text-sm font-medium text-gray-900">
+                        Click to upload cover image
+                      </span>
+                      <span className="mt-1 block text-xs text-gray-500">
+                        PNG, JPG, GIF up to 5MB
+                      </span>
                     </Label>
                     <Input
                       id="coverImage"
@@ -434,7 +446,9 @@ export default function AddBlogPage() {
                 </div>
               )}
 
-              {errors.coverImage && <p className="text-sm text-red-500">{errors.coverImage}</p>}
+              {errors.coverImage && (
+                <p className="text-sm text-red-500">{errors.coverImage}</p>
+              )}
             </div>
 
             {/* Content */}
@@ -443,9 +457,14 @@ export default function AddBlogPage() {
                 Content <span className="text-red-500">*</span>
               </Label>
               <div className="min-h-[300px] border rounded-md">
-                <JoEditor value={formData.description} onChange={handleDescriptionChange} />
+                <JoEditor
+                  value={formData.description}
+                  onChange={handleDescriptionChange}
+                />
               </div>
-              {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
+              {errors.description && (
+                <p className="text-sm text-red-500">{errors.description}</p>
+              )}
             </div>
 
             {/* Publication Status */}
@@ -455,10 +474,16 @@ export default function AddBlogPage() {
                 <Switch
                   id="published"
                   checked={formData.published}
-                  onCheckedChange={(value) => setFormData((prev) => ({ ...prev, published: value }))}
+                  onCheckedChange={(value) =>
+                    setFormData((prev) => ({ ...prev, published: value }))
+                  }
                 />
                 <div className="flex-1">
-                  <p className="font-medium">{formData.published ? "Publish immediately" : "Save as draft"}</p>
+                  <p className="font-medium">
+                    {formData.published
+                      ? "Publish immediately"
+                      : "Save as draft"}
+                  </p>
                   <p className="text-sm text-muted-foreground">
                     {formData.published
                       ? "This post will be visible to all visitors"
@@ -478,7 +503,11 @@ export default function AddBlogPage() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="min-w-[120px]">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="min-w-[120px]"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -494,5 +523,5 @@ export default function AddBlogPage() {
         </form>
       </Card>
     </div>
-  )
+  );
 }

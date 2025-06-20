@@ -1,34 +1,41 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useCallback } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import dynamic from "next/dynamic"
-import axios from "axios"
-import { toast } from "sonner"
-import { Loader2, Upload, X } from "lucide-react"
-  import { authFetch } from "@/components/auth/AuthFetch"
+import { useEffect, useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import dynamic from "next/dynamic";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Loader2, Upload, X } from "lucide-react";
+import { authFetch } from "@/components/auth/AuthFetch";
 import Loading from "@/components/loading/Loading";
 const JoEditor = dynamic(() => import("@/components/joeditor/JoEditor"), {
   ssr: false,
-})
+});
 
 export default function EditBlogContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const blogId = searchParams.get("id")
-  const [errors, setErrors] = useState({})
-  const [mounted, setMounted] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [originalCoverImage, setOriginalCoverImage] = useState(null)
-  const [imageToDelete, setImageToDelete] = useState(null) // Track image to delete from S3
-  const [isSubmitting, setIsSubmitting] = useState(false)
-const [topics, setTopics] = useState([])
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const blogId = searchParams.get("id");
+  const [errors, setErrors] = useState({});
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [originalCoverImage, setOriginalCoverImage] = useState(null);
+  const [imageToDelete, setImageToDelete] = useState(null); // Track image to delete from S3
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [topics, setTopics] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -36,22 +43,21 @@ const [topics, setTopics] = useState([])
     description: "",
     published: false,
     topicName: "",
-  })
-  const [coverImagePreview, setCoverImagePreview] = useState(null)
+  });
+  const [coverImagePreview, setCoverImagePreview] = useState(null);
 
   useEffect(() => {
-    setMounted(true)
-    fetchTopics()
-  }, [])
+    setMounted(true);
+    fetchTopics();
+  }, []);
 
   // Fetch blog data on mount
   useEffect(() => {
-    if (!blogId) return
+    if (!blogId) return;
     const fetchData = async () => {
       try {
-
-        const response = await authFetch(`/api/blog/${blogId}`)
-        const data = await response.json()
+        const response = await authFetch(`/api/blog/${blogId}`);
+        const data = await response.json();
         setFormData({
           title: data.title || "",
           slug: data.slug || "",
@@ -59,226 +65,194 @@ const [topics, setTopics] = useState([])
           description: data.description || "",
           published: data.published || false,
           topicName: data.subject || "",
-        })
+        });
 
-        setOriginalCoverImage(data.coverImage || null)
-        setCoverImagePreview(data.coverImage || null)
+        setOriginalCoverImage(data.coverImage || null);
+        setCoverImagePreview(data.coverImage || null);
       } catch (err) {
-        toast({
-          title: "Error loading blog",
-          description: "Could not fetch blog data.",
-          variant: "destructive",
-        })
+        toast.error("Could not fetch blog data.");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [blogId])
+    fetchData();
+  }, [blogId]);
 
   const fetchTopics = async () => {
-      try {
-        // Use authFetch instead of regular fetch
-        const response = await authFetch("/api/topics")
-  
-        if (!response.ok) {
-          if (response.status === 401) {
-            toast({
-              title: "Authentication Error",
-              description: "Please log in again",
-              variant: "destructive",
-            })
-            router.push("/login")
-            return
-          }
-          throw new Error("Failed to fetch topics")
+    try {
+      // Use authFetch instead of regular fetch
+      const response = await authFetch("/api/topics");
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          toast("Please log in again");
+          router.push("/login");
+          return;
         }
-  
-        const data = await response.json()
-        setTopics(data)
-      } catch (error) {
-        console.error("Error fetching topics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to load topics",
-          variant: "destructive",
-        })
-      } finally {
-        setIsLoading(false)
+        throw new Error("Failed to fetch topics");
       }
+
+      const data = await response.json();
+      setTopics(data);
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+      toast.error("Failed to load topics");
+    } finally {
+      setIsLoading(false);
     }
+  };
 
   const validateForm = useCallback(() => {
-    const newErrors = {}
+    const newErrors = {};
 
     if (!formData.title.trim()) {
-      newErrors.title = "Title is required"
+      newErrors.title = "Title is required";
     } else if (formData.title.length < 3) {
-      newErrors.title = "Title must be at least 3 characters"
+      newErrors.title = "Title must be at least 3 characters";
     } else if (formData.title.length > 200) {
-      newErrors.title = "Title must be less than 200 characters"
+      newErrors.title = "Title must be less than 200 characters";
     }
 
     if (!formData.slug.trim()) {
-      newErrors.slug = "Slug is required"
+      newErrors.slug = "Slug is required";
     } else if (!/^[a-z0-9-]+$/.test(formData.slug)) {
-      newErrors.slug = "Slug can only contain lowercase letters, numbers, and hyphens"
+      newErrors.slug =
+        "Slug can only contain lowercase letters, numbers, and hyphens";
     } else if (formData.slug.length > 100) {
-      newErrors.slug = "Slug must be less than 100 characters"
+      newErrors.slug = "Slug must be less than 100 characters";
     }
 
     if (!formData.description.trim()) {
-      newErrors.description = "Description is required"
+      newErrors.description = "Description is required";
     } else if (formData.description.length < 10) {
-      newErrors.description = "Description must be at least 10 characters"
+      newErrors.description = "Description must be at least 10 characters";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }, [formData])
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }, [formData]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleImageChange = (e) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: "File Too Large",
-          description: "Cover image must be less than 5MB.",
-          variant: "destructive",
-        })
-        return
+        toast.warning("Cover image must be less than 5MB.");
+        return;
       }
 
-      setFormData((prev) => ({ ...prev, coverImage: file }))
+      setFormData((prev) => ({ ...prev, coverImage: file }));
 
-      const reader = new FileReader()
-      reader.onload = (event) => setCoverImagePreview(event.target?.result)
-      reader.readAsDataURL(file)
+      const reader = new FileReader();
+      reader.onload = (event) => setCoverImagePreview(event.target?.result);
+      reader.readAsDataURL(file);
 
-      // If there was an original S3 image, mark it for deletion
       if (originalCoverImage && originalCoverImage.includes("s3.")) {
-        setImageToDelete(originalCoverImage)
+        setImageToDelete(originalCoverImage);
       }
     }
-  }
+  };
 
   const handleDescriptionChange = (value) => {
-    setFormData((prev) => ({ ...prev, description: value }))
-  }
+    setFormData((prev) => ({ ...prev, description: value }));
+  };
 
   const generateSlug = () => {
     const slug = formData.title
       .toLowerCase()
       .replace(/[^\w\s]/gi, "")
-      .replace(/\s+/g, "-")
-    setFormData((prev) => ({ ...prev, slug }))
-  }
+      .replace(/\s+/g, "-");
+    setFormData((prev) => ({ ...prev, slug }));
+  };
 
   const deleteImageFromS3 = async (imageUrl) => {
     try {
       const response = await axios.delete("/api/delete-image", {
         data: { imageUrl },
-      })
+      });
 
       if (response.data.success) {
-        console.log("Image deleted from S3 successfully")
+        console.log("Image deleted from S3 successfully");
       }
     } catch (error) {
-      console.error("Error deleting image from S3:", error)
-      // Don't show error to user as this is background cleanup
+      console.error("Error deleting image from S3:", error);
     }
-  }
+  };
 
   const removeCoverImage = useCallback(async () => {
-    // If there's an original S3 image, delete it immediately
     if (originalCoverImage && originalCoverImage.includes("s3.")) {
-      await deleteImageFromS3(originalCoverImage)
-      setOriginalCoverImage(null)
+      await deleteImageFromS3(originalCoverImage);
+      setOriginalCoverImage(null);
     }
 
-    // If there's a new image marked for deletion, clear it
     if (imageToDelete) {
-      setImageToDelete(null)
+      setImageToDelete(null);
     }
 
     setFormData((prev) => ({
       ...prev,
       coverImage: null,
-    }))
-    setCoverImagePreview(null)
+    }));
+    setCoverImagePreview(null);
 
     if (mounted) {
-      const fileInput = document.getElementById("coverImage")
+      const fileInput = document.getElementById("coverImage");
       if (fileInput) {
-        fileInput.value = ""
+        fileInput.value = "";
       }
     }
 
-    toast({
-      title: "Image Removed",
-      description: "Cover image has been removed and deleted from storage.",
-    })
-  }, [mounted, originalCoverImage, imageToDelete])
+    toast.success("Cover image has been removed");
+  }, [mounted, originalCoverImage, imageToDelete]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const payload = new FormData()
-      payload.append("title", formData.title)
-      payload.append("slug", formData.slug)
-      payload.append("description", formData.description)
-      payload.append("published", formData.published.toString())
+      const payload = new FormData();
+      payload.append("title", formData.title);
+      payload.append("slug", formData.slug);
+      payload.append("description", formData.description);
+      payload.append("published", formData.published.toString());
 
-      // Only append coverImage if it's a new file
       if (formData.coverImage instanceof File) {
-        payload.append("coverImage", formData.coverImage)
+        payload.append("coverImage", formData.coverImage);
       }
 
-      // If there's an image to delete and we're uploading a new one, include it
       if (imageToDelete) {
-        payload.append("deleteImageUrl", imageToDelete)
+        payload.append("deleteImageUrl", imageToDelete);
       }
 
       const response = await authFetch(`/api/blog/${blogId}`, {
-              method: "PUT",
-              body: payload,
-            })
+        method: "PUT",
+        body: payload,
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to update blog")
+        throw new Error("Failed to update blog");
       }
 
-      toast({
-        title: "Blog updated",
-        description: "Your blog post was updated successfully.",
-      })
+      toast.success("Your blog post was updated successfully.");
 
-      router.push("/dashboard/blogs")
+      router.push("/dashboard/blogs");
     } catch (err) {
-      console.error("Update error", err)
-      toast({
-        title: "Error updating blog",
-        description: "Something went wrong.",
-        variant: "destructive",
-      })
+      console.error("Update error", err);
+      toast.error("Something went wrong.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
   return (
     <div className="container mx-auto">
@@ -288,10 +262,13 @@ const [topics, setTopics] = useState([])
           <p className="text-muted-foreground">Update your blog post</p>
         </div>
       </div>
+      // Display a loading component if the data is still loading
       <Card>
         <CardHeader>
           <CardTitle>Edit Blog Post</CardTitle>
-          <CardDescription>Update title, slug, image, description, or status.</CardDescription>
+          <CardDescription>
+            Update title, slug, image, description, or status.
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
@@ -312,8 +289,12 @@ const [topics, setTopics] = useState([])
                   className={errors.title ? "border-red-500" : ""}
                   maxLength={200}
                 />
-                {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
-                <p className="text-xs text-muted-foreground">{formData.title.length}/200 characters</p>
+                {errors.title && (
+                  <p className="text-sm text-red-500">{errors.title}</p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  {formData.title.length}/200 characters
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -331,39 +312,50 @@ const [topics, setTopics] = useState([])
                       className={errors.slug ? "border-red-500" : ""}
                       maxLength={100}
                     />
-                    {errors.slug && <p className="text-sm text-red-500 mt-1">{errors.slug}</p>}
+                    {errors.slug && (
+                      <p className="text-sm text-red-500 mt-1">{errors.slug}</p>
+                    )}
                   </div>
-                  <Button type="button" variant="outline" onClick={generateSlug} disabled={!formData.title.trim()}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={generateSlug}
+                    disabled={!formData.title.trim()}
+                  >
                     Generate from Title
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground">URL: /blog/{formData.slug || "your-slug"}</p>
+                <p className="text-xs text-muted-foreground">
+                  URL: /blog/{formData.slug || "your-slug"}
+                </p>
               </div>
             </div>
 
             <div className="space-y-2">
-                          <Label htmlFor="topicName">
-                            Topic <span className="text-red-500">*</span>
-                          </Label>
-                          <select
-                            id="topicName"
-                            name="topicName"
-                            value={formData.topicName}
-                            onChange={handleInputChange}
-                            className="w-full border rounded-md p-2"
-                            required
-                          >
-                            <option value="" disabled>
-                              Select a topic
-                            </option>
-                            {topics.map((topic) => (
-                              <option key={topic.id} value={topic.name}>
-                                {topic.name}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.topicName && <p className="text-sm text-red-500">{errors.topicName}</p>}
-                        </div>
+              <Label htmlFor="topicName">
+                Topic <span className="text-red-500">*</span>
+              </Label>
+              <select
+                id="topicName"
+                name="topicName"
+                value={formData.topicName}
+                onChange={handleInputChange}
+                className="w-full border rounded-md p-2"
+                required
+              >
+                <option value="" disabled>
+                  Select a topic
+                </option>
+                {topics.map((topic) => (
+                  <option key={topic.id} value={topic.name}>
+                    {topic.name}
+                  </option>
+                ))}
+              </select>
+              {errors.topicName && (
+                <p className="text-sm text-red-500">{errors.topicName}</p>
+              )}
+            </div>
 
             {/* Cover Image */}
             <div className="space-y-2">
@@ -374,8 +366,12 @@ const [topics, setTopics] = useState([])
                   <Upload className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="mt-4">
                     <Label htmlFor="coverImage" className="cursor-pointer">
-                      <span className="mt-2 block text-sm font-medium text-gray-900">Click to upload cover image</span>
-                      <span className="mt-1 block text-xs text-gray-500">PNG, JPG, GIF up to 5MB</span>
+                      <span className="mt-2 block text-sm font-medium text-gray-900">
+                        Click to upload cover image
+                      </span>
+                      <span className="mt-1 block text-xs text-gray-500">
+                        PNG, JPG, GIF up to 5MB
+                      </span>
                     </Label>
                     <Input
                       id="coverImage"
@@ -390,7 +386,12 @@ const [topics, setTopics] = useState([])
               ) : (
                 <div className="relative">
                   <div className="relative w-full h-48 rounded-lg overflow-hidden">
-                    <Image src={coverImagePreview || ""} alt="Cover preview" fill className="object-cover" />
+                    <Image
+                      src={coverImagePreview || ""}
+                      alt="Cover preview"
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <Button
                     type="button"
@@ -404,7 +405,9 @@ const [topics, setTopics] = useState([])
                 </div>
               )}
 
-              {errors.coverImage && <p className="text-sm text-red-500">{errors.coverImage}</p>}
+              {errors.coverImage && (
+                <p className="text-sm text-red-500">{errors.coverImage}</p>
+              )}
             </div>
 
             {/* Content */}
@@ -413,9 +416,14 @@ const [topics, setTopics] = useState([])
                 Content <span className="text-red-500">*</span>
               </Label>
               <div className="min-h-[300px] border rounded-md">
-                <JoEditor value={formData.description} onChange={handleDescriptionChange} />
+                <JoEditor
+                  value={formData.description}
+                  onChange={handleDescriptionChange}
+                />
               </div>
-              {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
+              {errors.description && (
+                <p className="text-sm text-red-500">{errors.description}</p>
+              )}
             </div>
 
             {/* Publication Status */}
@@ -425,10 +433,16 @@ const [topics, setTopics] = useState([])
                 <Switch
                   id="published"
                   checked={formData.published}
-                  onCheckedChange={(value) => setFormData((prev) => ({ ...prev, published: value }))}
+                  onCheckedChange={(value) =>
+                    setFormData((prev) => ({ ...prev, published: value }))
+                  }
                 />
                 <div className="flex-1">
-                  <p className="font-medium">{formData.published ? "Publish immediately" : "Save as draft"}</p>
+                  <p className="font-medium">
+                    {formData.published
+                      ? "Publish immediately"
+                      : "Save as draft"}
+                  </p>
                   <p className="text-sm text-muted-foreground">
                     {formData.published
                       ? "This post will be visible to all visitors"
@@ -448,7 +462,11 @@ const [topics, setTopics] = useState([])
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="min-w-[120px]">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="min-w-[120px]"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -464,5 +482,5 @@ const [topics, setTopics] = useState([])
         </form>
       </Card>
     </div>
-  )
+  );
 }
