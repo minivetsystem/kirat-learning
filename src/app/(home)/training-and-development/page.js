@@ -40,7 +40,7 @@ const sections = [
 export default function TraningAndDevelopment() {
   return (
     <div>
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-8 py-5">
+      <div className="container mx-auto 2xl:px-32 px-8 xl:py-8 py-6">
         <div className="flex flex-col  md:flex-row gap-5">
           <div className="md:w-full md:mb-0 mb-5 flex flex-col gap-4">
             <div className=" text-primary-midnightBlue font-extrabold md:text-4xl text-2xl">

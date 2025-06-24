@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { isTokenExpired } from './lib/auth';
  
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
@@ -7,12 +8,24 @@ export function middleware(request) {
      const isPublicPath = path === '/login' 
 
 const token = request.cookies.get("authToken")?.value || '';
-if(isPublicPath && token){
+const hasValidToken = token && !isTokenExpired(token)
+
+if(isPublicPath && hasValidToken){
     return NextResponse.redirect(new URL('/dashboard', request.url))
 }
 
-if(!isPublicPath && !token){
-    return NextResponse.redirect(new URL('/login', request.url))
+if(!isPublicPath && !hasValidToken){
+     const response = NextResponse.redirect(new URL("/login", request.url))
+
+     if (token) {
+      response.cookies.set("authToken", "", {
+        expires: new Date(0),
+        path: "/",
+      })
+    }
+
+
+     return response
 }
 
 }

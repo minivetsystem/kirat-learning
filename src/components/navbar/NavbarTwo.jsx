@@ -1,19 +1,17 @@
-"use client";
+"use client"; 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-
+import React from 'react'
 import MobileMenu from "./MobileMenu";
 
-export default function Navbar() {
-  const pathname = usePathname();
-
+export default function NavbarTwo() {
+    const pathname = usePathname();
   return (
     <header className="bg-white">
-      {/* Top Header */}
-      <div className="border-b py-2">
-        <div className="container max-w-screen-xl mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="w-36">
+        <div className="border-b py-2">
+            <div className=" max-w-screen-xl mx-auto px-4 flex justify-between items-center">
+                <Link href="/" className="w-36">
             <Image
               src="/Logo.png"
               alt="Kirat Learning App"
@@ -24,23 +22,10 @@ export default function Navbar() {
               className="w-full h-auto"
             />
           </Link>
-          <ul className="hidden md:flex space-x-4 text-sm text-gray-700">
-            <li>
-              <Link href="/contact-us" className="hover:text-gray-900">
-                Contact us
-              </Link>
-            </li>
-          </ul>
-
-          <div className="md:hidden">
-            <MobileMenu />
-          </div>
-        </div>
-      </div>
-
-      <div className="py-3 hidden md:block">
-        <div className="container max-w-screen-xl mx-auto px-4 flex flex-wrap items-center justify-between">
-          <ul className="flex space-x-6 text-gray-700 text-sm">
+           <div className="lg:hidden">
+                      <MobileMenu />
+                    </div>
+          <ul className="hidden lg:flex space-x-3 xl:space-x-6 text-gray-700 text-sm">
             <li>
               <Link
                 href="/"
@@ -114,8 +99,15 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
+           <ul className="hidden lg:flex space-x-4 text-sm text-gray-700">
+            <li>
+              <Link href="/contact-us" className="hover:text-gray-900">
+                Contact us
+              </Link>
+            </li>
+          </ul>
+            </div>
         </div>
-      </div>
     </header>
-  );
+  )
 }

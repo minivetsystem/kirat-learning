@@ -39,7 +39,7 @@ export default function MobileMenu() {
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-64">
+      <SheetContent side="right" className="w-64">
    
     <SheetTitle >Navigation Menu</SheetTitle>
    
