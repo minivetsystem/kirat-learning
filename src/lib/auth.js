@@ -27,6 +27,40 @@ export function verifyToken(token) {
   }
 }
 
+export function decodeToken(token) {
+  try {
+    return jwt.decode(token)
+  } catch (error) {
+    return null
+  }
+}
+
+export function isTokenExpired(token) {
+  try {
+    const decoded = decodeToken(token)
+    if (!decoded || !decoded.exp) {
+      return true
+    }
+
+    const currentTime = Math.floor(Date.now() / 1000)
+    return decoded.exp < currentTime
+  } catch (error) {
+    return true
+  }
+}
+
+export function getTokenExpirationTime(token) {
+  try {
+    const decoded = decodeToken(token)
+    if (!decoded || !decoded.exp) {
+      return null
+    }
+    return decoded.exp * 1000 
+  } catch (error) {
+    return null
+  }
+}
+
 export async function getAuthUser(request) {
   try {
     const authHeader = request.headers.get("authorization")

@@ -20,8 +20,8 @@ export const metadata = {
 export default function AboutUs() {
 
   return (
-    <div className="">
-      <div className="container mx-auto 2xl:px-32 px-8 xl:py-10">
+    <div className="pt-3">
+      <div className="container mx-auto 2xl:px-32 px-8 py-6 xl:py-10">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 md:mb-0 mb-8">
             <span className="block text-primary-midnightBlue font-extrabold md:text-4xl text-2xl uppercase">
