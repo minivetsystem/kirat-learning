@@ -79,15 +79,8 @@ export default function BlogDetail({ slug }) {
         </h1>
 
         {blogPost?.coverImage && (
-          <div className="relative w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
-            <Image
-              src={blogPost.coverImage || ""}
-              alt={blogPost?.title}
-              fill
-              className=""
-              priority
-              sizes="100vw"
-            />
+          <div className="relative w-full  mb-8 rounded-lg overflow-hidden">
+            <img src={blogPost.coverImage || ""} alt={blogPost?.title} />
           </div>
         )}
 

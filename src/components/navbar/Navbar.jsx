@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="bg-white">
       {/* Top Header */}
       <div className="border-b py-2">
-        <div className="max-w-screen-xl mx-auto px-4 flex justify-between items-center">
+        <div className="max-w-screen-xl mx-auto  xl:px-0 px-4 flex justify-between items-center">
           <Link href="/" className="w-36">
             <Image
               src="/Logo.png"
