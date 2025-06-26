@@ -114,7 +114,7 @@ export default function LeadershipDevelopment() {
                     key={index}
                     className="overflow-hidden border  shadow-lg hover:shadow-xl flex flex-col h-full  duration-300  hover:tranform hover:scale-105"
                   >
-                    <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                  
                     <CardContent className="p-6 flex flex-col h-full">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="p-2 rounded-full bg-primary/10">
